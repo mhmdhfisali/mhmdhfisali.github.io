@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
 import { urlFor } from "@/sanity";
+import { useMemo, useState } from "react";
 import ProjectModal from "./ProjectModal";
 
 function ProjectCard({ project, onClick }) {
@@ -9,8 +9,8 @@ function ProjectCard({ project, onClick }) {
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 12;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -12;
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 10;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -10;
     setTilt({ x, y });
   };
 
@@ -23,12 +23,12 @@ function ProjectCard({ project, onClick }) {
       onMouseLeave={handleMouseLeave}
       style={{
         transform: `perspective(1000px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
-        transition: "transform 0.15s ease-out, border-color 0.3s ease",
+        transition: "transform 0.15s ease-out",
       }}
-      className="group flex flex-col justify-between bg-white/80 dark:bg-[#151923]/60 hover:bg-white dark:hover:bg-[#151923] border border-gray-200/90 dark:border-white/[0.08] hover:border-blue-500/50 dark:hover:border-blue-500/50 rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 cursor-pointer backdrop-blur-xs"
+      className="group relative flex flex-col justify-between bg-white/85 dark:bg-[#151923]/70 hover:bg-white dark:hover:bg-[#151923] border border-gray-200/90 dark:border-white/[0.08] hover:border-blue-500/50 dark:hover:border-blue-500/40 rounded-3xl overflow-hidden shadow-xs hover:shadow-2xl hover:shadow-blue-500/10 cursor-pointer backdrop-blur-md transition-all duration-300"
     >
-      {/* Media Thumbnail */}
-      <div className="w-full h-44 sm:h-48 overflow-hidden bg-gray-100 dark:bg-black/50 relative border-b border-gray-100 dark:border-white/[0.06]">
+      {/* Thumbnail Header */}
+      <div className="w-full h-48 sm:h-52 overflow-hidden bg-gray-100 dark:bg-black/40 relative border-b border-gray-100 dark:border-white/[0.06]">
         {project.thumbnail ? (
           <img
             src={urlFor(project.thumbnail).url()}
@@ -37,42 +37,63 @@ function ProjectCard({ project, onClick }) {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center font-mono text-xs text-gray-400">
-            Preview Tidak Tersedia
+            Preview Media Tidak Tersedia
           </div>
         )}
+
         {project.role && (
-          <span className="absolute top-3 right-3 bg-white/90 dark:bg-[#151923]/90 backdrop-blur-md px-2.5 py-0.5 rounded-md border border-gray-200/80 dark:border-white/10 text-[10px] font-mono text-blue-600 dark:text-blue-400 font-semibold shadow-xs">
+          <span className="absolute top-3 right-3 bg-white/90 dark:bg-[#10131a]/90 backdrop-blur-md px-3 py-1 rounded-xl border border-gray-200/80 dark:border-white/10 text-[10px] font-mono text-blue-600 dark:text-cyan-400 font-semibold shadow-xs">
             {project.role}
           </span>
         )}
+
+        <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
       </div>
 
-      {/* Konten Proyek */}
-      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
+      {/* Konten Body */}
+      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4 text-left">
         <div className="space-y-2">
-          <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1">
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+            <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400">
+              {project.category || "Software Project"}
+            </span>
+          </div>
+
+          <h3 className="text-base sm:text-lg font-extrabold text-gray-950 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors line-clamp-1">
             {project.title}
           </h3>
+
           <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2">
-            {project.summary}
+            {project.summary ||
+              "Deskripsi implementasi arsitektur perangkat lunak dan fitur sistem."}
           </p>
         </div>
 
+        {/* Tech Stack & Action Link */}
         <div className="pt-3 border-t border-gray-100 dark:border-white/[0.06] space-y-3">
           <div className="flex flex-wrap gap-1.5">
             {project.techStack?.slice(0, 3).map((tech, i) => (
               <span
                 key={i}
-                className="bg-gray-100 dark:bg-white/[0.04] text-gray-700 dark:text-gray-300 text-[10px] px-2 py-0.5 rounded font-mono border border-gray-200/60 dark:border-white/[0.08]"
+                className="bg-gray-100 dark:bg-white/[0.04] text-gray-700 dark:text-gray-300 text-[10px] px-2.5 py-0.5 rounded-md font-mono border border-gray-200/70 dark:border-white/[0.06]"
               >
                 {tech}
               </span>
             ))}
+            {project.techStack?.length > 3 && (
+              <span className="text-[10px] font-mono text-gray-400 py-0.5 px-1">
+                +{project.techStack.length - 3}
+              </span>
+            )}
           </div>
 
-          <div className="flex items-center text-xs font-semibold text-blue-600 dark:text-blue-400">
+          <div className="flex items-center justify-between text-xs font-mono font-semibold text-blue-600 dark:text-cyan-400 pt-1">
             <span className="group-hover:translate-x-1 transition-transform duration-200 inline-flex items-center gap-1.5">
-              Lihat Studi Kasus &rarr;
+              Lihat Kasus &amp; Demo &rarr;
+            </span>
+            <span className="text-[10px] font-mono text-gray-400 font-normal">
+              Inspect
             </span>
           </div>
         </div>
@@ -84,80 +105,109 @@ function ProjectCard({ project, onClick }) {
 export default function Projects({ projects = [] }) {
   const [selectedProject, setSelectedProject] = useState(null);
   const [filter, setFilter] = useState("all");
+  const [visibleCount, setVisibleCount] = useState(6); // Default 6 proyek per tampilan
 
-  const tabs = [
-    { id: "all", label: "Semua" },
-    { id: "web", label: "Web" },
-    { id: "mobile", label: "Mobile" },
-    { id: "system", label: "System & AI" },
-  ];
+  // Ekstraksi kategori unik langsung dari data Sanity
+  const tabs = useMemo(() => {
+    const rawCategories = projects
+      .map((p) => p.category?.trim())
+      .filter(Boolean);
+    const unique = Array.from(new Set(rawCategories));
+
+    if (unique.length > 0) {
+      return [
+        { id: "all", label: "Semua Proyek" },
+        ...unique.map((cat) => ({ id: cat.toLowerCase(), label: cat })),
+      ];
+    }
+
+    return [
+      { id: "all", label: "Semua Proyek" },
+      { id: "web", label: "Web App" },
+      { id: "mobile", label: "Mobile" },
+      { id: "system", label: "System & AI" },
+    ];
+  }, [projects]);
 
   const filteredProjects = useMemo(() => {
     if (filter === "all") return projects;
     return projects.filter((p) => {
-      if (p.category) return p.category === filter;
+      if (p.category) {
+        return p.category.toLowerCase() === filter.toLowerCase();
+      }
       const text =
         `${p.title} ${p.role || ""} ${p.techStack?.join(" ") || ""}`.toLowerCase();
-      if (filter === "web")
-        return (
-          text.includes("web") ||
-          text.includes("next") ||
-          text.includes("react")
-        );
-      if (filter === "mobile")
-        return (
-          text.includes("mobile") ||
-          text.includes("flutter") ||
-          text.includes("android")
-        );
-      if (filter === "system")
-        return (
-          text.includes("system") ||
-          text.includes("linux") ||
-          text.includes("docker") ||
-          text.includes("ai")
-        );
-      return true;
+      return text.includes(filter.toLowerCase());
     });
   }, [projects, filter]);
 
+  // Reset limit tampilan jika user berganti tab filter
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
+    setVisibleCount(6);
+  };
+
+  const displayedProjects = filteredProjects.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredProjects.length;
+
   return (
-    <section className="w-full space-y-6 sm:space-y-8">
-      {/* Filter Tabs Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-2.5 sm:gap-3">
-          <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-blue-500 ring-4 ring-blue-500/20"></span>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-            Katalog Proyek Unggulan
-          </h2>
+    <div className="w-full space-y-7 text-left py-2">
+      {/* Header Seksi */}
+      <div className="space-y-3">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/[0.07] dark:bg-blue-950/40 border border-blue-500/20 dark:border-blue-800/40 backdrop-blur-md shadow-2xs">
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-cyan-400 animate-pulse" />
+          <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-wider text-blue-700 dark:text-blue-300 uppercase">
+            Portfolio Showcase
+          </span>
         </div>
 
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 font-mono text-[11px] no-scrollbar">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => setFilter(tab.id)}
-              className={`px-3 py-1 rounded-full transition-all duration-200 cursor-pointer shrink-0 ${
-                filter === tab.id
-                  ? "bg-blue-600 text-white font-semibold shadow-xs"
-                  : "bg-gray-100/80 dark:bg-white/[0.04] text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-200/60 dark:border-white/[0.06]"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-950 dark:text-white tracking-tight">
+            Katalog Proyek{" "}
+            <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-sky-400 dark:from-blue-400 dark:via-cyan-300 dark:to-sky-200 bg-clip-text text-transparent">
+              Unggulan
+            </span>
+          </h2>
+
+          <span className="text-xs font-mono text-gray-500 dark:text-gray-400">
+            Menampilkan {displayedProjects.length} dari{" "}
+            {filteredProjects.length} Karya
+          </span>
         </div>
+
+        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
+          Kompilasi implementasi aplikasi seluler, platform berbasis web, dan
+          arsitektur model komputasi yang pernah dibangun dari tahap perancangan
+          hingga tahap siap pakai.
+        </p>
+      </div>
+
+      {/* Filter Tabs Header */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-gray-200/80 dark:border-white/[0.08] no-scrollbar">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            type="button"
+            onClick={() => handleFilterChange(tab.id)}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-mono capitalize transition-all duration-200 cursor-pointer shrink-0 ${
+              filter === tab.id
+                ? "bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/25 scale-[1.02]"
+                : "bg-white/80 dark:bg-white/[0.03] text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-white/[0.06]"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
       </div>
 
       {/* Grid Proyek */}
-      {filteredProjects.length === 0 ? (
-        <div className="w-full py-12 px-6 border border-dashed border-gray-300 dark:border-gray-800 rounded-3xl text-center text-gray-500 text-sm bg-gray-50/50 dark:bg-white/[0.02]">
-          Tidak ada proyek dalam kategori ini.
+      {displayedProjects.length === 0 ? (
+        <div className="w-full py-16 px-6 border border-dashed border-gray-200 dark:border-white/10 rounded-3xl text-center text-gray-400 text-xs font-mono bg-white/40 dark:bg-white/[0.01]">
+          Belum ada proyek terdata untuk kategori ini di Sanity.
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 md:gap-7">
-          {filteredProjects.map((project) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+          {displayedProjects.map((project) => (
             <ProjectCard
               key={project._id}
               project={project}
@@ -167,11 +217,39 @@ export default function Projects({ projects = [] }) {
         </div>
       )}
 
+      {/* Tombol Load More & Show Less */}
+      {filteredProjects.length > 6 && (
+        <div className="flex justify-center pt-4">
+          {hasMore ? (
+            <button
+              type="button"
+              onClick={() => setVisibleCount((prev) => prev + 6)}
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white hover:bg-gray-50 dark:bg-[#151923] dark:hover:bg-white/[0.08] text-gray-800 dark:text-gray-200 text-xs font-mono font-semibold border border-gray-200 dark:border-white/10 shadow-xs hover:border-blue-500/40 active:scale-95 transition-all cursor-pointer"
+            >
+              <span>Tampilkan Proyek Lainnya</span>
+              <span className="text-blue-600 dark:text-cyan-400">
+                (+{filteredProjects.length - visibleCount})
+              </span>
+              <span>↓</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setVisibleCount(6)}
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white hover:bg-gray-50 dark:bg-[#151923] dark:hover:bg-white/[0.08] text-gray-800 dark:text-gray-200 text-xs font-mono font-semibold border border-gray-200 dark:border-white/10 shadow-xs hover:border-blue-500/40 active:scale-95 transition-all cursor-pointer"
+            >
+              <span>Tutup Sebagian Proyek</span>
+              <span>↑</span>
+            </button>
+          )}
+        </div>
+      )}
+
       {/* Dialog Modal Studi Kasus */}
       <ProjectModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}
       />
-    </section>
+    </div>
   );
 }

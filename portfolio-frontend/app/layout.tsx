@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import ScrollToTop from "@/components/ScrollToTop";
 import CursorSpotlight from "@/components/CursorSpotlight";
 import SoundFeedback from "@/components/SoundFeedback";
+import ScrollProgress from "@/components/ScrollProgress";
+import CommandPalette from "@/components/CommandPalette";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
@@ -60,10 +62,16 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange={false}
         >
-          {/* Suara Klik Taktil Halus (Web Audio API) */}
+          {/* Laser Progress Bar di Atas Layar */}
+          <ScrollProgress />
+
+          {/* Navigasi Cepat Keyboard (Cmd + K / Ctrl + K) */}
+          <CommandPalette />
+
+          {/* Suara Klik Mikro Taktil (Web Audio API) */}
           <SoundFeedback />
 
-          {/* Spotlight Cursor Mengikuti Mouse */}
+          {/* Spotlight Cursor Mengikuti Gerakan Mouse */}
           <CursorSpotlight />
 
           {children}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Navbar({ profile }) {
   const [scrolled, setScrolled] = useState(false);
@@ -9,12 +9,15 @@ export default function Navbar({ profile }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navRef = useRef(null);
 
+  // Seluruh item navigasi kini terhubung ke semua section
   const navItems = [
     { name: "Beranda", link: "#beranda" },
     { name: "Keahlian", link: "#skills" },
     { name: "Proyek", link: "#projects" },
     { name: "Pengalaman", link: "#experience" },
+    { name: "Sertifikasi", link: "#certifications" },
     { name: "Media", link: "#media" },
+    { name: "Artikel", link: "#posts" },
   ];
 
   useEffect(() => {
@@ -65,39 +68,39 @@ export default function Navbar({ profile }) {
   return (
     <div
       ref={navRef}
-      className="fixed top-4 inset-x-0 z-50 flex flex-col items-center px-4 sm:px-8 pointer-events-none"
+      className="fixed top-4 inset-x-0 z-50 flex flex-col items-center px-3 sm:px-6 pointer-events-none"
     >
       <header
-        className={`pointer-events-auto w-full max-w-6xl bg-white/80 dark:bg-[#151923]/80 backdrop-blur-xl border border-gray-200/80 dark:border-white/[0.08] rounded-full px-5 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between transition-all duration-300 ${
+        className={`pointer-events-auto w-full max-w-6xl bg-white/85 dark:bg-[#12161f]/85 backdrop-blur-xl border border-gray-200/90 dark:border-white/[0.08] rounded-full px-4 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between transition-all duration-300 ${
           scrolled
-            ? "shadow-[0_10px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.4)] scale-[0.99] border-gray-300 dark:border-white/[0.14]"
-            : "shadow-xs scale-100"
+            ? "shadow-lg shadow-black/5 dark:shadow-black/40 scale-[0.99] border-gray-300 dark:border-white/[0.14]"
+            : "shadow-2xs scale-100"
         }`}
       >
         {/* LOGO */}
         <a
           href="#beranda"
-          className="flex items-center gap-2 group cursor-pointer"
+          className="flex items-center gap-2 group cursor-pointer shrink-0"
         >
           <span
-            className="w-2.5 h-2.5 rounded-full bg-emerald-500 ring-4 ring-emerald-500/20"
-            title="Online"
+            className="w-2 h-2 rounded-full bg-emerald-500 ring-4 ring-emerald-500/20"
+            title="Active"
           />
-          <span className="font-extrabold text-sm sm:text-base tracking-tight text-gray-900 dark:text-white group-hover:text-blue-500 transition-colors">
+          <span className="font-extrabold text-sm sm:text-base tracking-tight text-gray-950 dark:text-white group-hover:text-blue-500 transition-colors">
             hafis<span className="text-blue-500">.</span>ali
           </span>
-          <span className="text-[10px] font-mono text-gray-400 border border-gray-200 dark:border-white/10 px-1.5 py-0.5 rounded hidden sm:inline-block">
+          <span className="text-[9px] font-mono text-gray-400 border border-gray-200 dark:border-white/10 px-1.5 py-0.5 rounded hidden lg:inline-block">
             dev
           </span>
         </a>
 
         {/* DESKTOP NAV */}
-        <nav className="hidden md:flex items-center gap-1 bg-gray-100/60 dark:bg-white/[0.03] p-1 rounded-full border border-gray-200/50 dark:border-white/[0.05]">
+        <nav className="hidden md:flex items-center gap-0.5 lg:gap-1 bg-gray-100/70 dark:bg-white/[0.03] p-1 rounded-full border border-gray-200/60 dark:border-white/[0.06]">
           {navItems.map((item) => (
             <a
               key={item.name}
               href={item.link}
-              className="px-4 py-1.5 text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white rounded-full hover:bg-white dark:hover:bg-white/[0.08] transition-all"
+              className="px-3 lg:px-3.5 py-1.5 text-[11px] lg:text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white rounded-full hover:bg-white dark:hover:bg-white/[0.08] transition-all whitespace-nowrap"
             >
               {item.name}
             </a>
@@ -105,12 +108,12 @@ export default function Navbar({ profile }) {
         </nav>
 
         {/* CONTROLS */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2 shrink-0">
           {/* Theme Toggle */}
           <button
             type="button"
             onClick={toggleTheme}
-            className="w-9 h-9 rounded-full bg-gray-100/80 dark:bg-white/[0.06] border border-gray-200 dark:border-white/[0.08] flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-blue-500 transition-colors cursor-pointer active:scale-90"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100/80 dark:bg-white/[0.06] border border-gray-200 dark:border-white/[0.08] flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-blue-500 transition-colors cursor-pointer active:scale-90"
             aria-label="Toggle Theme"
           >
             {isDark ? (
@@ -151,7 +154,7 @@ export default function Navbar({ profile }) {
                 ? `mailto:${profile.email}`
                 : "mailto:mhffsali@gmail.com"
             }
-            className="hidden sm:inline-flex items-center gap-1.5 bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-gray-900 px-4 py-2 rounded-full text-xs font-semibold tracking-tight transition-all active:scale-95 shadow-xs"
+            className="hidden sm:inline-flex items-center gap-1.5 bg-gray-950 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-gray-950 px-4 py-2 rounded-full text-xs font-semibold tracking-tight transition-all active:scale-95 shadow-xs"
           >
             <span>Hubungi</span>
             <span className="text-xs">&rarr;</span>
@@ -161,18 +164,24 @@ export default function Navbar({ profile }) {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden w-9 h-9 rounded-full bg-gray-100/80 dark:bg-white/[0.06] border border-gray-200 dark:border-white/[0.08] flex items-center justify-center text-gray-700 dark:text-gray-200 cursor-pointer"
+            className="md:hidden w-8 h-8 rounded-full bg-gray-100/80 dark:bg-white/[0.06] border border-gray-200 dark:border-white/[0.08] flex items-center justify-center text-gray-700 dark:text-gray-200 cursor-pointer"
             aria-label="Menu"
           >
-            <div className="w-4 h-3 flex flex-col justify-between items-center">
+            <div className="w-3.5 h-2.5 flex flex-col justify-between items-center">
               <span
-                className={`h-0.5 w-full bg-current rounded transition-all ${mobileMenuOpen ? "rotate-45 translate-y-1.5" : ""}`}
+                className={`h-0.5 w-full bg-current rounded transition-all ${
+                  mobileMenuOpen ? "rotate-45 translate-y-1" : ""
+                }`}
               />
               <span
-                className={`h-0.5 w-full bg-current rounded transition-all ${mobileMenuOpen ? "opacity-0" : ""}`}
+                className={`h-0.5 w-full bg-current rounded transition-all ${
+                  mobileMenuOpen ? "opacity-0" : ""
+                }`}
               />
               <span
-                className={`h-0.5 w-full bg-current rounded transition-all ${mobileMenuOpen ? "-rotate-45 -translate-y-1.5" : ""}`}
+                className={`h-0.5 w-full bg-current rounded transition-all ${
+                  mobileMenuOpen ? "-rotate-45 -translate-y-1" : ""
+                }`}
               />
             </div>
           </button>

@@ -1,111 +1,187 @@
 "use client";
 
-import { useState } from "react";
 import { urlFor } from "@/sanity";
+import { useState } from "react";
 
 export default function Hero({ profile }) {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 18;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -18;
-    setTilt({ x, y });
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 14;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -14;
+    setMousePos({ x, y });
   };
 
-  const handleMouseLeave = () => setTilt({ x: 0, y: 0 });
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setMousePos({ x: 0, y: 0 });
+  };
+
+  const handleCopyEmail = () => {
+    const targetEmail = profile?.email || "kontak@domain.com";
+    navigator.clipboard.writeText(targetEmail);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const fullName = profile?.name || "Muhamad Hafis Ali";
+  const nameParts = fullName.trim().split(" ");
+  const firstName = nameParts[0];
+  const restName = nameParts.slice(1).join(" ");
+  const headline = profile?.headline || "Fullstack & Mobile Engineer";
 
   return (
-    <section className="w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-      <div className="lg:col-span-7 xl:col-span-8 space-y-6 text-center lg:text-left order-2 lg:order-1">
-        {/* Status Chip */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/40 text-blue-700 dark:text-blue-300 text-xs font-mono shadow-xs backdrop-blur-md">
-          <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-          <span>AVAILABLE FOR CONTRACT & FULL-TIME ROLES</span>
-        </div>
+    <div className="relative w-full py-4 sm:py-6">
+      {/* Dynamic Background Glow Spektrum */}
+      <div className="pointer-events-none absolute -top-20 -left-20 w-[420px] h-[420px] bg-gradient-to-tr from-blue-600/15 via-indigo-500/10 to-transparent blur-[140px] rounded-full" />
+      <div className="pointer-events-none absolute top-10 right-0 w-80 h-80 bg-cyan-500/15 dark:bg-cyan-400/10 blur-[130px] rounded-full" />
 
-        {/* Title Name */}
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.08] text-gray-900 dark:text-white">
-          {profile?.name || "Muhamad Hafis Ali"}
-        </h1>
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        {/* KOLOM KIRI: Informasi Utama & Profil */}
+        <div className="lg:col-span-7 space-y-6 text-left order-2 lg:order-1">
+          {/* Status Capsule Terminal */}
+          <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-blue-500/[0.06] dark:bg-blue-950/40 border border-blue-500/20 dark:border-blue-700/40 backdrop-blur-md shadow-xs">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span className="text-[10px] sm:text-[11px] font-mono font-medium tracking-wide text-blue-700 dark:text-blue-300">
+              AVAILABLE FOR CONTRACT &amp; FULL-TIME
+            </span>
+          </div>
 
-        {/* Headline */}
-        <p className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 bg-clip-text text-transparent">
-          {profile?.headline ||
-            "Software, AI & Mobile Developer | System Administrator"}
-        </p>
+          {/* Heading Nama & Peran */}
+          <div className="space-y-2">
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.04] text-gray-950 dark:text-white">
+              {firstName}{" "}
+              {restName && (
+                <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-sky-400 dark:from-blue-400 dark:via-cyan-300 dark:to-sky-200 bg-clip-text text-transparent">
+                  {restName}
+                </span>
+              )}
+            </h1>
 
-        {/* Bio Copy */}
-        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-          {profile?.bio ||
-            "Fokus membangun produk perangkat lunak tangguh, implementasi arsitektur cloud terkelola, dan otomatisasi model AI cerdas dari tahap riset komputasi hingga implementasi siap pakai."}
-        </p>
+            <p className="text-base sm:text-xl font-bold tracking-tight text-gray-800 dark:text-gray-200">
+              <span className="text-blue-600 dark:text-cyan-400">
+                {headline}
+              </span>
+            </p>
+          </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-3">
-          {profile?.githubUrl && (
-            <a
-              href={profile.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gray-950 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-gray-950 text-xs sm:text-sm font-semibold transition-all shadow-md active:scale-95"
-            >
-              <span>GitHub Repositories</span>
-              <span className="text-xs">&rarr;</span>
-            </a>
-          )}
-          {profile?.resumeUrl && (
-            <a
-              href={profile.resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-semibold transition-all shadow-lg shadow-blue-600/25 active:scale-95"
-            >
-              <span>Download Resume (CV)</span>
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
+          {/* Bio Naratif */}
+          <p className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-300 leading-relaxed font-normal max-w-xl">
+            {profile?.bio ||
+              "Mengembangkan arsitektur perangkat lunak modern, automasi server Linux & Docker, serta riset computer vision dan kecerdasan artifisial terpublikasi."}
+          </p>
+
+          {/* Telemetry Bar Beraksen Kaca */}
+          <div className="inline-flex items-center divide-x divide-gray-200/80 dark:divide-white/[0.08] rounded-2xl bg-white/80 dark:bg-white/[0.02] border border-gray-200/90 dark:border-white/[0.08] p-2 shadow-xs backdrop-blur-md">
+            <div className="px-4 py-1 text-left">
+              <span className="block text-base sm:text-lg font-black font-mono text-gray-900 dark:text-white leading-tight">
+                1
+              </span>
+              <span className="text-[10px] font-mono text-gray-500 dark:text-gray-400">
+                Paper Riset
+              </span>
+            </div>
+            <div className="px-4 py-1 text-left">
+              <span className="block text-base sm:text-lg font-black font-mono text-blue-600 dark:text-cyan-400 leading-tight">
+                10+
+              </span>
+              <span className="text-[10px] font-mono text-gray-500 dark:text-gray-400">
+                Proyek Selesai
+              </span>
+            </div>
+            <div className="px-4 py-1 text-left">
+              <span className="block text-base sm:text-lg font-black font-mono text-gray-900 dark:text-white leading-tight">
+                100%
+              </span>
+              <span className="text-[10px] font-mono text-gray-500 dark:text-gray-400">
+                Linux Workspace
+              </span>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-wrap items-center gap-3 pt-1">
+            {profile?.githubUrl && (
+              <a
+                href={profile.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative inline-flex items-center gap-2.5 px-6 py-2.5 sm:py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-semibold font-mono tracking-tight shadow-lg shadow-blue-600/25 hover:shadow-blue-600/40 hover:-translate-y-0.5 active:scale-95 transition-all duration-200"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                />
-              </svg>
-            </a>
-          )}
-        </div>
-      </div>
-
-      {/* 3D Tilt Image Frame */}
-      <div className="lg:col-span-5 xl:col-span-4 w-full flex justify-center order-1 lg:order-2">
-        <div
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          style={{
-            transform: `perspective(1000px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
-            transition: "transform 0.15s ease-out",
-          }}
-          className="relative w-56 h-56 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-3xl p-2 bg-gradient-to-tr from-blue-500/30 via-transparent to-cyan-500/30 border border-gray-200/80 dark:border-white/10 shadow-2xl cursor-pointer"
-        >
-          <div className="w-full h-full rounded-2xl overflow-hidden bg-[#151923] relative">
-            {profile?.profileImage ? (
-              <img
-                src={urlFor(profile.profileImage).url()}
-                alt={profile.name || "Foto Profil"}
-                className="w-full h-full object-cover select-none"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center font-mono text-xs text-gray-500">
-                Belum ada foto
-              </div>
+                <span>GitHub Repositories</span>
+                <span className="text-sm transition-transform duration-200 group-hover:translate-x-0.5">
+                  &rarr;
+                </span>
+              </a>
             )}
+
+            <button
+              type="button"
+              onClick={handleCopyEmail}
+              className="inline-flex items-center gap-2 px-5 py-2.5 sm:py-3 rounded-full bg-white hover:bg-gray-50 dark:bg-[#151923] dark:hover:bg-white/[0.08] text-gray-800 dark:text-gray-200 text-xs sm:text-sm font-semibold font-mono tracking-tight border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 active:scale-95 transition-all duration-200 shadow-2xs cursor-pointer"
+            >
+              <span>{copied ? "✓ Tersalin" : "Salin Email"}</span>
+              <span className="text-xs text-gray-400">📋</span>
+            </button>
+          </div>
+        </div>
+
+        {/* KOLOM KANAN: Frame Foto 3D dengan Corner Accents */}
+        <div className="lg:col-span-5 flex justify-center lg:justify-end order-1 lg:order-2">
+          <div className="relative">
+            {/* Ambient Halo di Belakang Foto */}
+            <div className="pointer-events-none absolute -inset-4 bg-gradient-to-tr from-blue-600/20 via-cyan-500/15 to-transparent rounded-[2.5rem] blur-2xl opacity-70" />
+
+            {/* Frame Kartu Foto */}
+            <div
+              onMouseMove={handleMouseMove}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              style={{
+                transform: isHovered
+                  ? `perspective(1000px) rotateX(${mousePos.y}deg) rotateY(${mousePos.x}deg) scale(1.02)`
+                  : "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)",
+                transition: "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
+              }}
+              className="group relative w-60 h-60 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-3xl p-2.5 bg-gradient-to-b from-white/90 via-white/40 to-white/10 dark:from-white/10 dark:via-white/[0.03] dark:to-transparent border border-gray-200/90 dark:border-white/10 shadow-2xl shadow-blue-500/5 dark:shadow-black/50 cursor-pointer backdrop-blur-xl"
+            >
+              <div className="w-full h-full rounded-2xl overflow-hidden bg-gray-100 dark:bg-[#10131a] relative border border-gray-200/70 dark:border-white/10">
+                {profile?.profileImage ? (
+                  <img
+                    src={urlFor(profile.profileImage).url()}
+                    alt={profile.name || "Foto Profil"}
+                    className="w-full h-full object-cover select-none group-hover:scale-105 transition-transform duration-500"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center font-mono text-xs text-gray-400">
+                    Foto Profil
+                  </div>
+                )}
+
+                {/* Sub-bar Status Minimalis di Bawah Gambar */}
+                <div className="absolute bottom-2.5 inset-x-2.5 px-3 py-1.5 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-between text-white">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-[10px] font-mono text-gray-200">
+                      Production Ready
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-mono text-cyan-300 font-medium">
+                    Verified
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

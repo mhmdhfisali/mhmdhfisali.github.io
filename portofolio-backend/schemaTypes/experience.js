@@ -1,32 +1,59 @@
 export default {
-  name: "experience",
-  title: "Pengalaman",
-  type: "document",
+  name: 'experience',
+  title: 'Pengalaman Kerja & Organisasi',
+  type: 'document',
   fields: [
-    { name: "jobTitle", title: "Posisi / Jabatan", type: "string" },
     {
-      name: "company",
-      title: "Nama Perusahaan / Organisasi / Proyek",
-      type: "string",
+      name: 'jobTitle',
+      title: 'Posisi / Jabatan',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
     },
     {
-      name: "startDate",
-      title: "Tanggal Mulai",
-      type: "date",
-      options: { dateFormat: "YYYY-MM" },
+      name: 'company',
+      title: 'Perusahaan / Organisasi / Unit',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
     },
     {
-      name: "endDate",
-      title: "Tanggal Selesai (Kosongkan jika masih aktif)",
-      type: "date",
-      options: { dateFormat: "YYYY-MM" },
+      name: 'startDate',
+      title: 'Waktu Mulai (Contoh: 2024-08 atau Agustus 2024)',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
     },
-    { name: "isCurrent", title: "Masih aktif di posisi ini?", type: "boolean" },
     {
-      name: "description",
-      title: "Tanggung Jawab & Pencapaian",
-      type: "array",
-      of: [{ type: "block" }],
+      name: 'endDate',
+      title: 'Waktu Selesai (Kosongkan jika masih aktif)',
+      type: 'string',
+    },
+    {
+      name: 'isCurrent',
+      title: 'Masih Aktif di Posisi Ini?',
+      type: 'boolean',
+      initialValue: false,
+    },
+    {
+      name: 'description',
+      title: 'Ringkasan Tanggung Jawab & Dampak',
+      type: 'text',
+      rows: 4,
+      validation: (Rule) => Rule.required(),
     },
   ],
-};
+  preview: {
+    select: {
+      title: 'jobTitle',
+      company: 'company',
+      startDate: 'startDate',
+      endDate: 'endDate',
+      isCurrent: 'isCurrent',
+    },
+    prepare({title, company, startDate, endDate, isCurrent}) {
+      const timePeriod = `${startDate || '?'} — ${isCurrent ? 'Sekarang' : endDate || 'Selesai'}`
+      return {
+        title: title || 'Posisi Tanpa Nama',
+        subtitle: `${company || 'Perusahaan'} (${timePeriod})`,
+      }
+    },
+  },
+}

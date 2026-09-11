@@ -1,12 +1,11 @@
-import profile from "./profile";
-import project from "./project";
-import experience from "./experience";
-import certification from "./certification";
-import skill from "./skill";
-import education from "./education";
-import post from "./post";
-import researchMetric from "./researchMetric";
-import mediaContent from "./mediaContent";
+import certification from './certification'
+import education from './education'
+import experience from './experience'
+import mediaContent from './mediaContent'
+import post from './post'
+import profile from './profile'
+import project from './project'
+import skill from './skill'
 
 export const schemaTypes = [
   profile,
@@ -16,6 +15,5 @@ export const schemaTypes = [
   skill,
   education,
   post,
-  researchMetric,
   mediaContent,
-];
+]
