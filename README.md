@@ -1,4 +1,4 @@
-````bash
+``bash
 cat << 'EOF' > README.md
 # 🌐 Personal Engineering & Creative Portfolio
 
