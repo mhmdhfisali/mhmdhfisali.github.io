@@ -1,5 +1,3 @@
-``bash
-cat << 'EOF' > README.md
 # 🌐 Personal Engineering & Creative Portfolio
 
 Portofolio modern responsif yang dibangun dengan **Next.js (App Router)** dan **Sanity CMS**, mengusung desain *ambient slate-charcoal*, efek transisi 3D scroll-linked dua arah, modal case study interaktif, serta integrasi CMS headless real-time.
