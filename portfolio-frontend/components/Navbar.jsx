@@ -9,7 +9,6 @@ export default function Navbar({ profile }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navRef = useRef(null);
 
-  // Seluruh item navigasi kini terhubung ke semua section
   const navItems = [
     { name: "Beranda", link: "#beranda" },
     { name: "Keahlian", link: "#skills" },
@@ -63,6 +62,16 @@ export default function Navbar({ profile }) {
     }
   };
 
+  const handleNavClick = (e, link) => {
+    e.preventDefault();
+    const target = document.querySelector(link);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+      window.history.pushState(null, "", link);
+    }
+    setMobileMenuOpen(false);
+  };
+
   if (!mounted) return null;
 
   return (
@@ -80,6 +89,7 @@ export default function Navbar({ profile }) {
         {/* LOGO */}
         <a
           href="#beranda"
+          onClick={(e) => handleNavClick(e, "#beranda")}
           className="flex items-center gap-2 group cursor-pointer shrink-0"
         >
           <span
@@ -100,7 +110,8 @@ export default function Navbar({ profile }) {
             <a
               key={item.name}
               href={item.link}
-              className="px-3 lg:px-3.5 py-1.5 text-[11px] lg:text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white rounded-full hover:bg-white dark:hover:bg-white/[0.08] transition-all whitespace-nowrap"
+              onClick={(e) => handleNavClick(e, item.link)}
+              className="px-3 lg:px-3.5 py-1.5 text-[11px] lg:text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white rounded-full hover:bg-white dark:hover:bg-white/[0.08] transition-all whitespace-nowrap cursor-pointer"
             >
               {item.name}
             </a>
@@ -149,12 +160,9 @@ export default function Navbar({ profile }) {
 
           {/* Contact CTA */}
           <a
-            href={
-              profile?.email
-                ? `mailto:${profile.email}`
-                : "mailto:mhffsali@gmail.com"
-            }
-            className="hidden sm:inline-flex items-center gap-1.5 bg-gray-950 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-gray-950 px-4 py-2 rounded-full text-xs font-semibold tracking-tight transition-all active:scale-95 shadow-xs"
+            href="#kontak"
+            onClick={(e) => handleNavClick(e, "#kontak")}
+            className="hidden sm:inline-flex items-center gap-1.5 bg-gray-950 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-gray-950 px-4 py-2 rounded-full text-xs font-semibold tracking-tight transition-all active:scale-95 shadow-xs cursor-pointer"
           >
             <span>Hubungi</span>
             <span className="text-xs">&rarr;</span>
@@ -201,8 +209,8 @@ export default function Navbar({ profile }) {
             <a
               key={item.name}
               href={item.link}
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-between px-4 py-2.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:text-blue-500 rounded-2xl transition-colors"
+              onClick={(e) => handleNavClick(e, item.link)}
+              className="flex items-center justify-between px-4 py-2.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:text-blue-500 rounded-2xl transition-colors cursor-pointer"
             >
               <span>{item.name}</span>
               <span className="text-gray-400">&rarr;</span>

@@ -10,8 +10,14 @@ import ScrollReveal from "@/components/ScrollReveal";
 import Skills from "@/components/Skills";
 import { client } from "@/sanity";
 
+// Nonaktifkan cache agar data Sanity Studio langsung terbaca
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 async function getData() {
-  const profileQuery = `*[_type == "profile"][0]`;
+  const fetchOptions = { next: { revalidate: 0 } };
+
+  const profileQuery = `*[_type == "profile"] | order(_updatedAt desc)[0]`;
   const projectsQuery = `*[_type == "project"] | order(featuredOrder asc, _createdAt desc)`;
   const skillsQuery = `*[_type == "skill"]`;
   const experiencesQuery = `*[_type == "experience"] | order(startDate desc)`;
@@ -30,14 +36,14 @@ async function getData() {
     posts,
     mediaContents,
   ] = await Promise.all([
-    client.fetch(profileQuery),
-    client.fetch(projectsQuery),
-    client.fetch(skillsQuery),
-    client.fetch(experiencesQuery),
-    client.fetch(certificationsQuery),
-    client.fetch(educationsQuery),
-    client.fetch(postsQuery),
-    client.fetch(mediaContentsQuery),
+    client.fetch(profileQuery, {}, fetchOptions),
+    client.fetch(projectsQuery, {}, fetchOptions),
+    client.fetch(skillsQuery, {}, fetchOptions),
+    client.fetch(experiencesQuery, {}, fetchOptions),
+    client.fetch(certificationsQuery, {}, fetchOptions),
+    client.fetch(educationsQuery, {}, fetchOptions),
+    client.fetch(postsQuery, {}, fetchOptions),
+    client.fetch(mediaContentsQuery, {}, fetchOptions),
   ]);
 
   return {
@@ -64,16 +70,18 @@ export default async function Home() {
     mediaContents,
   } = await getData();
 
-  const heroWrapperClass =
-    "min-h-[100dvh] w-full flex items-center justify-center pt-20 sm:pt-24 pb-12";
+  // Seksi Beranda: Tinggi minimal 1 layar dan posisi tengah vertikal
+  const heroSectionClass =
+    "min-h-screen w-full flex items-center justify-center pt-24 pb-16 scroll-mt-24";
 
-  const sectionWrapperClass =
-    "min-h-[100dvh] w-full flex items-start justify-center pt-24 sm:pt-28 pb-16 sm:pb-20";
+  // SEMUA Seksi Konten Lain: Tanpa flex centering vertikal, scroll-mt presisi 100px (tinggi floating navbar)
+  const contentSectionClass =
+    "min-h-screen w-full block pt-6 pb-24 scroll-mt-[96px]";
 
   return (
     <div className="relative min-h-screen bg-background text-foreground selection:bg-blue-600 selection:text-white font-sans antialiased overflow-x-hidden transition-colors duration-300">
-      {/* Dynamic Background Ambient Glow */}
-      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+      {/* Dynamic Ambient Background Glow */}
+      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] sm:w-[900px] h-[450px] bg-gradient-to-b from-blue-600/15 via-cyan-500/10 to-transparent blur-[120px] dark:opacity-70 opacity-30 rounded-full" />
       </div>
 
@@ -81,31 +89,28 @@ export default async function Home() {
 
       <main className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         {/* 1. SEKSI BERANDA */}
-        <section id="beranda" className={heroWrapperClass}>
+        <section id="beranda" className={heroSectionClass}>
           <ScrollReveal direction="up" className="w-full">
             <Hero profile={profile} />
           </ScrollReveal>
         </section>
 
         {/* 2. SEKSI KEAHLIAN */}
-        <section id="skills" className={`${sectionWrapperClass} scroll-mt-6`}>
+        <section id="skills" className={contentSectionClass}>
           <ScrollReveal direction="left" className="w-full">
             <Skills skills={skills} />
           </ScrollReveal>
         </section>
 
         {/* 3. SEKSI PROYEK */}
-        <section id="projects" className={`${sectionWrapperClass} scroll-mt-6`}>
+        <section id="projects" className={contentSectionClass}>
           <ScrollReveal direction="right" className="w-full">
             <Projects projects={projects} />
           </ScrollReveal>
         </section>
 
         {/* 4. SEKSI PENGALAMAN & PENDIDIKAN */}
-        <section
-          id="experience"
-          className={`${sectionWrapperClass} scroll-mt-6`}
-        >
+        <section id="experience" className={contentSectionClass}>
           <ScrollReveal direction="up" className="w-full">
             <ExperienceEducation
               experiences={experiences}
@@ -115,31 +120,28 @@ export default async function Home() {
         </section>
 
         {/* 5. SEKSI SERTIFIKASI */}
-        <section
-          id="certifications"
-          className={`${sectionWrapperClass} scroll-mt-6`}
-        >
+        <section id="certifications" className={contentSectionClass}>
           <ScrollReveal direction="left" className="w-full">
             <Certifications certifications={certifications} />
           </ScrollReveal>
         </section>
 
         {/* 6. SEKSI MEDIA */}
-        <section id="media" className={`${sectionWrapperClass} scroll-mt-6`}>
+        <section id="media" className={contentSectionClass}>
           <ScrollReveal direction="right" className="w-full">
             <MediaContent mediaContents={mediaContents} />
           </ScrollReveal>
         </section>
 
         {/* 7. SEKSI ARTIKEL */}
-        <section id="posts" className={`${sectionWrapperClass} scroll-mt-6`}>
+        <section id="posts" className={contentSectionClass}>
           <ScrollReveal direction="up" className="w-full">
             <Posts posts={posts} />
           </ScrollReveal>
         </section>
 
-        {/* 8. SEKSI KONTAK & SOCIAL CHANNELS */}
-        <section id="kontak" className={`${sectionWrapperClass} scroll-mt-6`}>
+        {/* 8. SEKSI KONTAK */}
+        <section id="kontak" className={contentSectionClass}>
           <ScrollReveal direction="up" className="w-full">
             <ContactDrawer profile={profile} />
           </ScrollReveal>
