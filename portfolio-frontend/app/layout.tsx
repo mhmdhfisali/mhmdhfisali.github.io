@@ -1,12 +1,12 @@
+import CommandPalette from "@/components/CommandPalette";
+import CursorSpotlight from "@/components/CursorSpotlight";
+import ScrollProgress from "@/components/ScrollProgress";
+import ScrollToTop from "@/components/ScrollToTop";
+import SoundFeedback from "@/components/SoundFeedback";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import ScrollToTop from "@/components/ScrollToTop";
-import CursorSpotlight from "@/components/CursorSpotlight";
-import SoundFeedback from "@/components/SoundFeedback";
-import ScrollProgress from "@/components/ScrollProgress";
-import CommandPalette from "@/components/CommandPalette";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
@@ -24,23 +24,62 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Portofolio | Muhamad Hafis Ali",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://mhmdhfisali.dev",
+  ),
+  title: {
+    default: "Muhamad Hafis Ali | Software Engineer & AI Researcher",
+    template: "%s | Muhamad Hafis Ali",
+  },
   description:
-    "Portofolio rekayasa perangkat lunak, sistem administrasi, dan implementasi aplikasi modern oleh Muhamad Hafis Ali.",
+    "Portofolio rekayasa perangkat lunak, Full-Stack Web, Mobile Development (Flutter), dan riset Computer Vision oleh Muhamad Hafis Ali.",
   keywords: [
     "Muhamad Hafis Ali",
+    "Hafis Ali",
+    "absolutelie",
+    "mhmdhfisali",
     "Software Engineer",
-    "System Administrator",
-    "Web Developer",
+    "Full-Stack Developer",
     "Mobile Developer",
+    "Flutter Developer",
+    "Next.js Portfolio",
+    "Computer Vision",
+    "YOLOv8",
   ],
-  authors: [{ name: "Muhamad Hafis Ali" }],
+  authors: [
+    { name: "Muhamad Hafis Ali", url: "https://github.com/mhmdhfisali" },
+  ],
+  creator: "Muhamad Hafis Ali",
+  publisher: "Muhamad Hafis Ali",
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
-    title: "Portofolio | Muhamad Hafis Ali",
+    title: "Muhamad Hafis Ali | Software Engineer & AI Researcher",
     description:
-      "Portofolio rekayasa perangkat lunak, sistem administrasi, dan implementasi aplikasi modern.",
-    type: "website",
+      "Katalog portofolio rekayasa perangkat lunak, arsitektur sistem modern, dan riset implementasi model AI.",
+    url: "/",
+    siteName: "Muhamad Hafis Ali Engineering Portfolio",
     locale: "id_ID",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Muhamad Hafis Ali | Software Engineer & AI Researcher",
+    description:
+      "Portofolio rekayasa perangkat lunak dan riset Computer Vision oleh Muhamad Hafis Ali.",
+    creator: "@mhmdhfisali",
   },
 };
 

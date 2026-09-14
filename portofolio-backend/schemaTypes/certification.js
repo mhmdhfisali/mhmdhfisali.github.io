@@ -13,7 +13,7 @@ export default {
       name: 'issuer',
       title: 'Lembaga Penerbit / Penyelenggara',
       type: 'string',
-      description: 'Contoh: Dicoding, Cisco, IBM, BNSP',
+      description: 'Contoh: Dicoding, Cisco, IBM, BNSP, UBSI',
       validation: (Rule) => Rule.required(),
     },
     {
@@ -23,10 +23,36 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'description',
+      title: 'Deskripsi / Ringkasan Pelatihan & Kompetensi',
+      type: 'text',
+      rows: 3,
+      description: 'Penjelasan singkat materi, pencapaian, atau kompetensi yang divalidasi',
+    },
+    {
+      name: 'images',
+      title: 'Berkas Gambar Sertifikat (Bisa Lebih Dari 1 Gambar)',
+      type: 'array',
+      of: [
+        {
+          type: 'image',
+          options: {hotspot: true},
+          fields: [
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Keterangan Gambar (Opsional)',
+            },
+          ],
+        },
+      ],
+      description: 'Unggah file sertifikat (misal: halaman depan & transkrip nilai/lampiran)',
+    },
+    {
       name: 'credentialUrl',
       title: 'Tautan Bukti / Verifikasi Kredensial',
       type: 'url',
-      description: 'URL sertifikat online atau dokumen verifikasi',
+      description: 'URL sertifikat online atau dokumen verifikasi resmi',
     },
     {
       name: 'order',
@@ -40,11 +66,13 @@ export default {
       title: 'title',
       issuer: 'issuer',
       date: 'date',
+      media: 'images.0',
     },
-    prepare({title, issuer, date}) {
+    prepare({title, issuer, date, media}) {
       return {
         title: title || 'Sertifikat',
         subtitle: `${issuer || 'Lembaga'} • ${date || ''}`,
+        media,
       }
     },
   },

@@ -27,27 +27,40 @@ function ProjectCard({ project, onClick }) {
       }}
       className="group relative flex flex-col justify-between bg-white/85 dark:bg-[#151923]/70 hover:bg-white dark:hover:bg-[#151923] border border-gray-200/90 dark:border-white/[0.08] hover:border-blue-500/50 dark:hover:border-blue-500/40 rounded-3xl overflow-hidden shadow-xs hover:shadow-2xl hover:shadow-blue-500/10 cursor-pointer backdrop-blur-md transition-all duration-300"
     >
-      {/* Thumbnail Header */}
-      <div className="w-full h-48 sm:h-52 overflow-hidden bg-gray-100 dark:bg-black/40 relative border-b border-gray-100 dark:border-white/[0.06]">
+      {/* Thumbnail Header: Rasio Adaptif Proporsional untuk Layar HP (Portrait) maupun Desktop (Landscape) */}
+      <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-100/90 dark:bg-[#0c0f17] border-b border-gray-100 dark:border-white/[0.06] flex items-center justify-center p-2.5">
         {project.thumbnail ? (
-          <img
-            src={urlFor(project.thumbnail).url()}
-            alt={project.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          />
+          <>
+            {/* Ambient Blur di latar belakang agar ruang kosong tetap berdimensi dan tidak kaku */}
+            <img
+              src={urlFor(project.thumbnail).url()}
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 w-full h-full object-cover blur-xl opacity-25 dark:opacity-35 pointer-events-none scale-110"
+            />
+
+            {/* Gambar Asli Utuh (Tidak terpotong jam/status bar atas maupun tombol bawah) */}
+            <img
+              src={urlFor(project.thumbnail).url()}
+              alt={project.title}
+              className="relative z-10 max-h-full max-w-full w-auto h-auto object-contain rounded-lg shadow-sm group-hover:scale-[1.03] transition-transform duration-300"
+            />
+          </>
         ) : (
           <div className="w-full h-full flex items-center justify-center font-mono text-xs text-gray-400">
             Preview Media Tidak Tersedia
           </div>
         )}
 
+        {/* Role Badge */}
         {project.role && (
-          <span className="absolute top-3 right-3 bg-white/90 dark:bg-[#10131a]/90 backdrop-blur-md px-3 py-1 rounded-xl border border-gray-200/80 dark:border-white/10 text-[10px] font-mono text-blue-600 dark:text-cyan-400 font-semibold shadow-xs">
+          <span className="absolute top-2.5 right-2.5 z-20 bg-black/65 dark:bg-[#10131a]/85 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/10 text-[10px] font-mono text-white dark:text-cyan-400 font-semibold shadow-xs">
             {project.role}
           </span>
         )}
 
-        <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
+        {/* Gradasi Halus Bawah */}
+        <div className="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-black/20 to-transparent pointer-events-none z-10" />
       </div>
 
       {/* Konten Body */}

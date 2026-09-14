@@ -18,10 +18,20 @@ async function getData() {
   const fetchOptions = { next: { revalidate: 0 } };
 
   const profileQuery = `*[_type == "profile"] | order(_updatedAt desc)[0]`;
-  const projectsQuery = `*[_type == "project"] | order(featuredOrder asc, _createdAt desc)`;
+  const projectsQuery = `*[_type == "project"] | order(featuredOrder asc, _createdAt desc){
+    ...,
+    thumbnail{ ..., asset-> },
+    caseStudyPhases[]{ ..., previewImage{ ..., asset-> } }
+  }`;
   const skillsQuery = `*[_type == "skill"]`;
   const experiencesQuery = `*[_type == "experience"] | order(startDate desc)`;
-  const certificationsQuery = `*[_type == "certification"] | order(order asc, _createdAt desc)`;
+  const certificationsQuery = `*[_type == "certification"] | order(order asc, _createdAt desc){
+    ...,
+    images[]{
+      ...,
+      asset->
+    }
+  }`;
   const educationsQuery = `*[_type == "education"] | order(startDate desc)`;
   const postsQuery = `*[_type == "post"] | order(publishedAt desc)`;
   const mediaContentsQuery = `*[_type == "mediaContent"]`;
