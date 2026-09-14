@@ -44,10 +44,6 @@ export default defineConfig({
               .schemaType('certification')
               .child(S.documentTypeList('certification').title('Daftar Sertifikasi')),
             S.listItem()
-              .title('🎬 Konten Media & Kreatif')
-              .schemaType('mediaContent')
-              .child(S.documentTypeList('mediaContent').title('Daftar Media')),
-            S.listItem()
               .title('📝 Artikel & Publikasi')
               .schemaType('post')
               .child(S.documentTypeList('post').title('Artikel')),

@@ -30,7 +30,12 @@ async function getData() {
     }
   }`;
   const educationsQuery = `*[_type == "education"] | order(startDate desc)`;
-  const postsQuery = `*[_type == "post"] | order(publishedAt desc)`;
+
+  // Ekstrak tautan eksternal (Unindra, blog, atau PDF) langsung sebagai properti link
+  const postsQuery = `*[_type == "post"] | order(publishedAt desc){
+    ...,
+    "link": coalesce(externalUrl, link, tautanEksternal, "")
+  }`;
 
   const [
     profile,
@@ -140,19 +145,32 @@ export default async function Home() {
         </section>
       </main>
 
-      {/* FOOTER */}
-      <footer className="relative z-10 w-full border-t border-gray-200 dark:border-white/[0.08] py-10 px-4">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500 dark:text-gray-400 font-mono">
-          <p>
-            &copy; {new Date().getFullYear()}{" "}
-            {profile?.name || "Muhamad Hafis Ali"}. All rights reserved.
-          </p>
-          <div className="flex items-center gap-4 text-[11px] opacity-80">
-            <span>Next.js App Router</span>
-            <span>•</span>
-            <span>Tailwind CSS</span>
-            <span>•</span>
-            <span>Sanity CMS</span>
+      <footer className="relative z-10 w-full border-t border-gray-200/60 dark:border-white/[0.08] mt-20 pt-8 pb-16 px-4 sm:px-6 md:px-8">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-gray-500 dark:text-gray-400">
+          {/* Sisi Kiri: Identitas & Status */}
+          <div className="flex flex-wrap items-center gap-3 sm:pl-28">
+            <span className="font-semibold text-gray-800 dark:text-gray-200">
+              Muhamad Hafis Ali
+            </span>
+            <span className="text-gray-300 dark:text-white/20">•</span>
+            <span>Jakarta, Indonesia</span>
+            <span className="text-gray-300 dark:text-white/20">•</span>
+            <span className="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Tersedia untuk Pekerjaan
+            </span>
+          </div>
+
+          {/* Sisi Kanan: Tahun & Navigasi Atas */}
+          <div className="flex items-center gap-4 sm:pr-14">
+            <span>© {new Date().getFullYear()}</span>
+            <a
+              href="#beranda"
+              className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors inline-flex items-center gap-1 py-1 px-2 rounded-md hover:bg-gray-100 dark:hover:bg-white/[0.04]"
+            >
+              <span>Atas</span>
+              <span>↑</span>
+            </a>
           </div>
         </div>
       </footer>

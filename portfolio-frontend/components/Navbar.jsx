@@ -9,6 +9,22 @@ export default function Navbar({ profile = {} }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navRef = useRef(null);
 
+  // Ambil nama dari backend Sanity atau gunakan nama default
+  const rawName = profile?.name || "Muhamad Hafis Ali";
+
+  // Fungsi pembuat inisial otomatis (Contoh: "Muhamad Hafis Ali" -> "MHA")
+  const getInitials = (name) => {
+    if (!name) return "MHA";
+    const parts = name.trim().split(/\s+/);
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+    return parts
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase();
+  };
+
+  const initials = getInitials(rawName);
+
   const navItems = [
     { name: "Beranda", link: "#beranda" },
     { name: "Keahlian", link: "#skills" },
@@ -16,6 +32,7 @@ export default function Navbar({ profile = {} }) {
     { name: "Pengalaman", link: "#experience" },
     { name: "Sertifikasi", link: "#certifications" },
     { name: "Artikel", link: "#posts" },
+    { name: "Kontak", link: "#kontak" },
   ];
 
   useEffect(() => {
@@ -85,21 +102,38 @@ export default function Navbar({ profile = {} }) {
             : "shadow-2xs scale-100"
         }`}
       >
-        {/* LOGO */}
+        {/* LOGO DENGAN INISIAL DINAMIS & BADGE SVG </> */}
         <a
           href="#beranda"
           onClick={(e) => handleNavClick(e, "#beranda")}
-          className="flex items-center gap-2 group cursor-pointer shrink-0"
+          className="flex items-center gap-2.5 group cursor-pointer shrink-0"
         >
+          {/* Active Status Indicator */}
           <span
             className="w-2 h-2 rounded-full bg-emerald-500 ring-4 ring-emerald-500/20"
-            title="Active"
+            title="Tersedia untuk Pekerjaan"
           />
-          <span className="font-extrabold text-sm sm:text-base tracking-tight text-gray-950 dark:text-white group-hover:text-blue-500 transition-colors">
-            hafis<span className="text-blue-500">.</span>ali
+
+          {/* Inisial Otomatis */}
+          <span className="font-extrabold text-sm sm:text-base tracking-wider font-mono text-gray-950 dark:text-white group-hover:text-blue-500 transition-colors">
+            {initials}
+            <span className="text-blue-500">.</span>
           </span>
-          <span className="text-[9px] font-mono text-gray-400 border border-gray-200 dark:border-white/10 px-1.5 py-0.5 rounded hidden lg:inline-block">
-            dev
+
+          {/* Badge SVG Icon </> */}
+          <span className="inline-flex items-center justify-center px-1.5 py-0.5 rounded-md bg-gray-100 dark:bg-white/[0.06] border border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 group-hover:text-blue-500 group-hover:border-blue-500/30 transition-colors">
+            <svg
+              className="w-3.5 h-3.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="16 18 22 12 16 6" />
+              <polyline points="8 6 2 12 8 18" />
+            </svg>
           </span>
         </a>
 

@@ -1,6 +1,19 @@
 "use client";
 
 export default function Posts({ posts = [] }) {
+  // Fungsi penentu tautan: utamakan link eksternal jika ada, atau cek awalan http/https
+  const resolvePostHref = (post) => {
+    const directLink = post.link || post.externalUrl || post.url;
+    if (directLink) return directLink;
+
+    const slugStr = post.slug?.current || "";
+    if (slugStr.startsWith("http://") || slugStr.startsWith("https://")) {
+      return slugStr;
+    }
+
+    return slugStr ? `/posts/${slugStr}` : "#";
+  };
+
   return (
     <div className="w-full space-y-8 text-left py-2">
       {/* Header Seksi */}
@@ -47,16 +60,16 @@ export default function Posts({ posts = [] }) {
                 })
               : "Baru Dirilis";
 
+            const href = resolvePostHref(post);
+            const isExternal =
+              href.startsWith("http://") || href.startsWith("https://");
+
             return (
               <a
                 key={post._id}
-                href={
-                  post.link || post.slug?.current
-                    ? `/posts/${post.slug?.current}`
-                    : "#"
-                }
-                target={post.link ? "_blank" : "_self"}
-                rel="noopener noreferrer"
+                href={href}
+                target={isExternal ? "_blank" : "_self"}
+                rel={isExternal ? "noopener noreferrer" : undefined}
                 className="group relative bg-white/85 dark:bg-[#151923]/70 hover:bg-white dark:hover:bg-[#151923] border border-gray-200/90 dark:border-white/[0.08] hover:border-blue-500/40 dark:hover:border-blue-500/40 p-6 sm:p-7 rounded-3xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/5 cursor-pointer backdrop-blur-md flex justify-between items-center gap-4"
               >
                 <div className="space-y-2.5 flex-1 min-w-0">
