@@ -10,9 +10,8 @@ import ScrollReveal from "@/components/ScrollReveal";
 import Skills from "@/components/Skills";
 import { client } from "@/sanity";
 
-// Nonaktifkan cache agar data Sanity Studio langsung terbaca
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// Izinkan static export membaca data build time
+export const dynamic = "force-static";
 
 async function getData() {
   const fetchOptions = { next: { revalidate: 0 } };

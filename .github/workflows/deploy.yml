@@ -31,7 +31,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: ./portfolio-frontend
-        run: npm ci || npm install
+        run: npm install
 
       - name: Build Next.js Static Export
         working-directory: ./portfolio-frontend
