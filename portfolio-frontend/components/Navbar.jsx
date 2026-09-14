@@ -15,7 +15,6 @@ export default function Navbar({ profile = {} }) {
     { name: "Proyek", link: "#projects" },
     { name: "Pengalaman", link: "#experience" },
     { name: "Sertifikasi", link: "#certifications" },
-    { name: "Media", link: "#media" },
     { name: "Artikel", link: "#posts" },
   ];
 

@@ -2,7 +2,6 @@ import Certifications from "@/components/Certifications";
 import ContactDrawer from "@/components/ContactDrawer";
 import ExperienceEducation from "@/components/ExperienceEducation";
 import Hero from "@/components/Hero";
-import MediaContent from "@/components/MediaContent";
 import Navbar from "@/components/Navbar";
 import Posts from "@/components/Posts";
 import Projects from "@/components/Projects";
@@ -32,7 +31,6 @@ async function getData() {
   }`;
   const educationsQuery = `*[_type == "education"] | order(startDate desc)`;
   const postsQuery = `*[_type == "post"] | order(publishedAt desc)`;
-  const mediaContentsQuery = `*[_type == "mediaContent"]`;
 
   const [
     profile,
@@ -42,7 +40,6 @@ async function getData() {
     certifications,
     educations,
     posts,
-    mediaContents,
   ] = await Promise.all([
     client.fetch(profileQuery, {}, fetchOptions),
     client.fetch(projectsQuery, {}, fetchOptions),
@@ -51,7 +48,6 @@ async function getData() {
     client.fetch(certificationsQuery, {}, fetchOptions),
     client.fetch(educationsQuery, {}, fetchOptions),
     client.fetch(postsQuery, {}, fetchOptions),
-    client.fetch(mediaContentsQuery, {}, fetchOptions),
   ]);
 
   return {
@@ -62,7 +58,6 @@ async function getData() {
     certifications,
     educations,
     posts,
-    mediaContents,
   };
 }
 
@@ -75,7 +70,6 @@ export default async function Home() {
     certifications,
     educations,
     posts,
-    mediaContents,
   } = await getData();
 
   const heroSectionClass =
@@ -107,7 +101,7 @@ export default async function Home() {
           </ScrollReveal>
         </section>
 
-        {/* 3. SEKSI PROYEK (Converge menyatu ke tengah) */}
+        {/* 3. SEKSI PROYEK */}
         <section id="projects" className={contentSectionClass}>
           <ScrollReveal direction="converge" delay={80} className="w-full">
             <Projects projects={projects} />
@@ -131,21 +125,14 @@ export default async function Home() {
           </ScrollReveal>
         </section>
 
-        {/* 6. SEKSI MEDIA */}
-        <section id="media" className={contentSectionClass}>
-          <ScrollReveal direction="up" delay={50} className="w-full">
-            <MediaContent mediaContents={mediaContents} />
-          </ScrollReveal>
-        </section>
-
-        {/* 7. SEKSI ARTIKEL */}
+        {/* 6. SEKSI ARTIKEL */}
         <section id="posts" className={contentSectionClass}>
           <ScrollReveal direction="scale" delay={80} className="w-full">
             <Posts posts={posts} />
           </ScrollReveal>
         </section>
 
-        {/* 8. SEKSI KONTAK */}
+        {/* 7. SEKSI KONTAK */}
         <section id="kontak" className={contentSectionClass}>
           <ScrollReveal direction="up" delay={50} className="w-full">
             <ContactDrawer profile={profile} />
