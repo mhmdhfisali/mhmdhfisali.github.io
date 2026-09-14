@@ -10,7 +10,6 @@ import ScrollReveal from "@/components/ScrollReveal";
 import Skills from "@/components/Skills";
 import { client } from "@/sanity";
 
-// Izinkan static export membaca data build time
 export const dynamic = "force-static";
 
 async function getData() {
@@ -79,11 +78,8 @@ export default async function Home() {
     mediaContents,
   } = await getData();
 
-  // Seksi Beranda: Tinggi minimal 1 layar dan posisi tengah vertikal
   const heroSectionClass =
     "min-h-screen w-full flex items-center justify-center pt-24 pb-16 scroll-mt-24";
-
-  // SEMUA Seksi Konten Lain: Tanpa flex centering vertikal, scroll-mt presisi 100px (tinggi floating navbar)
   const contentSectionClass =
     "min-h-screen w-full block pt-6 pb-24 scroll-mt-[96px]";
 
@@ -99,28 +95,28 @@ export default async function Home() {
       <main className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         {/* 1. SEKSI BERANDA */}
         <section id="beranda" className={heroSectionClass}>
-          <ScrollReveal direction="up" className="w-full">
+          <ScrollReveal direction="converge" delay={100} className="w-full">
             <Hero profile={profile} />
           </ScrollReveal>
         </section>
 
         {/* 2. SEKSI KEAHLIAN */}
         <section id="skills" className={contentSectionClass}>
-          <ScrollReveal direction="left" className="w-full">
+          <ScrollReveal direction="up" delay={50} className="w-full">
             <Skills skills={skills} />
           </ScrollReveal>
         </section>
 
-        {/* 3. SEKSI PROYEK */}
+        {/* 3. SEKSI PROYEK (Converge menyatu ke tengah) */}
         <section id="projects" className={contentSectionClass}>
-          <ScrollReveal direction="right" className="w-full">
+          <ScrollReveal direction="converge" delay={80} className="w-full">
             <Projects projects={projects} />
           </ScrollReveal>
         </section>
 
         {/* 4. SEKSI PENGALAMAN & PENDIDIKAN */}
         <section id="experience" className={contentSectionClass}>
-          <ScrollReveal direction="up" className="w-full">
+          <ScrollReveal direction="up" delay={80} className="w-full">
             <ExperienceEducation
               experiences={experiences}
               educations={educations}
@@ -130,28 +126,28 @@ export default async function Home() {
 
         {/* 5. SEKSI SERTIFIKASI */}
         <section id="certifications" className={contentSectionClass}>
-          <ScrollReveal direction="left" className="w-full">
+          <ScrollReveal direction="converge" delay={80} className="w-full">
             <Certifications certifications={certifications} />
           </ScrollReveal>
         </section>
 
         {/* 6. SEKSI MEDIA */}
         <section id="media" className={contentSectionClass}>
-          <ScrollReveal direction="right" className="w-full">
+          <ScrollReveal direction="up" delay={50} className="w-full">
             <MediaContent mediaContents={mediaContents} />
           </ScrollReveal>
         </section>
 
         {/* 7. SEKSI ARTIKEL */}
         <section id="posts" className={contentSectionClass}>
-          <ScrollReveal direction="up" className="w-full">
+          <ScrollReveal direction="scale" delay={80} className="w-full">
             <Posts posts={posts} />
           </ScrollReveal>
         </section>
 
         {/* 8. SEKSI KONTAK */}
         <section id="kontak" className={contentSectionClass}>
-          <ScrollReveal direction="up" className="w-full">
+          <ScrollReveal direction="up" delay={50} className="w-full">
             <ContactDrawer profile={profile} />
           </ScrollReveal>
         </section>

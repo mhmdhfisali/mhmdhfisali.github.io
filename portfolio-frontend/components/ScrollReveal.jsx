@@ -2,76 +2,108 @@
 
 import { useEffect, useRef, useState } from "react";
 
+/**
+ * Modern Smooth Reveal Component
+ * Variants:
+ * - "up" / "down"
+ * - "left" / "right"
+ * - "converge" : Card kiri & kanan meluncur halus menyatu ke tengah
+ * - "scale" : Lembut membesar dengan efek depth blur
+ */
 export default function ScrollReveal({
   children,
   direction = "up",
+  delay = 0,
   className = "",
 }) {
-  const [progress, setProgress] = useState(0);
-  const ref = useRef(null);
-  const ticking = useRef(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const domRef = useRef(null);
 
   useEffect(() => {
-    const calculateProgress = () => {
-      if (!ref.current) return;
-      const rect = ref.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            // Sekali muncul, kunci agar tidak jitter bolak-balik saat scroll lambat
+            if (domRef.current) observer.unobserve(domRef.current);
+          }
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -60px 0px",
+      },
+    );
 
-      const startTrigger = windowHeight * 0.95;
-      const endTrigger = windowHeight * 0.35;
+    const currentTarget = domRef.current;
+    if (currentTarget) observer.observe(currentTarget);
 
-      const currentProgress = Math.min(
-        Math.max((startTrigger - rect.top) / (startTrigger - endTrigger), 0),
-        1,
-      );
-
-      setProgress(currentProgress);
-      ticking.current = false;
+    return () => {
+      if (currentTarget) observer.unobserve(currentTarget);
     };
-
-    const handleScroll = () => {
-      if (!ticking.current) {
-        window.requestAnimationFrame(calculateProgress);
-        ticking.current = true;
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    calculateProgress();
-
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const getDynamicStyle = () => {
-    const opacity = Math.pow(progress, 1.2);
-    const scale = 0.9 + progress * 0.1;
+  const getVariantStyles = () => {
+    const baseTransition = {
+      transitionProperty: "opacity, transform, filter",
+      transitionDuration: "900ms",
+      transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+      transitionDelay: `${delay}ms`,
+      willChange: "opacity, transform, filter",
+    };
 
-    let transform = "";
-    if (direction === "left") {
-      const translateX = (1 - progress) * -80;
-      const rotateY = (1 - progress) * 15;
-      transform = `perspective(1200px) translate3d(${translateX}px, 0, 0) rotateY(${rotateY}deg) scale(${scale})`;
-    } else if (direction === "right") {
-      const translateX = (1 - progress) * 80;
-      const rotateY = (1 - progress) * -15;
-      transform = `perspective(1200px) translate3d(${translateX}px, 0, 0) rotateY(${rotateY}deg) scale(${scale})`;
-    } else {
-      const translateY = (1 - progress) * 90;
-      const rotateX = (1 - progress) * -18;
-      transform = `perspective(1200px) translate3d(0, ${translateY}px, 0) rotateX(${rotateX}deg) scale(${scale})`;
+    if (!isVisible) {
+      switch (direction) {
+        case "left":
+          return {
+            ...baseTransition,
+            opacity: 0,
+            transform: "translate3d(-45px, 0, 0)",
+            filter: "blur(4px)",
+          };
+        case "right":
+          return {
+            ...baseTransition,
+            opacity: 0,
+            transform: "translate3d(45px, 0, 0)",
+            filter: "blur(4px)",
+          };
+        case "converge":
+          return {
+            ...baseTransition,
+            opacity: 0,
+            transform: "scale(0.96) translate3d(0, 30px, 0)",
+            filter: "blur(6px)",
+          };
+        case "scale":
+          return {
+            ...baseTransition,
+            opacity: 0,
+            transform: "scale(0.92) translate3d(0, 20px, 0)",
+            filter: "blur(8px)",
+          };
+        case "up":
+        default:
+          return {
+            ...baseTransition,
+            opacity: 0,
+            transform: "translate3d(0, 35px, 0)",
+            filter: "blur(4px)",
+          };
+      }
     }
 
     return {
-      opacity,
-      transform,
-      willChange: "transform, opacity",
-      transition:
-        "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease-out",
+      ...baseTransition,
+      opacity: 1,
+      transform: "translate3d(0, 0, 0) scale(1)",
+      filter: "blur(0px)",
     };
   };
 
   return (
-    <div ref={ref} style={getDynamicStyle()} className={className}>
+    <div ref={domRef} style={getVariantStyles()} className={className}>
       {children}
     </div>
   );
