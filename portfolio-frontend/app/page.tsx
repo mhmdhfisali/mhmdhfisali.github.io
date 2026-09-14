@@ -81,15 +81,13 @@ export default async function Home() {
   const heroSectionClass =
     "min-h-screen w-full flex items-center justify-center pt-24 pb-16 scroll-mt-24";
   const contentSectionClass =
-    "min-h-screen w-full block pt-10 pb-24 scroll-mt-[96px]";
+    "min-h-screen w-full block pt-6 pb-24 scroll-mt-[96px]";
 
   return (
     <div className="relative min-h-screen bg-background text-foreground selection:bg-blue-600 selection:text-white font-sans antialiased overflow-x-hidden transition-colors duration-300">
-      {/* Background Accent Lines & Glow */}
+      {/* Dynamic Ambient Background Glow */}
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] sm:w-[950px] h-[480px] bg-gradient-to-b from-blue-600/15 via-cyan-500/10 to-transparent blur-[140px] dark:opacity-75 opacity-30 rounded-full" />
-        <div className="absolute top-[45%] -right-40 w-[450px] h-[450px] bg-indigo-500/10 blur-[130px] rounded-full" />
-        <div className="absolute top-[75%] -left-40 w-[450px] h-[450px] bg-blue-500/10 blur-[130px] rounded-full" />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] sm:w-[900px] h-[450px] bg-gradient-to-b from-blue-600/15 via-cyan-500/10 to-transparent blur-[120px] dark:opacity-70 opacity-30 rounded-full" />
       </div>
 
       <Navbar profile={profile} />
@@ -97,28 +95,28 @@ export default async function Home() {
       <main className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         {/* 1. SEKSI BERANDA */}
         <section id="beranda" className={heroSectionClass}>
-          <ScrollReveal variant="scale-blur" delay={50} className="w-full">
+          <ScrollReveal direction="converge" delay={100} className="w-full">
             <Hero profile={profile} />
           </ScrollReveal>
         </section>
 
         {/* 2. SEKSI KEAHLIAN */}
         <section id="skills" className={contentSectionClass}>
-          <ScrollReveal variant="fade-up" delay={50} className="w-full">
+          <ScrollReveal direction="up" delay={50} className="w-full">
             <Skills skills={skills} />
           </ScrollReveal>
         </section>
 
-        {/* 3. SEKSI PROYEK */}
+        {/* 3. SEKSI PROYEK (Converge menyatu ke tengah) */}
         <section id="projects" className={contentSectionClass}>
-          <ScrollReveal variant="converge" delay={50} className="w-full">
+          <ScrollReveal direction="converge" delay={80} className="w-full">
             <Projects projects={projects} />
           </ScrollReveal>
         </section>
 
         {/* 4. SEKSI PENGALAMAN & PENDIDIKAN */}
         <section id="experience" className={contentSectionClass}>
-          <ScrollReveal variant="fade-up" delay={50} className="w-full">
+          <ScrollReveal direction="up" delay={80} className="w-full">
             <ExperienceEducation
               experiences={experiences}
               educations={educations}
@@ -128,28 +126,28 @@ export default async function Home() {
 
         {/* 5. SEKSI SERTIFIKASI */}
         <section id="certifications" className={contentSectionClass}>
-          <ScrollReveal variant="converge" delay={50} className="w-full">
+          <ScrollReveal direction="converge" delay={80} className="w-full">
             <Certifications certifications={certifications} />
           </ScrollReveal>
         </section>
 
         {/* 6. SEKSI MEDIA */}
         <section id="media" className={contentSectionClass}>
-          <ScrollReveal variant="fade-up" delay={50} className="w-full">
+          <ScrollReveal direction="up" delay={50} className="w-full">
             <MediaContent mediaContents={mediaContents} />
           </ScrollReveal>
         </section>
 
         {/* 7. SEKSI ARTIKEL */}
         <section id="posts" className={contentSectionClass}>
-          <ScrollReveal variant="scale-blur" delay={50} className="w-full">
+          <ScrollReveal direction="scale" delay={80} className="w-full">
             <Posts posts={posts} />
           </ScrollReveal>
         </section>
 
         {/* 8. SEKSI KONTAK */}
         <section id="kontak" className={contentSectionClass}>
-          <ScrollReveal variant="fade-up" delay={50} className="w-full">
+          <ScrollReveal direction="up" delay={50} className="w-full">
             <ContactDrawer profile={profile} />
           </ScrollReveal>
         </section>

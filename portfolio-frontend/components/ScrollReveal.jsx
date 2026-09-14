@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 export default function ScrollReveal({
   children,
-  variant = "fade-up", // "fade-up" | "scale-blur" | "converge"
+  variant = "up",
   delay = 0,
   className = "",
 }) {
@@ -20,49 +20,57 @@ export default function ScrollReveal({
         }
       },
       {
-        threshold: 0.08,
+        threshold: 0.1,
         rootMargin: "0px 0px -40px 0px",
       },
     );
 
-    if (domRef.current) observer.observe(domRef.current);
+    const el = domRef.current;
+    if (el) observer.observe(el);
 
     return () => {
-      if (domRef.current) observer.unobserve(domRef.current);
+      if (el) observer.unobserve(el);
     };
   }, []);
 
-  const getStyle = () => {
+  const getTransitionStyle = () => {
     const base = {
       transitionProperty: "opacity, transform, filter",
-      transitionDuration: "850ms",
+      transitionDuration: "800ms",
       transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       transitionDelay: `${delay}ms`,
-      willChange: "opacity, transform, filter",
     };
 
     if (!isVisible) {
       switch (variant) {
-        case "converge":
+        case "left":
           return {
             ...base,
             opacity: 0,
-            transform: "scale(0.95) translateY(24px)",
+            transform: "translate3d(-40px, 0, 0)",
+            filter: "blur(6px)",
+          };
+        case "right":
+          return {
+            ...base,
+            opacity: 0,
+            transform: "translate3d(40px, 0, 0)",
+            filter: "blur(6px)",
+          };
+        case "converge":
+        case "scale":
+          return {
+            ...base,
+            opacity: 0,
+            transform: "scale(0.94) translate3d(0, 25px, 0)",
             filter: "blur(8px)",
           };
-        case "scale-blur":
-          return {
-            ...base,
-            opacity: 0,
-            transform: "scale(0.92)",
-            filter: "blur(10px)",
-          };
-        case "fade-up":
+        case "up":
         default:
           return {
             ...base,
             opacity: 0,
-            transform: "translate3d(0, 28px, 0)",
+            transform: "translate3d(0, 30px, 0)",
             filter: "blur(4px)",
           };
       }
@@ -77,45 +85,7 @@ export default function ScrollReveal({
   };
 
   return (
-    <div ref={domRef} style={getStyle()} className={className}>
-      {children}
-    </div>
-  );
-}
-
-/**
- * Komponen pembungkus khusus Card:
- * Elemen ganjil meluncur dari kiri (-35px), elemen genap dari kanan (+35px)
- * lalu menyatu halus ke tengah.
- */
-export function ConvergeGroup({ children, className = "" }) {
-  const [isVisible, setIsVisible] = useState(false);
-  const domRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          if (domRef.current) observer.unobserve(domRef.current);
-        }
-      },
-      { threshold: 0.05, rootMargin: "0px 0px -50px 0px" },
-    );
-
-    if (domRef.current) observer.observe(domRef.current);
-    return () => {
-      if (domRef.current) observer.unobserve(domRef.current);
-    };
-  }, []);
-
-  return (
-    <div
-      ref={domRef}
-      className={`[perspective:1000px] ${
-        isVisible ? "is-revealed" : "not-revealed"
-      } ${className}`}
-    >
+    <div ref={domRef} style={getTransitionStyle()} className={className}>
       {children}
     </div>
   );
