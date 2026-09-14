@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function ContactDrawer({ profile }) {
+export default function ContactDrawer({ profile = {} }) {
   const [copied, setCopied] = useState(false);
 
   const email = profile?.email || "mhffsali@gmail.com";
