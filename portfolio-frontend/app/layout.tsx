@@ -25,7 +25,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://mhmdhfisali.dev",
+    process.env.NEXT_PUBLIC_SITE_URL || "https://mhmdhfisali.github.io",
   ),
   title: {
     default: "Muhamad Hafis Ali | Software Engineer & AI Researcher",

@@ -5,11 +5,14 @@ import { useEffect, useRef, useState } from "react";
 export default function ScrollReveal({
   children,
   variant = "up",
+  direction,
   delay = 0,
   className = "",
 }) {
   const [isVisible, setIsVisible] = useState(false);
   const domRef = useRef(null);
+
+  const activeVariant = direction || variant;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -42,7 +45,7 @@ export default function ScrollReveal({
     };
 
     if (!isVisible) {
-      switch (variant) {
+      switch (activeVariant) {
         case "left":
           return {
             ...base,

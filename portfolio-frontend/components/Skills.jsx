@@ -121,34 +121,37 @@ export default function Skills({ skills = [] }) {
       : skills.filter((item) => item.category === selectedCategory);
 
   return (
-    <div className="w-full space-y-8">
-      {/* Header Seksi */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-gray-200 dark:border-white/[0.08] pb-6">
-        <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-mono font-medium mb-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping" />
-            TECH STACK &amp; CAPABILITIES
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-950 dark:text-white">
-            Keahlian &amp;{" "}
-            <span className="text-blue-600 dark:text-cyan-400">Teknologi</span>
-          </h2>
-          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-2 max-w-xl">
-            Kumpulan instrumen bahasa pemrograman, framework, arsitektur server,
-            dan infrastruktur Linux yang aktif digunakan.
-          </p>
+    <div className="w-full space-y-8 text-left py-2">
+      {/* 1. Header Seksi (Disamakan dengan Proyek, Artikel, & Kontak) */}
+      <div className="space-y-3">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/[0.07] dark:bg-blue-950/40 border border-blue-500/20 dark:border-blue-800/40 backdrop-blur-md shadow-2xs">
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-cyan-400 animate-pulse" />
+          <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-wider text-blue-700 dark:text-blue-300 uppercase">
+            Tech Stack &amp; Capabilities
+          </span>
         </div>
 
-        <div className="text-xs font-mono text-gray-500 dark:text-gray-400">
-          Total:{" "}
-          <span className="font-bold text-gray-900 dark:text-white">
-            {skills.length}
-          </span>{" "}
-          Instrumen Terdata
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-950 dark:text-white tracking-tight">
+            Keahlian &amp;{" "}
+            <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-sky-400 dark:from-blue-400 dark:via-cyan-300 dark:to-sky-200 bg-clip-text text-transparent">
+              Teknologi
+            </span>
+          </h2>
+
+          <span className="text-xs font-mono text-gray-500 dark:text-gray-400">
+            {skills.length} Instrumen Terdata
+          </span>
         </div>
+
+        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
+          Kumpulan instrumen bahasa pemrograman, framework, arsitektur server,
+          dan infrastruktur Linux yang aktif diimplementasikan dalam alur
+          produksi.
+        </p>
       </div>
 
-      {/* Filter Kategori Tabs */}
+      {/* 2. Filter Kategori Tabs */}
       <div className="flex flex-wrap items-center gap-2">
         {categories.map((cat) => (
           <button
@@ -166,22 +169,20 @@ export default function Skills({ skills = [] }) {
         ))}
       </div>
 
-      {/* Grid Kartu Skill */}
+      {/* 3. Grid Kartu Skill */}
       {filteredSkills.length === 0 ? (
-        <div className="p-12 text-center border border-dashed border-gray-300 dark:border-white/10 rounded-2xl">
-          <p className="text-sm font-mono text-gray-400">
-            Belum ada data skill di Sanity Studio untuk kategori ini.
-          </p>
+        <div className="w-full py-16 px-6 rounded-3xl border border-dashed border-gray-200 dark:border-white/10 text-center text-xs font-mono text-gray-400 bg-white/40 dark:bg-white/[0.01]">
+          Belum ada data skill di Sanity Studio untuk kategori ini.
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
           {filteredSkills.map((skill) => (
             <div
               key={skill._id || skill.title}
-              className="group relative p-4 sm:p-5 rounded-2xl bg-white/70 dark:bg-[#12161f]/70 border border-gray-200/90 dark:border-white/[0.08] backdrop-blur-md hover:border-blue-500/40 hover:-translate-y-1 transition-all duration-300 shadow-xs"
+              className="group relative p-4 sm:p-5 rounded-2xl bg-white/85 dark:bg-[#151923]/70 border border-gray-200/90 dark:border-white/[0.08] backdrop-blur-md hover:border-blue-500/40 hover:-translate-y-1 transition-all duration-300 shadow-xs"
             >
               <div className="flex items-center gap-3.5 mb-3">
-                {/* Render Gambar Kustom JIKA ADA, Jika Kosong Gunakan SVG Otomatis */}
+                {/* Render Gambar Kustom Jika Ada, Jika Kosong Gunakan SVG Otomatis */}
                 <div className="w-12 h-12 rounded-xl bg-gray-100/90 dark:bg-white/[0.05] border border-gray-200/80 dark:border-white/[0.08] flex items-center justify-center p-2.5 group-hover:scale-110 transition-transform duration-300">
                   {skill.icon ? (
                     <img

@@ -137,15 +137,19 @@ export default async function Home() {
           </ScrollReveal>
         </section>
 
-        {/* 7. SEKSI KONTAK */}
-        <section id="kontak" className={contentSectionClass}>
+        {/* 7. SEKSI KONTAK (HAPUS min-h-screen AGAR TINGGINYA PAS DENGAN KONTEN KARTU) */}
+        <section
+          id="kontak"
+          className="w-full block pt-6 pb-6 scroll-mt-[96px]"
+        >
           <ScrollReveal direction="up" delay={50} className="w-full">
             <ContactDrawer profile={profile} />
           </ScrollReveal>
         </section>
       </main>
 
-      <footer className="relative z-10 w-full border-t border-gray-200/60 dark:border-white/[0.08] mt-20 pt-8 pb-16 px-4 sm:px-6 md:px-8">
+      {/* FOOTER (RAPAT & TEPAT MENEMPEL DI BAWAH KARTU KONTAK) */}
+      <footer className="relative z-10 w-full border-t border-gray-200/60 dark:border-white/[0.08] mt-4 pt-6 pb-12 px-4 sm:px-6 md:px-8">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-gray-500 dark:text-gray-400">
           {/* Sisi Kiri: Identitas & Status */}
           <div className="flex flex-wrap items-center gap-3 sm:pl-28">

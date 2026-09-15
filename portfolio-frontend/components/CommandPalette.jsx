@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 
-export default function CommandPalette({ profile }) {
+export default function CommandPalette({ profile = {} }) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
+
+  const githubUrl = profile?.githubUrl || "https://github.com/mhmdhfisali";
 
   const actions = [
     {
@@ -32,9 +34,15 @@ export default function CommandPalette({ profile }) {
       category: "Navigasi",
     },
     {
-      name: "Portofolio Media & Kreatif",
-      shortcut: "M",
-      href: "#media",
+      name: "Sertifikasi & Lisensi Resmi",
+      shortcut: "L",
+      href: "#certifications",
+      category: "Navigasi",
+    },
+    {
+      name: "Artikel & Publikasi Riset",
+      shortcut: "A",
+      href: "#posts",
       category: "Navigasi",
     },
     {
@@ -46,7 +54,7 @@ export default function CommandPalette({ profile }) {
     {
       name: "Buka GitHub Repository",
       shortcut: "G",
-      external: profile?.githubUrl || "https://github.com/mhmdhfisali",
+      external: githubUrl,
       category: "Eksternal",
     },
   ];
