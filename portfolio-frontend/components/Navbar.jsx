@@ -27,6 +27,7 @@ export default function Navbar({ profile = {} }) {
   const navItems = [
     { name: "Beranda", link: "#beranda" },
     { name: "Keahlian", link: "#skills" },
+    { name: "Aktivitas", link: "#github" },
     { name: "Proyek", link: "#projects" },
     { name: "Pengalaman", link: "#experience" },
     { name: "Sertifikasi", link: "#certifications" },
@@ -104,17 +105,17 @@ export default function Navbar({ profile = {} }) {
       className="fixed top-4 inset-x-0 z-50 flex flex-col items-center px-3 sm:px-6 pointer-events-none"
     >
       <header
-        className={`pointer-events-auto w-full max-w-6xl bg-white/85 dark:bg-[#12161f]/85 backdrop-blur-xl border border-gray-200/90 dark:border-white/[0.08] rounded-full px-4 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between transition-all duration-300 ${
+        className={`relative pointer-events-auto w-full max-w-6xl bg-white/85 dark:bg-[#12161f]/85 backdrop-blur-xl border border-gray-200/90 dark:border-white/[0.08] rounded-full px-4 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between transition-all duration-300 ${
           scrolled
             ? "shadow-lg shadow-black/5 dark:shadow-black/40 scale-[0.99] border-gray-300 dark:border-white/[0.14]"
             : "shadow-2xs scale-100"
         }`}
       >
-        {/* LOGO DENGAN INISIAL DINAMIS & BADGE SVG */}
+        {/* SISI KIRI: LOGO INISIAL & STATUS */}
         <a
           href="#beranda"
           onClick={(e) => handleNavClick(e, "#beranda")}
-          className="flex items-center gap-2.5 group cursor-pointer shrink-0"
+          className="flex items-center gap-2.5 group cursor-pointer shrink-0 z-10"
         >
           <span
             className="w-2 h-2 rounded-full bg-emerald-500 ring-4 ring-emerald-500/20"
@@ -142,22 +143,22 @@ export default function Navbar({ profile = {} }) {
           </span>
         </a>
 
-        {/* DESKTOP NAV */}
-        <nav className="hidden md:flex items-center gap-0.5 lg:gap-1 bg-gray-100/70 dark:bg-white/[0.03] p-1 rounded-full border border-gray-200/60 dark:border-white/[0.06]">
+        {/* TENGAH PRESISI: DESKTOP NAV (KUNCI DI SUMBU TENGAH LAYAR) */}
+        <nav className="hidden lg:flex items-center gap-0.5 absolute left-1/2 -translate-x-1/2 bg-gray-100/70 dark:bg-white/[0.03] p-1 rounded-full border border-gray-200/60 dark:border-white/[0.06] z-0">
           {navItems.map((item) => (
             <a
               key={item.name}
               href={item.link}
               onClick={(e) => handleNavClick(e, item.link)}
-              className="px-3 lg:px-3.5 py-1.5 text-[11px] lg:text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white rounded-full hover:bg-white dark:hover:bg-white/[0.08] transition-all whitespace-nowrap cursor-pointer"
+              className="px-2.5 xl:px-3 py-1.5 text-[11px] xl:text-xs font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white rounded-full hover:bg-white dark:hover:bg-white/[0.08] transition-all whitespace-nowrap cursor-pointer"
             >
               {item.name}
             </a>
           ))}
         </nav>
 
-        {/* CONTROLS */}
-        <div className="flex items-center gap-2 shrink-0">
+        {/* SISI KANAN: CONTROLS */}
+        <div className="flex items-center gap-2 shrink-0 z-10">
           {/* Audio Mute/Unmute Toggle */}
           <button
             type="button"
@@ -240,19 +241,6 @@ export default function Navbar({ profile = {} }) {
             )}
           </button>
 
-          {/* Download CV CTA */}
-          {profile?.resumeUrl && (
-            <a
-              href={profile.resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden lg:inline-flex items-center gap-1 px-3 py-2 rounded-full border border-blue-500/30 bg-blue-50/50 dark:bg-blue-950/30 text-blue-600 dark:text-cyan-400 text-xs font-mono font-semibold hover:border-blue-500 transition-all active:scale-95"
-            >
-              <span>CV</span>
-              <span className="text-[10px]">↓</span>
-            </a>
-          )}
-
           {/* Contact CTA */}
           <a
             href="#kontak"
@@ -260,14 +248,13 @@ export default function Navbar({ profile = {} }) {
             className="hidden sm:inline-flex items-center gap-1.5 bg-gray-950 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-gray-950 px-4 py-2 rounded-full text-xs font-semibold tracking-tight transition-all active:scale-95 shadow-xs cursor-pointer"
           >
             <span>Hubungi</span>
-            <span className="text-xs">&rarr;</span>
           </a>
 
           {/* Mobile Toggle */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden w-8 h-8 rounded-full bg-gray-100/80 dark:bg-white/[0.06] border border-gray-200 dark:border-white/[0.08] flex items-center justify-center text-gray-700 dark:text-gray-200 cursor-pointer"
+            className="lg:hidden w-8 h-8 rounded-full bg-gray-100/80 dark:bg-white/[0.06] border border-gray-200 dark:border-white/[0.08] flex items-center justify-center text-gray-700 dark:text-gray-200 cursor-pointer"
             aria-label="Menu"
           >
             <div className="w-3.5 h-2.5 flex flex-col justify-between items-center">
@@ -287,7 +274,7 @@ export default function Navbar({ profile = {} }) {
 
       {/* MOBILE DRAWER */}
       <div
-        className={`md:hidden pointer-events-auto w-full max-w-sm mt-2 transition-all duration-200 ${
+        className={`lg:hidden pointer-events-auto w-full max-w-sm mt-2 transition-all duration-200 ${
           mobileMenuOpen
             ? "opacity-100 translate-y-0"
             : "opacity-0 -translate-y-2 pointer-events-none"
@@ -302,21 +289,8 @@ export default function Navbar({ profile = {} }) {
               className="flex items-center justify-between px-4 py-2.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:text-blue-500 rounded-2xl transition-colors cursor-pointer"
             >
               <span>{item.name}</span>
-              <span className="text-gray-400">&rarr;</span>
             </a>
           ))}
-
-          {profile?.resumeUrl && (
-            <a
-              href={profile.resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-between px-4 py-2.5 text-xs font-mono font-semibold text-blue-600 dark:text-cyan-400 bg-blue-50/50 dark:bg-blue-950/30 rounded-2xl border border-blue-500/20 mt-2"
-            >
-              <span>Unduh Resume CV (PDF)</span>
-              <span>↓</span>
-            </a>
-          )}
         </div>
       </div>
     </div>

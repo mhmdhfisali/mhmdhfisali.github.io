@@ -1,6 +1,7 @@
 import Certifications from "@/components/Certifications";
 import ContactDrawer from "@/components/ContactDrawer";
 import ExperienceEducation from "@/components/ExperienceEducation";
+import GitHubActivity from "@/components/GitHubActivity";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import Posts from "@/components/Posts";
@@ -31,7 +32,6 @@ async function getData() {
   }`;
   const educationsQuery = `*[_type == "education"] | order(startDate desc)`;
 
-  // Ekstrak tautan eksternal (Unindra, blog, atau PDF) langsung sebagai properti link
   const postsQuery = `*[_type == "post"] | order(publishedAt desc){
     ...,
     "link": coalesce(externalUrl, link, tautanEksternal, "")
@@ -82,6 +82,10 @@ export default async function Home() {
   const contentSectionClass =
     "min-h-screen w-full block pt-6 pb-24 scroll-mt-[96px]";
 
+  const githubUsername = profile?.githubUrl
+    ? profile.githubUrl.replace(/\/$/, "").split("/").pop()
+    : "mhmdhfisali";
+
   return (
     <div className="relative min-h-screen bg-background text-foreground selection:bg-blue-600 selection:text-white font-sans antialiased overflow-x-hidden transition-colors duration-300">
       {/* Dynamic Ambient Background Glow */}
@@ -103,6 +107,16 @@ export default async function Home() {
         <section id="skills" className={contentSectionClass}>
           <ScrollReveal direction="up" delay={50} className="w-full">
             <Skills skills={skills} />
+          </ScrollReveal>
+        </section>
+
+        {/* 2.5 SEKSI GITHUB ACTIVITY */}
+        <section
+          id="github"
+          className="w-full block pt-2 pb-24 scroll-mt-[96px]"
+        >
+          <ScrollReveal direction="up" delay={60} className="w-full">
+            <GitHubActivity username={githubUsername} />
           </ScrollReveal>
         </section>
 
@@ -137,7 +151,7 @@ export default async function Home() {
           </ScrollReveal>
         </section>
 
-        {/* 7. SEKSI KONTAK (HAPUS min-h-screen AGAR TINGGINYA PAS DENGAN KONTEN KARTU) */}
+        {/* 7. SEKSI KONTAK */}
         <section
           id="kontak"
           className="w-full block pt-6 pb-6 scroll-mt-[96px]"
@@ -148,13 +162,12 @@ export default async function Home() {
         </section>
       </main>
 
-      {/* FOOTER (RAPAT & TEPAT MENEMPEL DI BAWAH KARTU KONTAK) */}
+      {/* FOOTER */}
       <footer className="relative z-10 w-full border-t border-gray-200/60 dark:border-white/[0.08] mt-4 pt-6 pb-12 px-4 sm:px-6 md:px-8">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-gray-500 dark:text-gray-400">
-          {/* Sisi Kiri: Identitas & Status */}
           <div className="flex flex-wrap items-center gap-3 sm:pl-28">
             <span className="font-semibold text-gray-800 dark:text-gray-200">
-              Muhamad Hafis Ali
+              {profile?.name || "Muhamad Hafis Ali"}
             </span>
             <span className="text-gray-300 dark:text-white/20">•</span>
             <span>Jakarta, Indonesia</span>
@@ -165,7 +178,6 @@ export default async function Home() {
             </span>
           </div>
 
-          {/* Sisi Kanan: Tahun & Navigasi Atas */}
           <div className="flex items-center gap-4 sm:pr-14">
             <span>© {new Date().getFullYear()}</span>
             <a
