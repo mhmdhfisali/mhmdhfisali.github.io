@@ -125,15 +125,29 @@ export default function Hero({ profile }) {
 
           {/* Action Buttons Dinamis */}
           <div className="flex flex-wrap items-center gap-3 pt-1">
+            {profile?.resumeUrl && (
+              <a
+                href={profile.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative inline-flex items-center gap-2 px-6 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-xs sm:text-sm font-semibold font-mono tracking-tight shadow-lg shadow-cyan-500/25 active:scale-95 transition-all duration-200"
+              >
+                <span>Unduh Resume (CV)</span>
+                <span className="text-xs transition-transform duration-200 group-hover:translate-y-0.5">
+                  ↓
+                </span>
+              </a>
+            )}
+
             {profile?.githubUrl && (
               <a
                 href={profile.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative inline-flex items-center gap-2.5 px-6 py-2.5 sm:py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-semibold font-mono tracking-tight shadow-lg shadow-blue-600/25 hover:shadow-blue-600/40 hover:-translate-y-0.5 active:scale-95 transition-all duration-200"
+                className="group relative inline-flex items-center gap-2 px-5 py-2.5 sm:py-3 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-white/[0.06] dark:hover:bg-white/[0.1] text-gray-900 dark:text-white text-xs sm:text-sm font-semibold font-mono tracking-tight border border-gray-200 dark:border-white/10 active:scale-95 transition-all duration-200"
               >
-                <span>GitHub Repositories</span>
-                <span className="text-sm transition-transform duration-200 group-hover:translate-x-0.5">
+                <span>GitHub</span>
+                <span className="text-xs transition-transform duration-200 group-hover:translate-x-0.5">
                   &rarr;
                 </span>
               </a>

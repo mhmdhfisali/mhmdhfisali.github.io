@@ -1,16 +1,17 @@
 "use client";
 
 import { urlFor } from "@/sanity";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import ProjectModal from "./ProjectModal";
 
-function ProjectCard({ project, onClick }) {
+function ProjectCard({ project, isActive, onClick }) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e) => {
+    if (!isActive) return;
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 10;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -10;
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 8;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -8;
     setTilt({ x, y });
   };
 
@@ -22,28 +23,35 @@ function ProjectCard({ project, onClick }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
-        transform: `perspective(1000px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
-        transition: "transform 0.15s ease-out",
+        transform: isActive
+          ? `perspective(1000px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`
+          : undefined,
+        transition: "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
       }}
-      className="group relative flex flex-col justify-between bg-white/85 dark:bg-[#151923]/70 hover:bg-white dark:hover:bg-[#151923] border border-gray-200/90 dark:border-white/[0.08] hover:border-blue-500/50 dark:hover:border-blue-500/40 rounded-3xl overflow-hidden shadow-xs hover:shadow-2xl hover:shadow-blue-500/10 cursor-pointer backdrop-blur-md transition-all duration-300"
+      className={`relative flex flex-col justify-between rounded-3xl overflow-hidden cursor-pointer backdrop-blur-md transition-all duration-500 h-full select-none ${
+        isActive
+          ? "bg-white/95 dark:bg-[#151923]/95 border-2 border-cyan-400/80 dark:border-cyan-400 shadow-2xl shadow-cyan-500/25 ring-4 ring-cyan-500/20"
+          : "bg-white/60 dark:bg-[#12161f]/50 border border-gray-200/60 dark:border-white/[0.05] hover:border-gray-300 dark:hover:border-white/20 shadow-xs"
+      }`}
     >
-      {/* Thumbnail Header: Rasio Adaptif Proporsional untuk Layar HP (Portrait) maupun Desktop (Landscape) */}
+      {/* Thumbnail Header */}
       <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-100/90 dark:bg-[#0c0f17] border-b border-gray-100 dark:border-white/[0.06] flex items-center justify-center p-2.5">
         {project.thumbnail ? (
           <>
-            {/* Ambient Blur di latar belakang agar ruang kosong tetap berdimensi dan tidak kaku */}
             <img
               src={urlFor(project.thumbnail).url()}
               alt=""
               aria-hidden="true"
-              className="absolute inset-0 w-full h-full object-cover blur-xl opacity-25 dark:opacity-35 pointer-events-none scale-110"
+              className={`absolute inset-0 w-full h-full object-cover blur-xl pointer-events-none scale-110 transition-opacity duration-500 ${
+                isActive ? "opacity-35 dark:opacity-45" : "opacity-15"
+              }`}
             />
-
-            {/* Gambar Asli Utuh (Tidak terpotong jam/status bar atas maupun tombol bawah) */}
             <img
               src={urlFor(project.thumbnail).url()}
               alt={project.title}
-              className="relative z-10 max-h-full max-w-full w-auto h-auto object-contain rounded-lg shadow-sm group-hover:scale-[1.03] transition-transform duration-300"
+              className={`relative z-10 max-h-full max-w-full w-auto h-auto object-contain rounded-lg shadow-sm transition-transform duration-500 ${
+                isActive ? "scale-[1.03]" : "scale-95"
+              }`}
             />
           </>
         ) : (
@@ -52,14 +60,23 @@ function ProjectCard({ project, onClick }) {
           </div>
         )}
 
-        {/* Role Badge */}
-        {project.role && (
-          <span className="absolute top-2.5 right-2.5 z-20 bg-black/65 dark:bg-[#10131a]/85 backdrop-blur-md px-2.5 py-1 rounded-xl border border-white/10 text-[10px] font-mono text-white dark:text-cyan-400 font-semibold shadow-xs">
-            {project.role}
-          </span>
-        )}
+        {/* Status Badge */}
+        <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between z-20 pointer-events-none">
+          {isActive ? (
+            <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-[9px] font-mono font-bold px-2.5 py-0.5 rounded-lg shadow-md shadow-cyan-500/30 animate-pulse">
+              ★ Ditinjau
+            </span>
+          ) : (
+            <span />
+          )}
 
-        {/* Gradasi Halus Bawah */}
+          {project.role && (
+            <span className="bg-black/75 dark:bg-[#10131a]/85 backdrop-blur-md px-2 py-0.5 rounded-lg border border-white/10 text-[9px] font-mono text-white dark:text-cyan-300 font-semibold shadow-xs">
+              {project.role}
+            </span>
+          )}
+        </div>
+
         <div className="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-black/20 to-transparent pointer-events-none z-10" />
       </div>
 
@@ -67,13 +84,23 @@ function ProjectCard({ project, onClick }) {
       <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4 text-left">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+            <span
+              className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                isActive ? "bg-cyan-400 animate-ping" : "bg-gray-400"
+              }`}
+            />
             <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400">
               {project.category || "Software Project"}
             </span>
           </div>
 
-          <h3 className="text-base sm:text-lg font-extrabold text-gray-950 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors line-clamp-1">
+          <h3
+            className={`text-base sm:text-lg font-black tracking-tight transition-colors line-clamp-1 ${
+              isActive
+                ? "text-blue-600 dark:text-cyan-300"
+                : "text-gray-900 dark:text-white"
+            }`}
+          >
             {project.title}
           </h3>
 
@@ -89,7 +116,7 @@ function ProjectCard({ project, onClick }) {
             {project.techStack?.slice(0, 3).map((tech, i) => (
               <span
                 key={i}
-                className="bg-gray-100 dark:bg-white/[0.04] text-gray-700 dark:text-gray-300 text-[10px] px-2.5 py-0.5 rounded-md font-mono border border-gray-200/70 dark:border-white/[0.06]"
+                className="bg-gray-100 dark:bg-white/[0.05] text-gray-700 dark:text-gray-300 text-[10px] px-2 py-0.5 rounded-md font-mono border border-gray-200/70 dark:border-white/[0.06]"
               >
                 {tech}
               </span>
@@ -101,12 +128,18 @@ function ProjectCard({ project, onClick }) {
             )}
           </div>
 
-          <div className="flex items-center justify-between text-xs font-mono font-semibold text-blue-600 dark:text-cyan-400 pt-1">
-            <span className="group-hover:translate-x-1 transition-transform duration-200 inline-flex items-center gap-1.5">
-              Lihat Kasus &amp; Demo &rarr;
+          <div className="flex items-center justify-between text-xs font-mono font-semibold pt-1">
+            <span
+              className={`inline-flex items-center gap-1.5 transition-colors ${
+                isActive
+                  ? "text-blue-600 dark:text-cyan-400 font-bold"
+                  : "text-gray-400"
+              }`}
+            >
+              {isActive ? "Buka Studi Kasus →" : "Pilih Kartu"}
             </span>
             <span className="text-[10px] font-mono text-gray-400 font-normal">
-              Inspect
+              {isActive ? "Focused" : "Tap"}
             </span>
           </div>
         </div>
@@ -117,10 +150,15 @@ function ProjectCard({ project, onClick }) {
 
 export default function Projects({ projects = [] }) {
   const [selectedProject, setSelectedProject] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState("all");
-  const [visibleCount, setVisibleCount] = useState(6); // Default 6 proyek per tampilan
+  const [layoutMode, setLayoutMode] = useState("carousel");
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
-  // Ekstraksi kategori unik langsung dari data Sanity
+  const carouselRef = useRef(null);
+  const cardRefs = useRef([]);
+
   const tabs = useMemo(() => {
     const rawCategories = projects
       .map((p) => p.category?.trim())
@@ -143,25 +181,106 @@ export default function Projects({ projects = [] }) {
   }, [projects]);
 
   const filteredProjects = useMemo(() => {
-    if (filter === "all") return projects;
     return projects.filter((p) => {
-      if (p.category) {
-        return p.category.toLowerCase() === filter.toLowerCase();
-      }
-      const text =
-        `${p.title} ${p.role || ""} ${p.techStack?.join(" ") || ""}`.toLowerCase();
-      return text.includes(filter.toLowerCase());
-    });
-  }, [projects, filter]);
+      const matchesCategory =
+        filter === "all"
+          ? true
+          : (p.category || "").toLowerCase() === filter.toLowerCase();
 
-  // Reset limit tampilan jika user berganti tab filter
-  const handleFilterChange = (newFilter) => {
-    setFilter(newFilter);
-    setVisibleCount(6);
+      const searchStr =
+        `${p.title || ""} ${p.role || ""} ${p.summary || ""} ${(p.techStack || []).join(" ")}`.toLowerCase();
+      const matchesSearch = searchStr.includes(
+        searchQuery.toLowerCase().trim(),
+      );
+
+      return matchesCategory && matchesSearch;
+    });
+  }, [projects, filter, searchQuery]);
+
+  // Kalkulasi kartu yang paling dekat dengan titik tengah kontainer
+  const handleScrollUpdates = () => {
+    const container = carouselRef.current;
+    if (!container) return;
+
+    const { scrollLeft, scrollWidth, clientWidth } = container;
+    const maxScroll = scrollWidth - clientWidth;
+
+    if (maxScroll > 0) {
+      setScrollProgress((scrollLeft / maxScroll) * 100);
+    } else {
+      setScrollProgress(100);
+    }
+
+    const containerCenter = scrollLeft + clientWidth / 2;
+    let closestIdx = 0;
+    let minDistance = Infinity;
+
+    cardRefs.current.forEach((el, idx) => {
+      if (!el) return;
+      const cardCenter = el.offsetLeft + el.offsetWidth / 2;
+      const distance = Math.abs(containerCenter - cardCenter);
+
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIdx = idx;
+      }
+    });
+
+    setActiveIndex(closestIdx);
   };
 
-  const displayedProjects = filteredProjects.slice(0, visibleCount);
-  const hasMore = visibleCount < filteredProjects.length;
+  useEffect(() => {
+    handleScrollUpdates();
+    const el = carouselRef.current;
+    if (!el) return;
+
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScrollUpdates();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    el.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", handleScrollUpdates);
+
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", handleScrollUpdates);
+    };
+  }, [filteredProjects, layoutMode]);
+
+  // Pindahkan kartu ke posisi tengah secara halus
+  const centerCardByIndex = (index) => {
+    const container = carouselRef.current;
+    const card = cardRefs.current[index];
+    if (!container || !card) return;
+
+    const targetScroll =
+      card.offsetLeft - (container.clientWidth / 2 - card.offsetWidth / 2);
+
+    container.scrollTo({
+      left: Math.max(0, targetScroll),
+      behavior: "smooth",
+    });
+  };
+
+  const handleCardClick = (project, index) => {
+    if (layoutMode === "grid") {
+      setSelectedProject(project);
+      return;
+    }
+
+    if (activeIndex === index) {
+      setSelectedProject(project);
+    } else {
+      centerCardByIndex(index);
+    }
+  };
 
   return (
     <div className="w-full space-y-7 text-left py-2">
@@ -182,10 +301,31 @@ export default function Projects({ projects = [] }) {
             </span>
           </h2>
 
-          <span className="text-xs font-mono text-gray-500 dark:text-gray-400">
-            Menampilkan {displayedProjects.length} dari{" "}
-            {filteredProjects.length} Karya
-          </span>
+          {/* Toggle Mode: Slider Focus vs Grid */}
+          <div className="hidden sm:inline-flex items-center p-1 rounded-2xl bg-gray-100/90 dark:bg-[#121622]/90 border border-gray-200/80 dark:border-white/[0.08] text-xs font-mono shadow-inner">
+            <button
+              type="button"
+              onClick={() => setLayoutMode("carousel")}
+              className={`px-3 py-1 rounded-xl transition-all cursor-pointer ${
+                layoutMode === "carousel"
+                  ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold shadow-md shadow-blue-500/25"
+                  : "text-gray-500 hover:text-gray-900 dark:hover:text-white"
+              }`}
+            >
+              Slider Focus
+            </button>
+            <button
+              type="button"
+              onClick={() => setLayoutMode("grid")}
+              className={`px-3 py-1 rounded-xl transition-all cursor-pointer ${
+                layoutMode === "grid"
+                  ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold shadow-md shadow-blue-500/25"
+                  : "text-gray-500 hover:text-gray-900 dark:hover:text-white"
+              }`}
+            >
+              Grid
+            </button>
+          </div>
         </div>
 
         <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
@@ -195,66 +335,152 @@ export default function Projects({ projects = [] }) {
         </p>
       </div>
 
-      {/* Filter Tabs Header */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-gray-200/80 dark:border-white/[0.08] no-scrollbar">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            onClick={() => handleFilterChange(tab.id)}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-mono capitalize transition-all duration-200 cursor-pointer shrink-0 ${
-              filter === tab.id
-                ? "bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/25 scale-[1.02]"
-                : "bg-white/80 dark:bg-white/[0.03] text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-white/[0.06]"
-            }`}
+      {/* Toolbar Atas: Search Input Kiri & Filter Tabs Kanan */}
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 pb-2 border-b border-gray-200/80 dark:border-white/[0.08]">
+        {/* Search Bar di Atas Kiri */}
+        <div className="relative w-full md:w-72 shrink-0">
+          <svg
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-600 dark:text-cyan-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
           >
-            {tab.label}
-          </button>
-        ))}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setActiveIndex(0);
+              if (carouselRef.current)
+                carouselRef.current.scrollTo({ left: 0 });
+            }}
+            placeholder="Cari judul, stack, tech..."
+            className="w-full pl-9 pr-8 py-2 text-xs font-mono rounded-2xl bg-white/90 dark:bg-[#121622]/90 border border-gray-200 dark:border-white/[0.08] focus:border-cyan-400 dark:focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 outline-none transition-all shadow-xs"
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => setSearchQuery("")}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-gray-400 hover:text-gray-700 dark:hover:text-white px-1 font-mono cursor-pointer"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+
+        {/* Filter Tabs */}
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => {
+                setFilter(tab.id);
+                setActiveIndex(0);
+                if (carouselRef.current)
+                  carouselRef.current.scrollTo({ left: 0 });
+              }}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-mono capitalize transition-all duration-200 cursor-pointer shrink-0 ${
+                filter === tab.id
+                  ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-md shadow-cyan-500/25 scale-[1.02]"
+                  : "bg-white/80 dark:bg-white/[0.03] text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-white/[0.06]"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Grid Proyek */}
-      {displayedProjects.length === 0 ? (
+      {/* TAMPILAN PROYEK */}
+      {filteredProjects.length === 0 ? (
         <div className="w-full py-16 px-6 border border-dashed border-gray-200 dark:border-white/10 rounded-3xl text-center text-gray-400 text-xs font-mono bg-white/40 dark:bg-white/[0.01]">
-          Belum ada proyek terdata untuk kategori ini di Sanity.
+          Tidak ditemukan proyek yang cocok dengan kata kunci &quot;
+          {searchQuery}&quot;.
+        </div>
+      ) : layoutMode === "carousel" ? (
+        /* HORIZONTAL CAROUSEL CENTER-FOCUS TRACK */
+        <div className="space-y-6">
+          <div
+            ref={carouselRef}
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+            className="flex items-center gap-5 sm:gap-7 overflow-x-auto snap-x snap-mandatory pt-8 pb-10 px-[8vw] sm:px-[20vw] lg:px-[25vw] no-scrollbar scroll-smooth [&::-webkit-scrollbar]:hidden"
+          >
+            {filteredProjects.map((project, idx) => {
+              const isCenter = idx === activeIndex;
+              return (
+                <div
+                  key={project._id}
+                  ref={(el) => (cardRefs.current[idx] = el)}
+                  className={`w-[80vw] sm:w-[350px] md:w-[390px] shrink-0 snap-center transition-all duration-500 ease-out ${
+                    isCenter
+                      ? "-translate-y-4 scale-105 z-20 opacity-100"
+                      : "translate-y-2 scale-95 z-10 opacity-55 hover:opacity-85 blur-[0.4px]"
+                  }`}
+                >
+                  <ProjectCard
+                    project={project}
+                    isActive={isCenter}
+                    onClick={() => handleCardClick(project, idx)}
+                  />
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Modern Futuristic Glow Scrubber Bar */}
+          <div className="max-w-lg mx-auto p-2.5 rounded-2xl bg-gradient-to-r from-white/90 via-gray-50/90 to-white/90 dark:from-[#121622]/90 dark:via-[#161c2d]/90 dark:to-[#121622]/90 border border-blue-500/20 dark:border-cyan-500/30 backdrop-blur-xl shadow-lg shadow-cyan-500/5 flex items-center gap-3">
+            <span className="text-[11px] font-mono text-cyan-700 dark:text-cyan-300 font-bold pl-2 shrink-0">
+              {String(activeIndex + 1).padStart(2, "0")}{" "}
+              <span className="text-gray-400 font-normal">/</span>{" "}
+              {String(filteredProjects.length).padStart(2, "0")}
+            </span>
+
+            {/* Interactive Progress Track */}
+            <div
+              onClick={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const ratio = clickX / rect.width;
+                const targetIdx = Math.round(
+                  ratio * (filteredProjects.length - 1),
+                );
+                centerCardByIndex(targetIdx);
+              }}
+              className="relative flex-1 h-2.5 bg-gray-200/80 dark:bg-white/[0.08] rounded-full overflow-hidden cursor-pointer shadow-inner"
+            >
+              <div
+                className="h-full bg-gradient-to-r from-blue-600 via-cyan-400 to-sky-300 rounded-full transition-all duration-150 shadow-[0_0_12px_rgba(6,182,212,0.9)]"
+                style={{ width: `${Math.max(scrollProgress, 8)}%` }}
+              />
+            </div>
+
+            <span className="text-[10px] font-mono text-blue-600 dark:text-cyan-400 pr-2 shrink-0 font-bold uppercase tracking-wider">
+              {filteredProjects[activeIndex]?.category || "Project"}
+            </span>
+          </div>
         </div>
       ) : (
+        /* GRID VIEW */
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-          {displayedProjects.map((project) => (
+          {filteredProjects.map((project) => (
             <ProjectCard
               key={project._id}
               project={project}
+              isActive={true}
               onClick={() => setSelectedProject(project)}
             />
           ))}
-        </div>
-      )}
-
-      {/* Tombol Load More & Show Less */}
-      {filteredProjects.length > 6 && (
-        <div className="flex justify-center pt-4">
-          {hasMore ? (
-            <button
-              type="button"
-              onClick={() => setVisibleCount((prev) => prev + 6)}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white hover:bg-gray-50 dark:bg-[#151923] dark:hover:bg-white/[0.08] text-gray-800 dark:text-gray-200 text-xs font-mono font-semibold border border-gray-200 dark:border-white/10 shadow-xs hover:border-blue-500/40 active:scale-95 transition-all cursor-pointer"
-            >
-              <span>Tampilkan Proyek Lainnya</span>
-              <span className="text-blue-600 dark:text-cyan-400">
-                (+{filteredProjects.length - visibleCount})
-              </span>
-              <span>↓</span>
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={() => setVisibleCount(6)}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white hover:bg-gray-50 dark:bg-[#151923] dark:hover:bg-white/[0.08] text-gray-800 dark:text-gray-200 text-xs font-mono font-semibold border border-gray-200 dark:border-white/10 shadow-xs hover:border-blue-500/40 active:scale-95 transition-all cursor-pointer"
-            >
-              <span>Tutup Sebagian Proyek</span>
-              <span>↑</span>
-            </button>
-          )}
         </div>
       )}
 

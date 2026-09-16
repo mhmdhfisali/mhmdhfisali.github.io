@@ -7,6 +7,10 @@ export default function SoundFeedback() {
     let audioCtx = null;
 
     const playSubtleClick = () => {
+      // Cek apakah suara dinonaktifkan oleh user
+      const isMuted = localStorage.getItem("sound_muted") === "true";
+      if (isMuted) return;
+
       try {
         if (!audioCtx) {
           audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -19,14 +23,12 @@ export default function SoundFeedback() {
         const gain = audioCtx.createGain();
 
         osc.type = "sine";
-        // Nada klik frekuensi tinggi sangat singkat
         osc.frequency.setValueAtTime(800, audioCtx.currentTime);
         osc.frequency.exponentialRampToValueAtTime(
           400,
           audioCtx.currentTime + 0.04,
         );
 
-        // Volume sangat rendah agar tidak bising
         gain.gain.setValueAtTime(0.015, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(
           0.0001,

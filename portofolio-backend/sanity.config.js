@@ -16,7 +16,7 @@ export default defineConfig({
         S.list()
           .title('Konten Portofolio')
           .items([
-            // 1. Singleton Profil Utama (Langsung edit 1 dokumen)
+            // 1. Singleton Profil Utama
             S.listItem()
               .title('👤 Profil Utama & Hero')
               .child(S.document().schemaType('profile').documentId('profile')),

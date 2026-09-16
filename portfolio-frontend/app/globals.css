@@ -31,6 +31,9 @@ body {
   overflow-x: hidden;
 }
 
+
+/* Scrollbar halus untuk dialog / command palette */
+
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
 }
@@ -46,4 +49,20 @@ body {
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(148, 163, 184, 0.4);
+}
+
+
+/* Hilangkan scrollbar bawaan browser untuk slider horizontal (Chrome, Safari, Edge, Firefox) */
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  /* IE and Edge */
+  scrollbar-width: none !important;
+  /* Firefox */
 }
