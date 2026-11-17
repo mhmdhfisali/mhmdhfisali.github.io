@@ -97,6 +97,9 @@ export const metadata: Metadata = {
       "Portofolio rekayasa perangkat lunak, sistem industri SMII, absolutestore.id, dan riset teknologi oleh Muhamad Hafis Ali.",
     creator: "@mhmdhfisali",
   },
+  verification: {
+    google: "googled8358c795f07e95d",
+  },
 };
 
 const jsonLdData = {

@@ -1,12 +1,13 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
+import { fallbackContributions } from "@/lib/fallbackContributions";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 export default function GitHubActivity({ username = "mhmdhfisali" }) {
   const { locale, t } = useLanguage();
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(fallbackContributions);
+  const [loading, setLoading] = useState(false);
   const [syncing, setSyncing] = useState(false);
   const [hoveredDay, setHoveredDay] = useState(null);
   const [repos, setRepos] = useState([]);
@@ -16,7 +17,7 @@ export default function GitHubActivity({ username = "mhmdhfisali" }) {
     if (isManualSync) setSyncing(true);
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 4500);
+      const timeoutId = setTimeout(() => controller.abort(), 9000);
 
       const res = await fetch(
         `https://github-contributions-api.jogruber.de/v4/${username}?y=last&_t=${Date.now()}`,
@@ -33,10 +34,12 @@ export default function GitHubActivity({ username = "mhmdhfisali" }) {
 
       if (res.ok) {
         const json = await res.json();
-        setData(json);
+        if (json?.contributions?.length > 0) {
+          setData(json);
+        }
       }
     } catch {
-      // Keep existing data or fallback
+      setData((prev) => (prev?.contributions?.length ? prev : fallbackContributions));
     } finally {
       setLoading(false);
       if (isManualSync) {
@@ -52,7 +55,7 @@ export default function GitHubActivity({ username = "mhmdhfisali" }) {
       );
       if (res.ok) {
         const json = await res.json();
-        if (Array.isArray(json)) setRepos(json);
+        if (Array.isArray(json) && json.length > 0) setRepos(json);
       }
     } catch {
       // Non-blocking fallback
@@ -81,7 +84,9 @@ export default function GitHubActivity({ username = "mhmdhfisali" }) {
 
   // Susun kontribusi menjadi kolom-kolom minggu (minggu = 7 hari)
   const { weeks, monthLabels, stats } = useMemo(() => {
-    const rawContributions = data?.contributions || [];
+    const rawContributions = (data?.contributions?.length > 0)
+      ? data.contributions
+      : fallbackContributions.contributions;
     if (rawContributions.length === 0) {
       return {
         weeks: [],
