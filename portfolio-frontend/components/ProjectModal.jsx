@@ -2,7 +2,7 @@
 
 import { useLanguage } from "@/context/LanguageContext";
 import { urlFor } from "@/sanity";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
 export default function ProjectModal({ project, onClose }) {
@@ -35,6 +35,71 @@ export default function ProjectModal({ project, onClose }) {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [project, onClose, activeImage]);
+
+  const architectureFlow = useMemo(() => {
+    if (!project) return null;
+    const id = project._id || "";
+    const pTitle = (project.title || "").toLowerCase();
+
+    if (id.includes("ppic") || pTitle.includes("ppic")) {
+      return {
+        badge: "ENTERPRISE SYSTEM ARCHITECTURE",
+        steps: [
+          { node: "Jadwal Shift Pabrik", sub: "Production Personnel" },
+          { node: "PPIC Core Engine", sub: "Laravel & MySQL Relational" },
+          { node: "Work Orders Otomatis", sub: "< 5 Mnt / Zero Overlap" },
+        ],
+      };
+    }
+    if (id.includes("ipc") || pTitle.includes("ipc")) {
+      return {
+        badge: "QUALITY ASSURANCE DATAFLOW",
+        steps: [
+          { node: "Sampling Lab Mutu", sub: "Multi-parameter Form" },
+          { node: "IPC Validation Engine", sub: "Automated Tolerance Checks" },
+          { node: "Paperless QC Ledger", sub: "35% Faster Lab Validation" },
+        ],
+      };
+    }
+    if (id.includes("dashboard") || pTitle.includes("dashboard")) {
+      return {
+        badge: "TELEMETRY & KPI PIPELINE",
+        steps: [
+          { node: "Data Agregasi Lini", sub: "Packaging & Process Units" },
+          { node: "Analytic Query Engine", sub: "Fast Aggregation Logic" },
+          { node: "Executive KPI View", sub: "Real-time Machine Metrics" },
+        ],
+      };
+    }
+    if (id.includes("absensi") || pTitle.includes("absensi")) {
+      return {
+        badge: "MOBILE GEOFENCING ARCHITECTURE",
+        steps: [
+          { node: "Flutter Mobile GPS", sub: "Android & iOS Client" },
+          { node: "Haversine Distance Check", sub: "Anti-Fake GPS (<5m)" },
+          { node: "Firebase Cloud Sync", sub: "99.8% Real-Time Attendance" },
+        ],
+      };
+    }
+    if (id.includes("absolute") || pTitle.includes("absolutestore")) {
+      return {
+        badge: "HIGH-CONCURRENCY E-COMMERCE",
+        steps: [
+          { node: "Client Storefront", sub: "Next.js & Responsive UI" },
+          { node: "Order & Webhook Engine", sub: "HMAC Signed Settlement" },
+          { node: "Instant Delivery", sub: "< 3s Automated QRIS Top-Up" },
+        ],
+      };
+    }
+    return {
+      badge: "ENGINEERING ARCHITECTURE BLUEPRINT",
+      steps: [
+        { node: "Data Intake", sub: "Client Input / Ingestion" },
+        { node: "Core Logic Unit", sub: "Business Rules & Service Layer" },
+        { node: "Validated Output", sub: "Secure Output & Logging" },
+      ],
+    };
+  }, [project]);
 
   if (!project || !mounted) return null;
 
@@ -178,58 +243,60 @@ export default function ProjectModal({ project, onClose }) {
                     </div>
                   </>
                 ) : (
-                  <div className="relative w-full h-full flex flex-col items-center justify-center p-6 text-center rounded-xl bg-gradient-to-br from-blue-950/40 via-cyan-950/20 to-slate-900 border border-white/5 space-y-2.5">
-                    <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
-                      {isCompany ? (
-                        <svg
-                          className="w-6 h-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth="1.75"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                          />
-                        </svg>
-                      ) : isLive ? (
-                        <svg
-                          className="w-6 h-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth="1.75"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M13 10V3L4 14h7v7l9-11h-7z"
-                          />
-                        </svg>
-                      ) : (
-                        <svg
-                          className="w-6 h-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth="1.75"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                          />
-                        </svg>
-                      )}
+                  <div className="relative w-full h-full flex flex-col justify-between p-4 sm:p-6 rounded-xl bg-gradient-to-br from-[#0c1017] via-[#0f141f] to-[#121927] border border-cyan-500/20 overflow-hidden select-none">
+                    {/* Background Blueprint Grid */}
+                    <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:16px_16px]" />
+                    <div className="absolute top-0 right-0 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+
+                    {/* Top Blueprint Bar */}
+                    <div className="relative z-10 flex items-center justify-between border-b border-white/10 pb-2.5">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400/50" />
+                        <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-wider text-cyan-300 uppercase">
+                          {architectureFlow?.badge || "SYSTEM ARCHITECTURE DATAFLOW"}
+                        </span>
+                      </div>
+                      <span className="text-[9px] sm:text-[10px] font-mono text-gray-400 bg-white/5 px-2 py-0.5 rounded border border-white/10">
+                        {isCompany ? (project.company || "PT Sinar Meadow Int. Indonesia") : "Architecture Flow"}
+                      </span>
                     </div>
-                    <span className="font-mono font-bold text-xs sm:text-sm text-cyan-300 tracking-wider uppercase">
-                      {isCompany ? (project.company || "PT Sinar Meadow Int. Indonesia") : "Personal Project"}
-                    </span>
-                    <span className="text-xs font-mono text-gray-300 max-w-xs">
-                      {title}
-                    </span>
+
+                    {/* Architecture Node Dataflow */}
+                    <div className="relative z-10 py-2 sm:py-4 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-2.5 w-full">
+                      {architectureFlow?.steps?.map((step, idx) => (
+                        <div key={step.node} className="flex flex-col sm:flex-row items-center gap-2 sm:gap-2.5 w-full sm:w-auto">
+                          <div className="p-2 sm:p-2.5 rounded-xl bg-white/[0.04] border border-cyan-500/20 backdrop-blur-md flex flex-col items-center text-center w-full sm:w-32 md:w-40 shadow-lg shadow-black/40">
+                            <span className="text-[9px] font-mono text-cyan-400/80 mb-0.5 uppercase tracking-wider font-semibold">
+                              STEP 0{idx + 1}
+                            </span>
+                            <span className="text-[11px] sm:text-xs font-bold text-white tracking-tight leading-snug">
+                              {step.node}
+                            </span>
+                            <span className="text-[9px] sm:text-[10px] font-mono text-gray-400 mt-0.5 line-clamp-1">
+                              {step.sub}
+                            </span>
+                          </div>
+                          {idx < architectureFlow.steps.length - 1 && (
+                            <svg className="w-3.5 h-3.5 text-cyan-400 shrink-0 rotate-90 sm:rotate-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Bottom Blueprint Footer */}
+                    <div className="relative z-10 flex items-center justify-between border-t border-white/10 pt-2 text-[9px] sm:text-[10px] font-mono text-gray-400">
+                      <span className="flex items-center gap-1.5 truncate">
+                        <svg className="w-3.5 h-3.5 text-cyan-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                        <span className="truncate">{title}</span>
+                      </span>
+                      <span className="text-cyan-400 shrink-0 font-bold uppercase">
+                        Verified Architecture
+                      </span>
+                    </div>
                   </div>
                 )}
               </div>

@@ -3,6 +3,9 @@ name: Deploy Next.js to GitHub Pages
 on:
   push:
     branches: ["main"]
+  schedule:
+    # Auto-rebuild every Sunday at 00:00 UTC to refresh dependencies, git stats, and content
+    - cron: '0 0 * * 0'
   repository_dispatch:
     types: [sanity-update]
   workflow_dispatch:

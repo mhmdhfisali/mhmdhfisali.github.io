@@ -4,8 +4,10 @@ import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function ContactDrawer({ profile = {} }) {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const [copied, setCopied] = useState(false);
+  const [senderName, setSenderName] = useState("");
+  const [quickMsg, setQuickMsg] = useState("");
 
   const email = profile?.email || "mhffsali@gmail.com";
   const github = profile?.githubUrl || "https://github.com/mhmdhfisali";
@@ -158,17 +160,58 @@ export default function ContactDrawer({ profile = {} }) {
           </div>
 
           <div className="space-y-3">
+            {/* Quick Direct Message Composer */}
+            <div className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-gray-50/80 dark:bg-white/[0.03] border border-gray-200/70 dark:border-white/[0.06] space-y-2">
+              <div className="flex items-center justify-between text-[9px] sm:text-[10px] font-mono text-gray-500 dark:text-gray-400">
+                <span className="font-bold uppercase tracking-wider text-blue-600 dark:text-cyan-400">
+                  {locale === "en" ? "Quick Message" : "Kirim Pesan Instan"}
+                </span>
+                <span className="text-emerald-500 font-semibold">• 1-Click Send</span>
+              </div>
+              <input
+                type="text"
+                value={senderName}
+                onChange={(e) => setSenderName(e.target.value)}
+                placeholder={locale === "en" ? "Your name / company..." : "Nama atau perusahaan Anda..."}
+                className="w-full px-2.5 py-1.5 text-xs rounded-lg bg-white dark:bg-white/[0.05] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:border-blue-500 font-sans"
+              />
+              <textarea
+                rows={2}
+                value={quickMsg}
+                onChange={(e) => setQuickMsg(e.target.value)}
+                placeholder={locale === "en" ? "Short message or collaboration..." : "Pesan singkat atau tawaran kerja sama..."}
+                className="w-full px-2.5 py-1.5 text-xs rounded-lg bg-white dark:bg-white/[0.05] border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:border-blue-500 font-sans resize-none"
+              />
+              <div className="flex items-center gap-2 pt-0.5">
+                <a
+                  href={`https://wa.me/6285945720329?text=${encodeURIComponent(
+                    `Halo Muhamad Hafis Ali,\n\nNama/Instansi: ${senderName || "(Tamu Portofolio)"}\nPesan: ${quickMsg || "Saya tertarik untuk berdiskusi mengenai peluang kerja sama."}`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 py-1.5 px-2.5 rounded-lg bg-[#25D366] hover:bg-[#20bd5a] text-white text-[11px] font-mono font-bold flex items-center justify-center gap-1 shadow-xs active:scale-95 transition-all cursor-pointer"
+                >
+                  <svg className="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
+                  </svg>
+                  <span>WhatsApp</span>
+                </a>
+                <a
+                  href={`mailto:${email}?subject=${encodeURIComponent(
+                    `Inkuiri Portofolio - ${senderName || "Tamu"}`
+                  )}&body=${encodeURIComponent(quickMsg || "Halo Hafis,\n\nSaya tertarik untuk berdiskusi lebih lanjut.")}`}
+                  className="flex-1 py-1.5 px-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-mono font-bold flex items-center justify-center gap-1 shadow-xs active:scale-95 transition-all cursor-pointer"
+                >
+                  <span>Email</span>
+                </a>
+              </div>
+            </div>
+
             <div className="flex items-center gap-2">
-              <a
-                href={`mailto:${email}`}
-                className="flex-1 py-2.5 sm:py-3 px-3 sm:px-4 text-center rounded-xl sm:rounded-2xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-mono font-semibold transition-all shadow-sm active:scale-95"
-              >
-                {t.contact.sendDirectEmail}
-              </a>
               <button
                 type="button"
                 onClick={handleCopy}
-                className="px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-gray-100 hover:bg-gray-200 dark:bg-white/[0.06] dark:hover:bg-white/[0.1] text-gray-800 dark:text-gray-200 text-xs font-mono font-medium transition-all active:scale-95 cursor-pointer flex items-center gap-1.5 shrink-0"
+                className="w-full px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-white/[0.06] dark:hover:bg-white/[0.1] text-gray-800 dark:text-gray-200 text-xs font-mono font-medium transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-1.5"
                 title={t.contact.copyEmail}
               >
                 {copied ? (
@@ -184,7 +227,7 @@ export default function ContactDrawer({ profile = {} }) {
               </button>
             </div>
 
-            <div className="pt-3 border-t border-gray-100 dark:border-white/[0.06] flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-gray-400">
+            <div className="pt-2 border-t border-gray-100 dark:border-white/[0.06] flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-gray-400">
               <span>Jakarta, Indonesia</span>
               <span>GMT+7 (WIB)</span>
             </div>

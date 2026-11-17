@@ -309,6 +309,23 @@ export const defaultProjects = [
     githubUrl: "https://github.com/mhmdhfisali",
     techStack: ["Flutter", "Dart", "Firebase", "Google Maps API", "REST API", "Android"],
     featuredOrder: 5,
+    impactMetrics: [
+      {
+        value: "< 5 Meter",
+        label: "Presisi radius geofencing GPS anti-mock location",
+        labelEn: "GPS geofencing radius precision with anti-spoofing",
+      },
+      {
+        value: "99.8%",
+        label: "Tingkat keberhasilan presensi real-time via Firebase sync",
+        labelEn: "Real-time attendance success rate via Firebase sync",
+      },
+      {
+        value: "< 1.5 Detik",
+        label: "Waktu verifikasi foto selfie dan pencatatan log presensi",
+        labelEn: "Selfie photo verification & attendance log write latency",
+      },
+    ],
     caseStudyPhases: [
       {
         phaseName: "Fase 01",
