@@ -10,7 +10,42 @@ export default function GitHubActivity({ username = "mhmdhfisali" }) {
   const [loading, setLoading] = useState(false);
   const [syncing, setSyncing] = useState(false);
   const [hoveredDay, setHoveredDay] = useState(null);
-  const [repos, setRepos] = useState([]);
+  const initialRepos = [
+    {
+      id: 1,
+      name: "datahub",
+      html_url: `https://github.com/${username}/datahub`,
+      description: "Data integration and processing pipeline hub",
+      language: "PHP",
+      stargazers_count: 0,
+    },
+    {
+      id: 2,
+      name: "wa-bridge",
+      html_url: `https://github.com/${username}/wa-bridge`,
+      description: "WhatsApp automation and notification bridge",
+      language: "TypeScript",
+      stargazers_count: 0,
+    },
+    {
+      id: 3,
+      name: "my-docker-dashboard",
+      html_url: `https://github.com/${username}/my-docker-dashboard`,
+      description: "Container monitoring and service health visualizer",
+      language: "HTML",
+      stargazers_count: 0,
+    },
+    {
+      id: 4,
+      name: "ARTEA-Ops",
+      html_url: `https://github.com/${username}/ARTEA-Ops`,
+      description: "Automated workflow and operational scripts",
+      language: "Shell",
+      stargazers_count: 0,
+    },
+  ];
+
+  const [repos, setRepos] = useState(initialRepos);
   const scrollRef = useRef(null);
 
   const fetchContributions = async (isManualSync = false) => {
@@ -51,7 +86,7 @@ export default function GitHubActivity({ username = "mhmdhfisali" }) {
   const fetchRepos = async () => {
     try {
       const res = await fetch(
-        `https://api.github.com/users/${username}/repos?sort=updated&per_page=3`
+        `https://api.github.com/users/${username}/repos?sort=updated&per_page=4`
       );
       if (res.ok) {
         const json = await res.json();
@@ -449,85 +484,74 @@ export default function GitHubActivity({ username = "mhmdhfisali" }) {
         </div>
       </div>
 
-      {/* Private Commits Info Box & Recent Repositories */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5">
-        {/* Info Box: Mengapa commit privat perlu dicentang di profil GitHub */}
-        <div className="lg:col-span-6 p-4 sm:p-5 rounded-2xl bg-cyan-500/[0.05] dark:bg-cyan-950/20 border border-cyan-500/20 rounded-2xl sm:rounded-3xl space-y-2.5">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 text-xs font-mono font-bold text-cyan-600 dark:text-cyan-300">
-              <svg className="w-4 h-4 shrink-0 text-cyan-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span>{t.github?.privateTitle || "Sinkronisasi Repositori Privat"}</span>
-            </div>
-            <a
-              href="https://github.com/settings/profile"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[10px] font-mono text-cyan-600 dark:text-cyan-400 hover:underline inline-flex items-center gap-1 font-semibold"
-            >
-              <span>GitHub Settings</span>
-              <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </a>
-          </div>
-          <p className="text-[11px] sm:text-xs text-gray-600 dark:text-gray-300 leading-relaxed font-sans line-clamp-2 sm:line-clamp-none">
-            {t.github?.privateNotice}
-          </p>
-        </div>
-
-        {/* Live Active Repositories */}
-        <div className="lg:col-span-6 p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/85 dark:bg-[#151923]/70 border border-gray-200/90 dark:border-white/[0.08] backdrop-blur-md space-y-2.5">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-gray-400">
+      {/* Live Active Repositories */}
+      <div className="p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/85 dark:bg-[#151923]/70 border border-gray-200/90 dark:border-white/[0.08] backdrop-blur-md space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
               {locale === "en" ? "Recent Active Repositories" : "Repositori Aktif Terkini"}
             </span>
-            <a
-              href={`https://github.com/${username}?tab=repositories`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[10px] font-mono text-cyan-600 dark:text-cyan-400 hover:underline inline-flex items-center gap-0.5"
-            >
-              <span>{t.github?.viewAllRepos || "Lihat Semua"}</span>
-              <svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </a>
           </div>
+          <a
+            href={`https://github.com/${username}?tab=repositories`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[11px] font-mono text-cyan-600 dark:text-cyan-400 hover:underline inline-flex items-center gap-1 font-semibold"
+          >
+            <span>{t.github?.viewAllRepos || "Lihat Semua"}</span>
+            <svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-            {repos.length > 0 ? (
-              repos.slice(0, 3).map((r) => (
-                <a
-                  key={r.id}
-                  href={r.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2.5 rounded-xl bg-gray-50 dark:bg-white/[0.03] border border-gray-200/60 dark:border-white/[0.06] hover:border-cyan-500/40 transition-colors block text-left group"
-                >
-                  <span className="text-xs font-mono font-bold text-gray-900 dark:text-white truncate block group-hover:text-cyan-400">
-                    {r.name}
-                  </span>
-                  <div className="flex items-center gap-2 mt-1 text-[9px] font-mono text-gray-400">
-                    <span>{r.language || "Code"}</span>
-                    {r.stargazers_count > 0 && (
-                      <span className="flex items-center gap-0.5 text-amber-500">
-                        <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
-                          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                        </svg>
-                        <span>{r.stargazers_count}</span>
-                      </span>
-                    )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+          {repos.length > 0 ? (
+            repos.slice(0, 4).map((r) => (
+              <a
+                key={r.id}
+                href={r.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 rounded-xl sm:rounded-2xl bg-gray-50/80 dark:bg-white/[0.03] border border-gray-200/60 dark:border-white/[0.06] hover:border-cyan-500/40 hover:-translate-y-0.5 transition-all flex flex-col justify-between text-left group"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-1 mb-1">
+                    <span className="text-xs font-mono font-bold text-gray-900 dark:text-white truncate block group-hover:text-cyan-400">
+                      {r.name}
+                    </span>
+                    <svg className="w-3 h-3 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
                   </div>
-                </a>
-              ))
-            ) : (
-              <div className="col-span-3 text-center py-3 text-[11px] font-mono text-gray-400">
-                Memuat repositori aktif...
-              </div>
-            )}
-          </div>
+                  {r.description && (
+                    <p className="text-[11px] text-gray-500 dark:text-gray-400 line-clamp-1 mb-2 font-sans">
+                      {r.description}
+                    </p>
+                  )}
+                </div>
+                <div className="flex items-center justify-between mt-2 pt-1.5 text-[10px] font-mono text-gray-400 border-t border-gray-100 dark:border-white/[0.04]">
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                    <span>{r.language || "Code"}</span>
+                  </span>
+                  {r.stargazers_count > 0 && (
+                    <span className="flex items-center gap-0.5 text-amber-500">
+                      <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
+                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                      </svg>
+                      <span>{r.stargazers_count}</span>
+                    </span>
+                  )}
+                </div>
+              </a>
+            ))
+          ) : (
+            <div className="col-span-4 text-center py-3 text-[11px] font-mono text-gray-400">
+              Memuat repositori aktif...
+            </div>
+          )}
         </div>
       </div>
     </div>
