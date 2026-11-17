@@ -89,12 +89,22 @@ export const metadata: Metadata = {
     locale: "id_ID",
     alternateLocale: ["en_US"],
     type: "profile",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Muhamad Hafis Ali | Fullstack Developer & Mobile Developer",
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Muhamad Hafis Ali | Fullstack Developer & Mobile Developer",
     description:
       "Portofolio rekayasa perangkat lunak, sistem industri SMII, absolutestore.id, dan riset teknologi oleh Muhamad Hafis Ali.",
+    images: ["/og-image.png"],
     creator: "@mhmdhfisali",
   },
   verification: {
