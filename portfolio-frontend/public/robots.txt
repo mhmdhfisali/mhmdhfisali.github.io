@@ -1,0 +1,7 @@
+# Robots.txt for Muhamad Hafis Ali Portfolio
+# https://mhmdhfisali.github.io/
+
+User-agent: *
+Allow: /
+
+Sitemap: https://mhmdhfisali.github.io/sitemap.xml

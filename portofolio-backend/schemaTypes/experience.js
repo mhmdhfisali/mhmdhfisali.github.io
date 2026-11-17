@@ -1,13 +1,21 @@
+import {ExperienceIcon} from '../icons'
+
 export default {
   name: 'experience',
   title: 'Pengalaman Kerja & Organisasi',
   type: 'document',
+  icon: ExperienceIcon,
   fields: [
     {
       name: 'jobTitle',
-      title: 'Posisi / Jabatan',
+      title: 'Posisi / Jabatan (Bahasa Indonesia)',
       type: 'string',
       validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'jobTitleEn',
+      title: 'Job Title / Position (English)',
+      type: 'string',
     },
     {
       name: 'company',
@@ -34,10 +42,23 @@ export default {
     },
     {
       name: 'description',
-      title: 'Ringkasan Tanggung Jawab & Dampak',
+      title: 'Ringkasan Tanggung Jawab & Dampak (Bahasa Indonesia)',
       type: 'text',
       rows: 4,
       validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'descriptionEn',
+      title: 'Responsibilities & Impact Summary (English)',
+      type: 'text',
+      rows: 4,
+    },
+    {
+      name: 'highlights',
+      title: 'Poin-Poin Pencapaian Kunci (Highlights)',
+      type: 'array',
+      of: [{type: 'string'}],
+      description: 'Misal: "Mengembangkan modul PPIC otomatisasi jadwal pabrik"',
     },
   ],
   preview: {

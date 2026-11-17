@@ -1,6 +1,7 @@
 import Certifications from "@/components/Certifications";
 import ContactDrawer from "@/components/ContactDrawer";
 import ExperienceEducation from "@/components/ExperienceEducation";
+import Footer from "@/components/Footer";
 import GitHubActivity from "@/components/GitHubActivity";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
@@ -8,34 +9,66 @@ import Posts from "@/components/Posts";
 import Projects from "@/components/Projects";
 import ScrollReveal from "@/components/ScrollReveal";
 import Skills from "@/components/Skills";
+import { defaultProjects } from "@/lib/defaultProjects";
+import {
+  fallbackCertifications,
+  fallbackEducations,
+  fallbackExperiences,
+  fallbackPosts,
+  fallbackProfile,
+  fallbackSkills,
+} from "@/lib/fallbackData";
 import { client } from "@/sanity";
 
 export const dynamic = "force-static";
 
+async function safeFetch<T>(
+  query: string,
+  fallbackValue: T,
+  options: any = {},
+  timeoutMs: number = 3500
+): Promise<T> {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    const result = await client.fetch(query, {}, {
+      ...options,
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+    return result || fallbackValue;
+  } catch {
+    // If network drops, DNS fails, or connection times out, seamlessly return fallback
+    return fallbackValue;
+  }
+}
+
 async function getData() {
-  const fetchOptions = { next: { revalidate: 0 } };
+  const fetchOptions = { next: { revalidate: 60 } };
 
   const profileQuery = `*[_type == "profile"] | order(_updatedAt desc)[0]`;
   const projectsQuery = `*[_type == "project"] | order(featuredOrder asc, _createdAt desc){
-    ...,
-    thumbnail{ ..., asset-> },
-    caseStudyPhases[]{ ..., previewImage{ ..., asset-> } }
-  }`;
+        ...,
+        thumbnail{ ..., asset-> },
+        caseStudyPhases[]{ ..., previewImage{ ..., asset-> } },
+        galleryImages[]{ ..., asset-> }
+    }`;
   const skillsQuery = `*[_type == "skill"]`;
   const experiencesQuery = `*[_type == "experience"] | order(startDate desc)`;
   const certificationsQuery = `*[_type == "certification"] | order(order asc, _createdAt desc){
-    ...,
-    images[]{
-      ...,
-      asset->
-    }
-  }`;
+        ...,
+        images[]{
+            ...,
+            asset->
+        }
+    }`;
   const educationsQuery = `*[_type == "education"] | order(startDate desc)`;
 
   const postsQuery = `*[_type == "post"] | order(publishedAt desc){
-    ...,
-    "link": coalesce(externalUrl, link, tautanEksternal, "")
-  }`;
+        ...,
+        "link": coalesce(externalUrl, link, tautanEksternal, "")
+    }`;
 
   const [
     profile,
@@ -46,23 +79,36 @@ async function getData() {
     educations,
     posts,
   ] = await Promise.all([
-    client.fetch(profileQuery, {}, fetchOptions),
-    client.fetch(projectsQuery, {}, fetchOptions),
-    client.fetch(skillsQuery, {}, fetchOptions),
-    client.fetch(experiencesQuery, {}, fetchOptions),
-    client.fetch(certificationsQuery, {}, fetchOptions),
-    client.fetch(educationsQuery, {}, fetchOptions),
-    client.fetch(postsQuery, {}, fetchOptions),
+    safeFetch(profileQuery, fallbackProfile, fetchOptions),
+    safeFetch(projectsQuery, defaultProjects, fetchOptions),
+    safeFetch(skillsQuery, fallbackSkills, fetchOptions),
+    safeFetch(experiencesQuery, fallbackExperiences, fetchOptions),
+    safeFetch(certificationsQuery, fallbackCertifications, fetchOptions),
+    safeFetch(educationsQuery, fallbackEducations, fetchOptions),
+    safeFetch(postsQuery, fallbackPosts, fetchOptions),
   ]);
 
   return {
-    profile,
-    projects,
-    skills,
-    experiences,
-    certifications,
-    educations,
-    posts,
+    profile: profile || fallbackProfile,
+    projects:
+      Array.isArray(projects) && projects.length > 0
+        ? projects
+        : defaultProjects,
+    skills:
+      Array.isArray(skills) && skills.length > 0 ? skills : fallbackSkills,
+    experiences:
+      Array.isArray(experiences) && experiences.length > 0
+        ? experiences
+        : fallbackExperiences,
+    certifications:
+      Array.isArray(certifications) && certifications.length > 0
+        ? certifications
+        : fallbackCertifications,
+    educations:
+      Array.isArray(educations) && educations.length > 0
+        ? educations
+        : fallbackEducations,
+    posts: Array.isArray(posts) && posts.length > 0 ? posts : fallbackPosts,
   };
 }
 
@@ -77,25 +123,69 @@ export default async function Home() {
     posts,
   } = await getData();
 
-  const heroSectionClass =
-    "min-h-screen w-full flex items-center justify-center pt-24 pb-16 scroll-mt-24";
-  const contentSectionClass =
-    "min-h-screen w-full block pt-6 pb-24 scroll-mt-[96px]";
-
   const githubUsername = profile?.githubUrl
     ? profile.githubUrl.replace(/\/$/, "").split("/").pop()
     : "mhmdhfisali";
 
+  // Merge Sanity projects with default comprehensive projects
+  const sanityProjects = Array.isArray(projects) ? projects : [];
+  const mergedProjects = [...defaultProjects];
+
+  sanityProjects.forEach((sp) => {
+    const existingIdx = mergedProjects.findIndex(
+      (dp) =>
+        dp._id === sp._id ||
+        (dp.title &&
+          sp.title &&
+          dp.title.toLowerCase().includes(sp.title.toLowerCase().slice(0, 15))),
+    );
+    if (existingIdx !== -1) {
+      mergedProjects[existingIdx] = {
+        ...mergedProjects[existingIdx],
+        ...sp,
+        projectType: sp.projectType || mergedProjects[existingIdx].projectType,
+        company: sp.company || mergedProjects[existingIdx].company,
+        deploymentStatus:
+          sp.deploymentStatus || mergedProjects[existingIdx].deploymentStatus,
+        caseStudyPhases:
+          sp.caseStudyPhases && sp.caseStudyPhases.length > 0
+            ? sp.caseStudyPhases
+            : mergedProjects[existingIdx].caseStudyPhases,
+        impactMetrics:
+          sp.impactMetrics && sp.impactMetrics.length > 0
+            ? sp.impactMetrics
+            : mergedProjects[existingIdx].impactMetrics,
+        galleryImages:
+          sp.galleryImages && sp.galleryImages.length > 0
+            ? sp.galleryImages
+            : mergedProjects[existingIdx].galleryImages,
+      };
+    } else {
+      mergedProjects.push(sp);
+    }
+  });
+
+  // Sort by featuredOrder asc
+  mergedProjects.sort(
+    (a, b) => (a.featuredOrder || 99) - (b.featuredOrder || 99),
+  );
+
+  // CLASS RESPONSIVE: Padding proporsional & rapat di mobile (tanpa gap kosong raksasa), lapang di desktop
+  const heroSectionClass =
+    "w-full flex items-center justify-center pt-20 sm:pt-32 pb-6 sm:pb-16 sm:min-h-screen scroll-mt-20";
+  const contentSectionClass =
+    "w-full block py-5 sm:pt-20 sm:pb-24 scroll-mt-20";
+
   return (
     <div className="relative min-h-screen bg-background text-foreground selection:bg-blue-600 selection:text-white font-sans antialiased overflow-x-hidden transition-colors duration-300">
-      {/* Dynamic Ambient Background Glow */}
+      {/* Background Glow */}
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] sm:w-[900px] h-[450px] bg-gradient-to-b from-blue-600/15 via-cyan-500/10 to-transparent blur-[120px] dark:opacity-70 opacity-30 rounded-full" />
       </div>
 
       <Navbar profile={profile} />
 
-      <main className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
+      <main className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8 space-y-2 sm:space-y-0">
         {/* 1. SEKSI BERANDA */}
         <section id="beranda" className={heroSectionClass}>
           <ScrollReveal direction="converge" delay={100} className="w-full">
@@ -111,10 +201,7 @@ export default async function Home() {
         </section>
 
         {/* 2.5 SEKSI GITHUB ACTIVITY */}
-        <section
-          id="github"
-          className="w-full block pt-2 pb-24 scroll-mt-[96px]"
-        >
+        <section id="github" className={contentSectionClass}>
           <ScrollReveal direction="up" delay={60} className="w-full">
             <GitHubActivity username={githubUsername} />
           </ScrollReveal>
@@ -123,7 +210,7 @@ export default async function Home() {
         {/* 3. SEKSI PROYEK */}
         <section id="projects" className={contentSectionClass}>
           <ScrollReveal direction="converge" delay={80} className="w-full">
-            <Projects projects={projects} />
+            <Projects projects={mergedProjects} />
           </ScrollReveal>
         </section>
 
@@ -145,7 +232,10 @@ export default async function Home() {
         </section>
 
         {/* 6. SEKSI ARTIKEL */}
-        <section id="posts" className={contentSectionClass}>
+        <section
+          id="posts"
+          className="w-full flex flex-col justify-center py-6 sm:pt-24 sm:pb-36 sm:min-h-[85vh] scroll-mt-20"
+        >
           <ScrollReveal direction="scale" delay={80} className="w-full">
             <Posts posts={posts} />
           </ScrollReveal>
@@ -154,7 +244,7 @@ export default async function Home() {
         {/* 7. SEKSI KONTAK */}
         <section
           id="kontak"
-          className="w-full block pt-6 pb-6 scroll-mt-[96px]"
+          className="w-full flex flex-col justify-center py-6 sm:pt-32 sm:pb-28 sm:min-h-[75vh] scroll-mt-20"
         >
           <ScrollReveal direction="up" delay={50} className="w-full">
             <ContactDrawer profile={profile} />
@@ -162,34 +252,8 @@ export default async function Home() {
         </section>
       </main>
 
-      {/* FOOTER */}
-      <footer className="relative z-10 w-full border-t border-gray-200/60 dark:border-white/[0.08] mt-4 pt-6 pb-12 px-4 sm:px-6 md:px-8">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-gray-500 dark:text-gray-400">
-          <div className="flex flex-wrap items-center gap-3 sm:pl-28">
-            <span className="font-semibold text-gray-800 dark:text-gray-200">
-              {profile?.name || "Muhamad Hafis Ali"}
-            </span>
-            <span className="text-gray-300 dark:text-white/20">•</span>
-            <span>Jakarta, Indonesia</span>
-            <span className="text-gray-300 dark:text-white/20">•</span>
-            <span className="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Tersedia untuk Pekerjaan
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 sm:pr-14">
-            <span>© {new Date().getFullYear()}</span>
-            <a
-              href="#beranda"
-              className="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors inline-flex items-center gap-1 py-1 px-2 rounded-md hover:bg-gray-100 dark:hover:bg-white/[0.04]"
-            >
-              <span>Atas</span>
-              <span>↑</span>
-            </a>
-          </div>
-        </div>
-      </footer>
+      {/* FOOTER BILINGUAL */}
+      <Footer profile={profile} />
     </div>
   );
 }

@@ -1,7 +1,10 @@
+import {EducationIcon} from '../icons'
+
 export default {
   name: 'education',
   title: 'Riwayat Pendidikan',
   type: 'document',
+  icon: EducationIcon,
   fields: [
     {
       name: 'degree',

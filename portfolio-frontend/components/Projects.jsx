@@ -1,146 +1,246 @@
 "use client";
 
+import { useLanguage } from "@/context/LanguageContext";
 import { urlFor } from "@/sanity";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ProjectModal from "./ProjectModal";
 
 function ProjectCard({ project, isActive, onClick }) {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const { locale, t } = useLanguage();
 
-  const handleMouseMove = (e) => {
-    if (!isActive) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 8;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -8;
-    setTilt({ x, y });
+  const title = locale === "en" && project.titleEn ? project.titleEn : project.title;
+  const summary = locale === "en" && project.summaryEn ? project.summaryEn : project.summary;
+  const role = locale === "en" && project.roleEn ? project.roleEn : project.role;
+
+  const isCompany = project.projectType === "company";
+  const isInternal = project.deploymentStatus === "internal";
+  const isLive = project.deploymentStatus === "live";
+  const isResearch = project.deploymentStatus === "research";
+
+  const formatCategory = (cat = "") => {
+    const c = cat.toLowerCase();
+    if (c === "web") return "Web App";
+    if (c === "mobile") return "Mobile App";
+    if (c === "system") return "System & Architecture";
+    return cat;
   };
-
-  const handleMouseLeave = () => setTilt({ x: 0, y: 0 });
 
   return (
     <div
       onClick={onClick}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        transform: isActive
-          ? `perspective(1000px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`
-          : undefined,
-        transition: "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick();
+        }
       }}
-      className={`relative flex flex-col justify-between rounded-3xl overflow-hidden cursor-pointer backdrop-blur-md transition-all duration-500 h-full select-none ${
+      className={`relative flex flex-col justify-between rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer backdrop-blur-md transition-all duration-300 h-full select-none outline-none ${
         isActive
-          ? "bg-white/95 dark:bg-[#151923]/95 border-2 border-cyan-400/80 dark:border-cyan-400 shadow-2xl shadow-cyan-500/25 ring-4 ring-cyan-500/20"
-          : "bg-white/60 dark:bg-[#12161f]/50 border border-gray-200/60 dark:border-white/[0.05] hover:border-gray-300 dark:hover:border-white/20 shadow-xs"
+          ? "bg-white/95 dark:bg-[#151923]/95 border-2 border-cyan-400 dark:border-cyan-400 shadow-xl shadow-cyan-500/20 ring-2 sm:ring-4 ring-cyan-500/20"
+          : "bg-white/60 dark:bg-[#12161f]/50 border border-gray-200/70 dark:border-white/[0.06] hover:border-gray-300 dark:hover:border-white/20 shadow-xs"
       }`}
     >
-      {/* Thumbnail Header */}
-      <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-100/90 dark:bg-[#0c0f17] border-b border-gray-100 dark:border-white/[0.06] flex items-center justify-center p-2.5">
+      {/* Thumbnail Header: Rasio Ergonomis di HP */}
+      <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] overflow-hidden bg-gray-100/90 dark:bg-[#0c0f17] border-b border-gray-100 dark:border-white/[0.06] flex items-center justify-center p-1.5 sm:p-2.5 pointer-events-none">
         {project.thumbnail ? (
           <>
             <img
               src={urlFor(project.thumbnail).url()}
               alt=""
               aria-hidden="true"
-              className={`absolute inset-0 w-full h-full object-cover blur-xl pointer-events-none scale-110 transition-opacity duration-500 ${
+              className={`absolute inset-0 w-full h-full object-cover blur-xl scale-110 transition-opacity duration-300 ${
                 isActive ? "opacity-35 dark:opacity-45" : "opacity-15"
               }`}
             />
             <img
               src={urlFor(project.thumbnail).url()}
-              alt={project.title}
-              className={`relative z-10 max-h-full max-w-full w-auto h-auto object-contain rounded-lg shadow-sm transition-transform duration-500 ${
-                isActive ? "scale-[1.03]" : "scale-95"
+              alt={title || "Project Preview"}
+              className={`relative z-10 max-h-full max-w-full w-auto h-auto object-contain rounded-md sm:rounded-lg shadow-sm transition-transform duration-300 ${
+                isActive ? "scale-[1.02]" : "scale-95"
               }`}
             />
           </>
         ) : (
-          <div className="w-full h-full flex items-center justify-center font-mono text-xs text-gray-400">
-            Preview Media Tidak Tersedia
+          <div className="relative w-full h-full flex flex-col items-center justify-center p-3 sm:p-4 text-center overflow-hidden rounded-md sm:rounded-lg bg-gradient-to-br from-blue-950/40 via-cyan-950/20 to-slate-900 border border-white/5">
+            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:12px_12px]" />
+            <div className="relative z-10 flex flex-col items-center space-y-1">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
+                {isCompany ? (
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                ) : isLive ? (
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                ) : (
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                  </svg>
+                )}
+              </div>
+              <span className="font-mono font-bold text-[9px] sm:text-xs text-cyan-300 tracking-wider uppercase truncate max-w-[200px]">
+                {isCompany ? (project.company || "PT Sinar Meadow Int. Indonesia") : "Personal Project"}
+              </span>
+              <span className="text-[8px] sm:text-[9px] font-mono text-gray-400 truncate max-w-[180px]">
+                {title}
+              </span>
+            </div>
           </div>
         )}
 
-        {/* Status Badge */}
-        <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between z-20 pointer-events-none">
-          {isActive ? (
-            <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-[9px] font-mono font-bold px-2.5 py-0.5 rounded-lg shadow-md shadow-cyan-500/30 animate-pulse">
-              ★ Ditinjau
+        {/* Badge Status Ringkas */}
+        <div className="absolute top-1.5 inset-x-1.5 sm:top-2.5 sm:inset-x-2.5 flex items-center justify-between z-20">
+          {isCompany ? (
+            <span className="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[7px] sm:text-[9px] font-mono font-bold px-1.5 py-0.5 rounded sm:rounded-lg shadow-sm flex items-center gap-1">
+              <svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+              <span>{project.company ? (project.company.includes("Sinar Meadow") ? "SMII" : project.company.split(" ").slice(0, 2).join(" ")) : "SMII"}</span>
+            </span>
+          ) : isLive ? (
+            <span className="bg-gradient-to-r from-emerald-600 to-teal-500 text-white text-[7px] sm:text-[9px] font-mono font-bold px-1.5 py-0.5 rounded sm:rounded-lg shadow-sm flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              <span>LIVE</span>
+            </span>
+          ) : isActive ? (
+            <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-[7px] sm:text-[9px] font-mono font-bold px-1.5 py-0.5 rounded sm:rounded-lg shadow-sm">
+              {t.projects.reviewedBadge}
             </span>
           ) : (
             <span />
           )}
 
-          {project.role && (
-            <span className="bg-black/75 dark:bg-[#10131a]/85 backdrop-blur-md px-2 py-0.5 rounded-lg border border-white/10 text-[9px] font-mono text-white dark:text-cyan-300 font-semibold shadow-xs">
-              {project.role}
+          {role && (
+            <span className="bg-black/75 dark:bg-[#10131a]/85 backdrop-blur-md px-1.5 py-0.5 rounded sm:rounded-lg border border-white/10 text-[7px] sm:text-[9px] font-mono text-white dark:text-cyan-300 font-semibold truncate max-w-[120px] sm:max-w-[150px]">
+              {role}
             </span>
           )}
         </div>
 
-        <div className="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-black/20 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 bottom-0 h-4 sm:h-6 bg-gradient-to-t from-black/20 to-transparent z-10" />
       </div>
 
-      {/* Konten Body */}
-      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4 text-left">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
+      {/* Body Konten */}
+      <div className="p-2.5 sm:p-5 flex-1 flex flex-col justify-between space-y-2 sm:space-y-3 text-left pointer-events-none">
+        <div className="space-y-1 sm:space-y-1.5">
+          <div className="flex flex-wrap items-center gap-1.5">
+            {project.category && (
+              <div className="flex items-center gap-1">
+                <span
+                  className={`w-1.5 h-1.5 rounded-full ${
+                    isActive ? "bg-cyan-400" : "bg-gray-400"
+                  }`}
+                />
+                <span className="text-[8px] sm:text-[10px] font-mono uppercase tracking-wider text-gray-400">
+                  {formatCategory(project.category)}
+                </span>
+              </div>
+            )}
+
+            <span className="text-gray-300 dark:text-white/20 text-[8px]">•</span>
+
+            {/* Deployment badge */}
             <span
-              className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                isActive ? "bg-cyan-400 animate-ping" : "bg-gray-400"
+              className={`text-[7px] sm:text-[9px] font-mono px-1 py-0.5 rounded border inline-flex items-center gap-1 ${
+                isInternal
+                  ? "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20"
+                  : isLive
+                  ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20"
+                  : "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20"
               }`}
-            />
-            <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400">
-              {project.category || "Software Project"}
+            >
+              {isInternal ? (
+                <>
+                  <svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                  <span>Internal</span>
+                </>
+              ) : isLive ? (
+                <>
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>Live</span>
+                </>
+              ) : isResearch ? (
+                <>
+                  <svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <span>Riset</span>
+                </>
+              ) : (
+                <span>Dev</span>
+              )}
             </span>
           </div>
 
           <h3
-            className={`text-base sm:text-lg font-black tracking-tight transition-colors line-clamp-1 ${
+            className={`text-xs sm:text-base font-bold tracking-tight transition-colors line-clamp-1 ${
               isActive
                 ? "text-blue-600 dark:text-cyan-300"
                 : "text-gray-900 dark:text-white"
             }`}
           >
-            {project.title}
+            {title}
           </h3>
 
-          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2">
-            {project.summary ||
-              "Deskripsi implementasi arsitektur perangkat lunak dan fitur sistem."}
-          </p>
+          {summary && (
+            <p className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2">
+              {summary}
+            </p>
+          )}
         </div>
 
         {/* Tech Stack & Action Link */}
-        <div className="pt-3 border-t border-gray-100 dark:border-white/[0.06] space-y-3">
-          <div className="flex flex-wrap gap-1.5">
-            {project.techStack?.slice(0, 3).map((tech, i) => (
-              <span
-                key={i}
-                className="bg-gray-100 dark:bg-white/[0.05] text-gray-700 dark:text-gray-300 text-[10px] px-2 py-0.5 rounded-md font-mono border border-gray-200/70 dark:border-white/[0.06]"
-              >
-                {tech}
-              </span>
-            ))}
-            {project.techStack?.length > 3 && (
-              <span className="text-[10px] font-mono text-gray-400 py-0.5 px-1">
-                +{project.techStack.length - 3}
-              </span>
-            )}
-          </div>
+        <div className="pt-1.5 sm:pt-3 border-t border-gray-100 dark:border-white/[0.06] space-y-1.5 sm:space-y-2">
+          {project.techStack?.length > 0 && (
+            <div className="flex flex-wrap gap-1">
+              {project.techStack.slice(0, 3).map((tech, i) => (
+                <span
+                  key={i}
+                  className="bg-gray-100 dark:bg-white/[0.05] text-gray-700 dark:text-gray-300 text-[8px] sm:text-[10px] px-1 sm:px-1.5 py-0.5 rounded font-mono border border-gray-200/70 dark:border-white/[0.06]"
+                >
+                  {tech}
+                </span>
+              ))}
+              {project.techStack.length > 3 && (
+                <span className="text-[8px] sm:text-[9px] font-mono text-gray-400 py-0.5 px-0.5">
+                  +{project.techStack.length - 3}
+                </span>
+              )}
+            </div>
+          )}
 
-          <div className="flex items-center justify-between text-xs font-mono font-semibold pt-1">
+          <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-mono font-semibold pt-0.5">
             <span
-              className={`inline-flex items-center gap-1.5 transition-colors ${
+              className={`inline-flex items-center gap-1 transition-colors ${
                 isActive
                   ? "text-blue-600 dark:text-cyan-400 font-bold"
                   : "text-gray-400"
               }`}
             >
-              {isActive ? "Buka Studi Kasus →" : "Pilih Kartu"}
+              {isActive ? t.projects.viewCaseStudy : t.projects.projectDetail}
             </span>
-            <span className="text-[10px] font-mono text-gray-400 font-normal">
-              {isActive ? "Focused" : "Tap"}
-            </span>
+
+            {isCompany && (
+              <span className="text-[8px] sm:text-[9px] font-mono text-amber-600 dark:text-amber-400 font-semibold truncate max-w-[100px] sm:max-w-[130px] inline-flex items-center gap-1">
+                <svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+                <span>{project.company ? (project.company.includes("Sinar Meadow") ? "SMII" : project.company) : "SMII"}</span>
+              </span>
+            )}
+            {!isCompany && project.demoUrl && (
+              <span className="text-[8px] sm:text-[9px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold inline-flex items-center gap-0.5">
+                <span>live</span>
+                <svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -149,8 +249,11 @@ function ProjectCard({ project, isActive, onClick }) {
 }
 
 export default function Projects({ projects = [] }) {
+  const { t } = useLanguage();
   const [selectedProject, setSelectedProject] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [projectTypeFilter, setProjectTypeFilter] = useState("all");
+  const [selectedCompany, setSelectedCompany] = useState("all");
   const [filter, setFilter] = useState("all");
   const [layoutMode, setLayoutMode] = useState("carousel");
   const [activeIndex, setActiveIndex] = useState(0);
@@ -159,48 +262,72 @@ export default function Projects({ projects = [] }) {
   const carouselRef = useRef(null);
   const cardRefs = useRef([]);
 
-  const tabs = useMemo(() => {
-    const rawCategories = projects
-      .map((p) => p.category?.trim())
-      .filter(Boolean);
-    const unique = Array.from(new Set(rawCategories));
-
-    if (unique.length > 0) {
-      return [
-        { id: "all", label: "Semua Proyek" },
-        ...unique.map((cat) => ({ id: cat.toLowerCase(), label: cat })),
-      ];
-    }
-
-    return [
-      { id: "all", label: "Semua Proyek" },
-      { id: "web", label: "Web App" },
-      { id: "mobile", label: "Mobile" },
-      { id: "system", label: "System & AI" },
-    ];
+  // Ekstraksi daftar unik perusahaan secara dinamis untuk skalabilitas jangka panjang
+  const availableCompanies = useMemo(() => {
+    const set = new Set();
+    projects.forEach((p) => {
+      if (p.projectType === "company" && p.company?.trim()) {
+        set.add(p.company.trim());
+      }
+    });
+    return Array.from(set);
   }, [projects]);
+
+  const companyProjectsCount = useMemo(() => {
+    return projects.filter((p) => p.projectType === "company").length;
+  }, [projects]);
+
+  const typeTabs = useMemo(() => {
+    return [
+      { id: "all", label: t.projects.typeFilter.all, type: "all" },
+      { id: "company", label: t.projects.typeFilter.company, type: "company" },
+      { id: "personal", label: t.projects.typeFilter.personal, type: "personal" },
+    ];
+  }, [t]);
+
+  const categoryTabs = useMemo(() => {
+    return [
+      { id: "all", label: t.projects.categoryFilter.all },
+      { id: "web", label: t.projects.categoryFilter.web },
+      { id: "mobile", label: t.projects.categoryFilter.mobile },
+      { id: "system", label: t.projects.categoryFilter.system },
+    ];
+  }, [t]);
 
   const filteredProjects = useMemo(() => {
     return projects.filter((p) => {
+      // 1. Filter project type (company vs personal)
+      const matchesType =
+        projectTypeFilter === "all"
+          ? true
+          : projectTypeFilter === "company"
+          ? p.projectType === "company"
+          : p.projectType === "personal" || (!p.projectType && p.projectType !== "company");
+
+      // 1b. Filter dynamic company jika tab Perusahaan aktif
+      const matchesCompany =
+        projectTypeFilter !== "company" || selectedCompany === "all"
+          ? true
+          : (p.company || "PT Sinar Meadow International Indonesia").trim().toLowerCase() === selectedCompany.trim().toLowerCase();
+
+      // 2. Filter platform category
       const matchesCategory =
         filter === "all"
           ? true
           : (p.category || "").toLowerCase() === filter.toLowerCase();
 
+      // 3. Search query
       const searchStr =
-        `${p.title || ""} ${p.role || ""} ${p.summary || ""} ${(p.techStack || []).join(" ")}`.toLowerCase();
-      const matchesSearch = searchStr.includes(
-        searchQuery.toLowerCase().trim(),
-      );
+        `${p.title || ""} ${p.titleEn || ""} ${p.company || ""} ${p.role || ""} ${p.roleEn || ""} ${p.summary || ""} ${p.summaryEn || ""} ${(p.techStack || []).join(" ")}`.toLowerCase();
+      const matchesSearch = searchStr.includes(searchQuery.toLowerCase().trim());
 
-      return matchesCategory && matchesSearch;
+      return matchesType && matchesCompany && matchesCategory && matchesSearch;
     });
-  }, [projects, filter, searchQuery]);
+  }, [projects, projectTypeFilter, selectedCompany, filter, searchQuery]);
 
-  // Kalkulasi kartu yang paling dekat dengan titik tengah kontainer
-  const handleScrollUpdates = () => {
+  const handleScroll = () => {
     const container = carouselRef.current;
-    if (!container) return;
+    if (!container || filteredProjects.length === 0) return;
 
     const { scrollLeft, scrollWidth, clientWidth } = container;
     const maxScroll = scrollWidth - clientWidth;
@@ -211,17 +338,30 @@ export default function Projects({ projects = [] }) {
       setScrollProgress(100);
     }
 
-    const containerCenter = scrollLeft + clientWidth / 2;
+    if (scrollLeft <= 30) {
+      setActiveIndex(0);
+      return;
+    }
+
+    if (scrollLeft >= maxScroll - 30) {
+      setActiveIndex(filteredProjects.length - 1);
+      return;
+    }
+
+    const containerRect = container.getBoundingClientRect();
+    const triggerPoint = containerRect.left + containerRect.width * 0.35;
+
     let closestIdx = 0;
     let minDistance = Infinity;
 
-    cardRefs.current.forEach((el, idx) => {
-      if (!el) return;
-      const cardCenter = el.offsetLeft + el.offsetWidth / 2;
-      const distance = Math.abs(containerCenter - cardCenter);
+    cardRefs.current.forEach((card, idx) => {
+      if (!card) return;
+      const cardRect = card.getBoundingClientRect();
+      const cardCenter = cardRect.left + cardRect.width / 2;
+      const dist = Math.abs(triggerPoint - cardCenter);
 
-      if (distance < minDistance) {
-        minDistance = distance;
+      if (dist < minDistance) {
+        minDistance = dist;
         closestIdx = idx;
       }
     });
@@ -230,41 +370,34 @@ export default function Projects({ projects = [] }) {
   };
 
   useEffect(() => {
-    handleScrollUpdates();
+    handleScroll();
     const el = carouselRef.current;
     if (!el) return;
 
-    let ticking = false;
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          handleScrollUpdates();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    el.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", handleScrollUpdates);
+    el.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
 
     return () => {
-      el.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", handleScrollUpdates);
+      el.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
     };
   }, [filteredProjects, layoutMode]);
 
-  // Pindahkan kartu ke posisi tengah secara halus
-  const centerCardByIndex = (index) => {
+  const scrollToCard = (index) => {
+    if (index < 0 || index >= filteredProjects.length) return;
     const container = carouselRef.current;
     const card = cardRefs.current[index];
     if (!container || !card) return;
 
-    const targetScroll =
-      card.offsetLeft - (container.clientWidth / 2 - card.offsetWidth / 2);
+    let targetLeft = 0;
+    if (index === 0) {
+      targetLeft = 0;
+    } else {
+      targetLeft = card.offsetLeft - (container.clientWidth / 2 - card.offsetWidth / 2);
+    }
 
     container.scrollTo({
-      left: Math.max(0, targetScroll),
+      left: Math.max(0, targetLeft),
       behavior: "smooth",
     });
   };
@@ -278,30 +411,33 @@ export default function Projects({ projects = [] }) {
     if (activeIndex === index) {
       setSelectedProject(project);
     } else {
-      centerCardByIndex(index);
+      scrollToCard(index);
     }
   };
 
+  const navigatePrev = () => scrollToCard(activeIndex - 1);
+  const navigateNext = () => scrollToCard(activeIndex + 1);
+
   return (
-    <div className="w-full space-y-7 text-left py-2">
-      {/* Header Seksi */}
-      <div className="space-y-3">
+    <div className="w-full space-y-5 sm:space-y-7 text-left py-2">
+      {/* Header */}
+      <div className="space-y-2.5 sm:space-y-3">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/[0.07] dark:bg-blue-950/40 border border-blue-500/20 dark:border-blue-800/40 backdrop-blur-md shadow-2xs">
           <span className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-cyan-400 animate-pulse" />
           <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-wider text-blue-700 dark:text-blue-300 uppercase">
-            Portfolio Showcase
+            {t.projects.badge}
           </span>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-950 dark:text-white tracking-tight">
-            Katalog Proyek{" "}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-gray-950 dark:text-white tracking-tight">
+            {t.projects.titlePrefix}{" "}
             <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-sky-400 dark:from-blue-400 dark:via-cyan-300 dark:to-sky-200 bg-clip-text text-transparent">
-              Unggulan
+              {t.projects.titleHighlight}
             </span>
           </h2>
 
-          {/* Toggle Mode: Slider Focus vs Grid */}
+          {/* Toggle Mode: Slider vs Grid */}
           <div className="hidden sm:inline-flex items-center p-1 rounded-2xl bg-gray-100/90 dark:bg-[#121622]/90 border border-gray-200/80 dark:border-white/[0.08] text-xs font-mono shadow-inner">
             <button
               type="button"
@@ -312,7 +448,7 @@ export default function Projects({ projects = [] }) {
                   : "text-gray-500 hover:text-gray-900 dark:hover:text-white"
               }`}
             >
-              Slider Focus
+              {t.projects.sliderMode}
             </button>
             <button
               type="button"
@@ -323,24 +459,122 @@ export default function Projects({ projects = [] }) {
                   : "text-gray-500 hover:text-gray-900 dark:hover:text-white"
               }`}
             >
-              Grid
+              {t.projects.gridMode}
             </button>
           </div>
         </div>
 
         <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
-          Kompilasi implementasi aplikasi seluler, platform berbasis web, dan
-          arsitektur model komputasi yang pernah dibangun dari tahap perancangan
-          hingga tahap siap pakai.
+          {t.projects.subtitle}
         </p>
       </div>
 
-      {/* Toolbar Atas: Search Input Kiri & Filter Tabs Kanan */}
-      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 pb-2 border-b border-gray-200/80 dark:border-white/[0.08]">
-        {/* Search Bar di Atas Kiri */}
-        <div className="relative w-full md:w-72 shrink-0">
+      {/* FILTER BARIS 1: TAB PEMISAH PROYEK (PERUSAHAAN VS PRIBADI) */}
+      <div className="flex flex-wrap items-center gap-2 pt-1">
+        <div className="inline-flex p-1 rounded-2xl bg-gray-100/90 dark:bg-[#121622]/90 border border-gray-200/80 dark:border-white/[0.08] shadow-inner text-xs font-mono overflow-x-auto max-w-full">
+          {typeTabs.map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => {
+                setProjectTypeFilter(tab.id);
+                setActiveIndex(0);
+                if (carouselRef.current) carouselRef.current.scrollTo({ left: 0 });
+              }}
+              className={`px-3.5 py-1.5 rounded-xl transition-all duration-200 cursor-pointer whitespace-nowrap active:scale-95 flex items-center gap-1.5 ${
+                projectTypeFilter === tab.id
+                  ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold shadow-md shadow-blue-500/20"
+                  : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+              }`}
+            >
+              {tab.type === "all" && (
+                <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                </svg>
+              )}
+              {tab.type === "company" && (
+                <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+              )}
+              {tab.type === "personal" && (
+                <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+              )}
+              <span>{tab.label}</span>
+            </button>
+          ))}
+        </div>
+
+        <span className="text-[11px] font-mono text-gray-400 pl-1">
+          ({filteredProjects.length} {t.hero.projectMetric})
+        </span>
+      </div>
+
+      {/* SUB-FILTER PERUSAHAAN (DINAMIS UNTUK MULTI-COMPANY / JANGKA PANJANG) */}
+      {projectTypeFilter === "company" && availableCompanies.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2 pt-0.5 animate-in fade-in duration-200">
+          <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 pl-1 shrink-0">
+            <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+            <span>{t.projects.selectCompany || "Perusahaan"}:</span>
+          </div>
+
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 max-w-full">
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedCompany("all");
+                setActiveIndex(0);
+                if (carouselRef.current) carouselRef.current.scrollTo({ left: 0 });
+              }}
+              className={`px-3 py-1 rounded-xl text-[11px] font-mono transition-all duration-200 shrink-0 cursor-pointer ${
+                selectedCompany === "all"
+                  ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold shadow-xs"
+                  : "bg-white/80 dark:bg-white/[0.04] text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-white/[0.06]"
+              }`}
+            >
+              {t.projects.allCompanies || "Semua"} ({companyProjectsCount})
+            </button>
+
+            {availableCompanies.map((comp) => {
+              const count = projects.filter(
+                (p) =>
+                  p.projectType === "company" &&
+                  (p.company || "PT Sinar Meadow International Indonesia").trim().toLowerCase() === comp.toLowerCase()
+              ).length;
+              return (
+                <button
+                  key={comp}
+                  type="button"
+                  onClick={() => {
+                    setSelectedCompany(comp);
+                    setActiveIndex(0);
+                    if (carouselRef.current) carouselRef.current.scrollTo({ left: 0 });
+                  }}
+                  className={`px-3 py-1 rounded-xl text-[11px] font-mono transition-all duration-200 shrink-0 cursor-pointer flex items-center gap-1.5 ${
+                    selectedCompany.toLowerCase() === comp.toLowerCase()
+                      ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold shadow-xs"
+                      : "bg-white/80 dark:bg-white/[0.04] text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-white/[0.06]"
+                  }`}
+                >
+                  <span>{comp}</span>
+                  <span className="text-[9px] opacity-80 font-semibold">({count})</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* FILTER BARIS 2: PENCARIAN & KATEGORI PLATFORM */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pb-2 border-b border-gray-200/80 dark:border-white/[0.08]">
+        {/* Search Input */}
+        <div className="relative w-full sm:w-64 md:w-72 shrink-0">
           <svg
-            className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-600 dark:text-cyan-400"
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-blue-600 dark:text-cyan-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -358,79 +592,104 @@ export default function Projects({ projects = [] }) {
             onChange={(e) => {
               setSearchQuery(e.target.value);
               setActiveIndex(0);
-              if (carouselRef.current)
-                carouselRef.current.scrollTo({ left: 0 });
+              if (carouselRef.current) carouselRef.current.scrollTo({ left: 0 });
             }}
-            placeholder="Cari judul, stack, tech..."
-            className="w-full pl-9 pr-8 py-2 text-xs font-mono rounded-2xl bg-white/90 dark:bg-[#121622]/90 border border-gray-200 dark:border-white/[0.08] focus:border-cyan-400 dark:focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 outline-none transition-all shadow-xs"
+            placeholder={t.projects.searchPlaceholder}
+            className="w-full pl-8.5 pr-8 py-1.5 sm:py-2 text-xs font-mono rounded-xl bg-white/90 dark:bg-[#121622]/90 border border-gray-200 dark:border-white/[0.08] focus:border-cyan-400 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 outline-none transition-all shadow-2xs"
           />
           {searchQuery && (
             <button
               type="button"
               onClick={() => setSearchQuery("")}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-gray-400 hover:text-gray-700 dark:hover:text-white px-1 font-mono cursor-pointer"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-700 dark:hover:text-white cursor-pointer"
+              aria-label="Hapus Pencarian"
             >
-              ✕
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
             </button>
           )}
         </div>
 
-        {/* Filter Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => {
-                setFilter(tab.id);
-                setActiveIndex(0);
-                if (carouselRef.current)
-                  carouselRef.current.scrollTo({ left: 0 });
-              }}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-mono capitalize transition-all duration-200 cursor-pointer shrink-0 ${
-                filter === tab.id
-                  ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-md shadow-cyan-500/25 scale-[1.02]"
-                  : "bg-white/80 dark:bg-white/[0.03] text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-white/[0.06]"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+        {/* Filter Kategori 1 Baris Geser */}
+        <div className="relative -mx-4 px-4 sm:mx-0 sm:px-0">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+            {categoryTabs.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => {
+                  setFilter(tab.id);
+                  setActiveIndex(0);
+                  if (carouselRef.current) carouselRef.current.scrollTo({ left: 0 });
+                }}
+                className={`px-3 py-1.5 rounded-xl text-[11px] font-mono capitalize transition-all duration-200 cursor-pointer shrink-0 whitespace-nowrap active:scale-95 ${
+                  filter === tab.id
+                    ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold shadow-xs"
+                    : "bg-white/80 dark:bg-white/[0.03] text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-white/[0.06]"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* TAMPILAN PROYEK */}
+      {/* Daftar Kartu Proyek */}
       {filteredProjects.length === 0 ? (
         <div className="w-full py-16 px-6 border border-dashed border-gray-200 dark:border-white/10 rounded-3xl text-center text-gray-400 text-xs font-mono bg-white/40 dark:bg-white/[0.01]">
-          Tidak ditemukan proyek yang cocok dengan kata kunci &quot;
-          {searchQuery}&quot;.
+          {t.projects.noProjectsFound} &quot;{searchQuery}&quot;.
         </div>
       ) : layoutMode === "carousel" ? (
-        /* HORIZONTAL CAROUSEL CENTER-FOCUS TRACK */
-        <div className="space-y-6">
+        /* Carousel Track */
+        <div className="space-y-5 relative group/track">
+          {/* Tombol Panah Desktop */}
+          {activeIndex > 0 && (
+            <button
+              type="button"
+              onClick={navigatePrev}
+              aria-label="Proyek Sebelumnya"
+              className="hidden md:flex absolute -left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/95 dark:bg-[#151923]/95 backdrop-blur-md border border-gray-200/90 dark:border-white/15 text-gray-800 dark:text-white items-center justify-center shadow-xl hover:scale-110 active:scale-95 transition-all cursor-pointer"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+          )}
+
+          {activeIndex < filteredProjects.length - 1 && (
+            <button
+              type="button"
+              onClick={navigateNext}
+              aria-label="Proyek Berikutnya"
+              className="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/95 dark:bg-[#151923]/95 backdrop-blur-md border border-gray-200/90 dark:border-white/15 text-gray-800 dark:text-white items-center justify-center shadow-xl hover:scale-110 active:scale-95 transition-all cursor-pointer"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          )}
+
           <div
             ref={carouselRef}
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-            className="flex items-center gap-5 sm:gap-7 overflow-x-auto snap-x snap-mandatory pt-8 pb-10 px-[8vw] sm:px-[20vw] lg:px-[25vw] no-scrollbar scroll-smooth [&::-webkit-scrollbar]:hidden"
+            className="flex items-stretch gap-3.5 sm:gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pt-1 pb-3.5 sm:pt-2 sm:pb-5 px-3 sm:px-1 no-scrollbar [&::-webkit-scrollbar]:hidden"
           >
             {filteredProjects.map((project, idx) => {
-              const isCenter = idx === activeIndex;
+              const isActive = idx === activeIndex;
               return (
                 <div
                   key={project._id}
                   ref={(el) => (cardRefs.current[idx] = el)}
-                  className={`w-[80vw] sm:w-[350px] md:w-[390px] shrink-0 snap-center transition-all duration-500 ease-out ${
-                    isCenter
-                      ? "-translate-y-4 scale-105 z-20 opacity-100"
-                      : "translate-y-2 scale-95 z-10 opacity-55 hover:opacity-85 blur-[0.4px]"
+                  className={`w-[84vw] max-w-[310px] sm:w-[350px] md:w-[370px] shrink-0 snap-center transition-all duration-300 ${
+                    isActive
+                      ? "opacity-100 scale-100 z-20"
+                      : "opacity-60 hover:opacity-85 scale-[0.98] z-10"
                   }`}
                 >
                   <ProjectCard
                     project={project}
-                    isActive={isCenter}
+                    isActive={isActive}
                     onClick={() => handleCardClick(project, idx)}
                   />
                 </div>
@@ -438,41 +697,48 @@ export default function Projects({ projects = [] }) {
             })}
           </div>
 
-          {/* Modern Futuristic Glow Scrubber Bar */}
-          <div className="max-w-lg mx-auto p-2.5 rounded-2xl bg-gradient-to-r from-white/90 via-gray-50/90 to-white/90 dark:from-[#121622]/90 dark:via-[#161c2d]/90 dark:to-[#121622]/90 border border-blue-500/20 dark:border-cyan-500/30 backdrop-blur-xl shadow-lg shadow-cyan-500/5 flex items-center gap-3">
-            <span className="text-[11px] font-mono text-cyan-700 dark:text-cyan-300 font-bold pl-2 shrink-0">
+          {/* Scrubber Progress Bar */}
+          <div className="max-w-md mx-auto p-1.5 sm:p-2 rounded-2xl bg-white/90 dark:bg-[#121622]/90 border border-gray-200 dark:border-white/10 backdrop-blur-xl shadow-xs flex items-center gap-2.5 sm:gap-3">
+            <span className="text-[10px] font-mono text-cyan-700 dark:text-cyan-300 font-bold pl-2 shrink-0">
               {String(activeIndex + 1).padStart(2, "0")}{" "}
               <span className="text-gray-400 font-normal">/</span>{" "}
               {String(filteredProjects.length).padStart(2, "0")}
             </span>
 
-            {/* Interactive Progress Track */}
+            {/* Progress Track */}
             <div
               onClick={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
                 const clickX = e.clientX - rect.left;
                 const ratio = clickX / rect.width;
-                const targetIdx = Math.round(
-                  ratio * (filteredProjects.length - 1),
-                );
-                centerCardByIndex(targetIdx);
+                const targetIdx = Math.round(ratio * (filteredProjects.length - 1));
+                scrollToCard(targetIdx);
               }}
-              className="relative flex-1 h-2.5 bg-gray-200/80 dark:bg-white/[0.08] rounded-full overflow-hidden cursor-pointer shadow-inner"
+              className="relative flex-1 h-2 bg-gray-200/80 dark:bg-white/[0.08] rounded-full overflow-hidden cursor-pointer"
             >
               <div
-                className="h-full bg-gradient-to-r from-blue-600 via-cyan-400 to-sky-300 rounded-full transition-all duration-150 shadow-[0_0_12px_rgba(6,182,212,0.9)]"
+                className="h-full bg-gradient-to-r from-blue-600 via-cyan-400 to-sky-300 rounded-full transition-all duration-150 shadow-[0_0_8px_rgba(6,182,212,0.8)]"
                 style={{ width: `${Math.max(scrollProgress, 8)}%` }}
               />
             </div>
 
-            <span className="text-[10px] font-mono text-blue-600 dark:text-cyan-400 pr-2 shrink-0 font-bold uppercase tracking-wider">
-              {filteredProjects[activeIndex]?.category || "Project"}
+            <span className="text-[9px] font-mono text-blue-600 dark:text-cyan-400 pr-2 shrink-0 font-bold uppercase tracking-wider truncate max-w-[140px] inline-flex items-center gap-1">
+              {filteredProjects[activeIndex]?.projectType === "company" ? (
+                <>
+                  <svg className="w-3 h-3 shrink-0 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                  <span>{filteredProjects[activeIndex]?.company ? (filteredProjects[activeIndex].company.includes("Sinar Meadow") ? "PT SMII" : filteredProjects[activeIndex].company) : "PT SMII"}</span>
+                </>
+              ) : (
+                filteredProjects[activeIndex]?.category || "Project"
+              )}
             </span>
           </div>
         </div>
       ) : (
-        /* GRID VIEW */
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        /* Mode Grid */
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {filteredProjects.map((project) => (
             <ProjectCard
               key={project._id}
@@ -484,7 +750,7 @@ export default function Projects({ projects = [] }) {
         </div>
       )}
 
-      {/* Dialog Modal Studi Kasus */}
+      {/* Modal Detail Studi Kasus */}
       <ProjectModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}

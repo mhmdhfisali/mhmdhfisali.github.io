@@ -39,9 +39,10 @@ export default function ScrollReveal({
   const getTransitionStyle = () => {
     const base = {
       transitionProperty: "opacity, transform, filter",
-      transitionDuration: "800ms",
+      transitionDuration: "500ms",
       transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
       transitionDelay: `${delay}ms`,
+      willChange: "opacity, transform",
     };
 
     if (!isVisible) {
@@ -50,31 +51,31 @@ export default function ScrollReveal({
           return {
             ...base,
             opacity: 0,
-            transform: "translate3d(-40px, 0, 0)",
-            filter: "blur(6px)",
+            transform: "translate3d(-24px, 0, 0)",
+            filter: "blur(2px)",
           };
         case "right":
           return {
             ...base,
             opacity: 0,
-            transform: "translate3d(40px, 0, 0)",
-            filter: "blur(6px)",
+            transform: "translate3d(24px, 0, 0)",
+            filter: "blur(2px)",
           };
         case "converge":
         case "scale":
           return {
             ...base,
             opacity: 0,
-            transform: "scale(0.94) translate3d(0, 25px, 0)",
-            filter: "blur(8px)",
+            transform: "scale(0.97) translate3d(0, 16px, 0)",
+            filter: "blur(2px)",
           };
         case "up":
         default:
           return {
             ...base,
             opacity: 0,
-            transform: "translate3d(0, 30px, 0)",
-            filter: "blur(4px)",
+            transform: "translate3d(0, 18px, 0)",
+            filter: "blur(2px)",
           };
       }
     }

@@ -1,13 +1,21 @@
+import {CertificationIcon} from '../icons'
+
 export default {
   name: 'certification',
   title: 'Sertifikasi & Lisensi Resmi',
   type: 'document',
+  icon: CertificationIcon,
   fields: [
     {
       name: 'title',
-      title: 'Nama Sertifikasi / Lisensi',
+      title: 'Nama Sertifikasi / Lisensi (Bahasa Indonesia)',
       type: 'string',
       validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'titleEn',
+      title: 'Certification / License Name (English)',
+      type: 'string',
     },
     {
       name: 'issuer',
@@ -17,6 +25,12 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'credentialId',
+      title: 'ID Kredensial / Nomor Registrasi (Opsional)',
+      type: 'string',
+      description: 'Misal: DICODING-2024-ABCDE',
+    },
+    {
       name: 'date',
       title: 'Waktu Terbit (Misal: Juli 2025)',
       type: 'string',
@@ -24,10 +38,16 @@ export default {
     },
     {
       name: 'description',
-      title: 'Deskripsi / Ringkasan Pelatihan & Kompetensi',
+      title: 'Deskripsi / Ringkasan Pelatihan & Kompetensi (Bahasa Indonesia)',
       type: 'text',
       rows: 3,
       description: 'Penjelasan singkat materi, pencapaian, atau kompetensi yang divalidasi',
+    },
+    {
+      name: 'descriptionEn',
+      title: 'Competency & Training Description (English)',
+      type: 'text',
+      rows: 3,
     },
     {
       name: 'images',

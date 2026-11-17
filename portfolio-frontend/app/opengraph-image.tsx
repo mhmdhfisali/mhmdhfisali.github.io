@@ -94,7 +94,7 @@ export default async function Image() {
             fontWeight: 700,
           }}
         >
-          Software, AI &amp; Mobile Developer | System Administrator
+          Fullstack Developer &amp; Mobile Developer
         </p>
       </div>
 

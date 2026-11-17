@@ -1,7 +1,10 @@
+import {SkillsIcon} from '../icons'
+
 export default {
     name: 'skill',
     title: 'Keahlian & Tools',
     type: 'document',
+    icon: SkillsIcon,
     fields: [{
             name: 'title',
             title: 'Nama Teknologi',
@@ -19,7 +22,7 @@ export default {
                     { title: 'Tailwind CSS', value: 'Tailwind CSS' },
                     { title: 'HTML5 / CSS3', value: 'HTML5' },
 
-                    // Backend & AI
+                    // Backend & Services
                     { title: 'Python', value: 'Python' },
                     { title: 'FastAPI', value: 'FastAPI' },
                     { title: 'Django', value: 'Django' },
@@ -61,7 +64,7 @@ export default {
             options: {
                 list: [
                     { title: 'Frontend & Mobile', value: 'frontend' },
-                    { title: 'Backend & AI', value: 'backend' },
+                    { title: 'Backend & Architecture', value: 'backend' },
                     { title: 'DevOps & OS', value: 'devops' },
                     { title: 'Multimedia & Manajemen', value: 'tools' },
                 ],

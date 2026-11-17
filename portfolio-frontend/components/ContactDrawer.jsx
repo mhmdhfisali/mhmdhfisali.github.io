@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function ContactDrawer({ profile = {} }) {
+  const { t } = useLanguage();
   const [copied, setCopied] = useState(false);
 
   const email = profile?.email || "mhffsali@gmail.com";
-  const github = profile?.githubUrl || "https://github.com";
+  const github = profile?.githubUrl || "https://github.com/mhmdhfisali";
   const linkedin =
     profile?.linkedinUrl || "https://www.linkedin.com/in/mhmdhfisali";
   const instagram = profile?.instagramUrl || "https://instagram.com";
@@ -25,7 +27,7 @@ export default function ContactDrawer({ profile = {} }) {
     {
       name: "GitHub",
       handle: "@mhmdhfisali",
-      desc: "Repositori kode & proyek",
+      desc: t.contact.channels?.githubDesc || "Repositori kode & proyek",
       url: github,
       badge: "Code",
       hoverClass: "group-hover:text-blue-500 dark:group-hover:text-cyan-400",
@@ -42,9 +44,9 @@ export default function ContactDrawer({ profile = {} }) {
     {
       name: "LinkedIn",
       handle: "in/mhmdhfisali",
-      desc: "Jejaring karier profesional",
+      desc: t.contact.channels?.linkedinDesc || "Jejaring karier profesional",
       url: linkedin,
-      badge: "Karier",
+      badge: t.contact.channels?.linkedinBadge || "Karier",
       hoverClass: "group-hover:text-[#0A66C2]",
       icon: (
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -57,7 +59,7 @@ export default function ContactDrawer({ profile = {} }) {
           {
             name: "WhatsApp",
             handle: "Direct Chat",
-            desc: "Pesan instan & respons cepat",
+            desc: t.contact.channels?.whatsappDesc || "Pesan instan & respons cepat",
             url: whatsapp,
             badge: "Fast",
             hoverClass: "group-hover:text-[#25D366]",
@@ -72,7 +74,7 @@ export default function ContactDrawer({ profile = {} }) {
     {
       name: "Instagram",
       handle: "@mhmdhfisali",
-      desc: "Aktivitas & pembaruan personal",
+      desc: t.contact.channels?.instagramDesc || "Aktivitas & pembaruan personal",
       url: instagram,
       badge: "Social",
       hoverClass: "group-hover:text-[#E4405F]",
@@ -87,7 +89,7 @@ export default function ContactDrawer({ profile = {} }) {
           {
             name: "Telegram",
             handle: "Direct Message",
-            desc: "Komunikasi teks terenkripsi",
+            desc: t.contact.channels?.telegramDesc || "Komunikasi teks terenkripsi",
             url: telegram,
             badge: "Chat",
             hoverClass: "group-hover:text-[#229ED9]",
@@ -102,95 +104,101 @@ export default function ContactDrawer({ profile = {} }) {
   ];
 
   return (
-    <div className="w-full space-y-6 text-left py-2">
-      {/* 1. Header Seksi */}
-      <div className="space-y-3">
+    <div className="w-full space-y-5 sm:space-y-6 text-left py-2">
+      {/* Header */}
+      <div className="space-y-2.5 sm:space-y-3">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/[0.07] dark:bg-blue-950/40 border border-blue-500/20 dark:border-blue-800/40 backdrop-blur-md shadow-2xs">
           <span className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-cyan-400 animate-pulse" />
           <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-wider text-blue-700 dark:text-blue-300 uppercase">
-            Saluran Komunikasi
+            {t.contact.badge}
           </span>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-950 dark:text-white tracking-tight">
-            Mulai{" "}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-gray-950 dark:text-white tracking-tight">
+            {t.contact.titlePrefix}
             <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-sky-400 dark:from-blue-400 dark:via-cyan-300 dark:to-sky-200 bg-clip-text text-transparent">
-              Kolaborasi
+              {t.contact.titleHighlight}
             </span>
           </h2>
 
-          <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-            Terbuka untuk Diskusi
+          <span className="text-[11px] sm:text-xs font-mono text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            {t.contact.openForDiscussion}
           </span>
         </div>
 
         <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
-          Tersedia untuk peluang rekayasa perangkat lunak, pengembangan aplikasi
-          seluler dan web, maupun kolaborasi proyek teknis.
+          {t.contact.subtitle}
         </p>
       </div>
 
-      {/* 2. Bento Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-        {/* Kolom Kiri: Kartu Utama Email & Status Kerja */}
-        <div className="lg:col-span-6 p-6 sm:p-7 rounded-3xl bg-white/85 dark:bg-[#151923]/70 border border-gray-200/90 dark:border-white/[0.08] shadow-xs backdrop-blur-md flex flex-col justify-between space-y-6">
-          <div className="space-y-4">
+      {/* Bento Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 items-stretch">
+        {/* Kolom Kiri: Kartu Utama Email */}
+        <div className="lg:col-span-6 p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white/85 dark:bg-[#151923]/70 border border-gray-200/90 dark:border-white/[0.08] shadow-2xs backdrop-blur-md flex flex-col justify-between space-y-4 sm:space-y-6">
+          <div className="space-y-3 sm:space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-blue-600 dark:text-cyan-400 font-bold">
-                Jalur Resmi Utama
+              <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-blue-600 dark:text-cyan-400 font-bold">
+                {t.contact.primaryChannel}
               </span>
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                Active Mailbox
+              <span className="px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-mono bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                {t.contact.activeMailbox}
               </span>
             </div>
 
             <div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-950 dark:text-white font-mono break-all">
+              <h3 className="text-base sm:text-xl font-bold text-gray-950 dark:text-white font-mono break-all">
                 {email}
               </h3>
-              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">
-                Jalur tercepat untuk proposal proyek, tawaran pekerjaan
-                profesional, atau konsultasi arsitektur sistem.
+              <p className="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 mt-1.5 leading-relaxed">
+                {t.contact.primaryEmailDesc}
               </p>
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div className="flex items-center gap-2">
               <a
                 href={`mailto:${email}`}
-                className="flex-1 py-3 px-4 text-center rounded-2xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-mono font-semibold transition-all shadow-md shadow-blue-600/25 active:scale-95"
+                className="flex-1 py-2.5 sm:py-3 px-3 sm:px-4 text-center rounded-xl sm:rounded-2xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-mono font-semibold transition-all shadow-sm active:scale-95"
               >
-                Kirim Email Langsung &rarr;
+                {t.contact.sendDirectEmail}
               </a>
               <button
                 type="button"
                 onClick={handleCopy}
-                className="px-4 py-3 rounded-2xl bg-gray-100 hover:bg-gray-200 dark:bg-white/[0.06] dark:hover:bg-white/[0.1] text-gray-800 dark:text-gray-200 text-xs font-mono font-medium transition-all active:scale-95 cursor-pointer flex items-center gap-1.5"
-                title="Salin Email"
+                className="px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-gray-100 hover:bg-gray-200 dark:bg-white/[0.06] dark:hover:bg-white/[0.1] text-gray-800 dark:text-gray-200 text-xs font-mono font-medium transition-all active:scale-95 cursor-pointer flex items-center gap-1.5 shrink-0"
+                title={t.contact.copyEmail}
               >
-                <span>{copied ? "✓" : "📋"}</span>
-                <span>{copied ? "Tersalin" : "Salin"}</span>
+                {copied ? (
+                  <svg className="w-3.5 h-3.5 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                ) : (
+                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                )}
+                <span>{copied ? t.contact.copiedEmail : t.contact.copyEmail}</span>
               </button>
             </div>
 
-            <div className="pt-4 border-t border-gray-100 dark:border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-gray-400">
-              <span>Lokasi: Jakarta, Indonesia</span>
-              <span>Zona: GMT+7 (WIB)</span>
+            <div className="pt-3 border-t border-gray-100 dark:border-white/[0.06] flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-gray-400">
+              <span>Jakarta, Indonesia</span>
+              <span>GMT+7 (WIB)</span>
             </div>
           </div>
         </div>
 
-        {/* Kolom Kanan: Semua Kanal Terpusat */}
-        <div className="lg:col-span-6 p-4 sm:p-5 rounded-3xl bg-white/85 dark:bg-[#151923]/70 border border-gray-200/90 dark:border-white/[0.08] shadow-xs backdrop-blur-md flex flex-col justify-between">
-          <div className="px-3 pt-2 pb-3 flex items-center justify-between border-b border-gray-100 dark:border-white/[0.06]">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400 font-semibold">
-              Kanal Terverifikasi
+        {/* Kolom Kanan: Kanal Sosial & Komunikasi */}
+        <div className="lg:col-span-6 p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/85 dark:bg-[#151923]/70 border border-gray-200/90 dark:border-white/[0.08] shadow-2xs backdrop-blur-md flex flex-col justify-between">
+          <div className="px-2 pt-1 pb-2.5 flex items-center justify-between border-b border-gray-100 dark:border-white/[0.06]">
+            <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-gray-400 font-semibold">
+              {t.contact.verifiedChannels}
             </span>
-            <span className="text-[10px] font-mono text-gray-400">
-              {channels.length} Terhubung
+            <span className="text-[9px] sm:text-[10px] font-mono text-gray-400">
+              {channels.length} {t.contact.connected}
             </span>
           </div>
 
@@ -201,30 +209,30 @@ export default function ContactDrawer({ profile = {} }) {
                 href={channel.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between p-3 rounded-2xl hover:bg-gray-50 dark:hover:bg-white/[0.03] transition-all"
+                className="group flex items-center justify-between p-2 sm:p-2.5 rounded-xl hover:bg-gray-50 dark:hover:bg-white/[0.03] transition-all"
               >
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-8 h-8 rounded-xl bg-gray-100 dark:bg-white/[0.05] border border-gray-200/70 dark:border-white/[0.06] flex items-center justify-center text-gray-600 dark:text-gray-300 group-hover:scale-105 transition-transform shrink-0">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-gray-100 dark:bg-white/[0.05] border border-gray-200/70 dark:border-white/[0.06] flex items-center justify-center text-gray-600 dark:text-gray-300 group-hover:scale-105 transition-transform shrink-0">
                     {channel.icon}
                   </div>
                   <div className="min-w-0">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
                       <h4
                         className={`text-xs sm:text-sm font-bold text-gray-900 dark:text-gray-100 transition-colors ${channel.hoverClass}`}
                       >
                         {channel.name}
                       </h4>
-                      <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-gray-100 dark:bg-white/[0.06] text-gray-500 dark:text-gray-400">
+                      <span className="text-[8px] sm:text-[9px] font-mono px-1 py-0.2 rounded bg-gray-100 dark:bg-white/[0.06] text-gray-500 dark:text-gray-400">
                         {channel.badge}
                       </span>
                     </div>
-                    <p className="text-[11px] text-gray-500 dark:text-gray-400 truncate">
+                    <p className="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 truncate">
                       {channel.desc}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 pl-2 shrink-0">
+                <div className="flex items-center pl-2 shrink-0">
                   <span className="text-xs font-mono text-gray-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
                     ↗
                   </span>
@@ -233,8 +241,8 @@ export default function ContactDrawer({ profile = {} }) {
             ))}
           </div>
 
-          <div className="px-3 pt-3 border-t border-gray-100 dark:border-white/[0.06] text-[10px] font-mono text-gray-400 text-center">
-            Pilih platform di atas untuk membuka tautan resmi
+          <div className="px-2 pt-2.5 border-t border-gray-100 dark:border-white/[0.06] text-[9px] sm:text-[10px] font-mono text-gray-400 text-center">
+            {t.contact.selectPlatformNote}
           </div>
         </div>
       </div>

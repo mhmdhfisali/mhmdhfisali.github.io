@@ -1,9 +1,9 @@
 <div align="center">
 
-  # 🌐 Modern Interactive Engineering Portfolio & Monorepo Engine
-  
+  # Muhamad Hafis Ali — Portfolio & Engineering Monorepo
+
   <p align="center">
-    <strong>Arsitektur Portofolio Generasi Baru Berbasis Next.js App Router (SSG), Sanity CMS Headless, dan Estetika Minimalis Cyber-Dark Berorientasi Rekayasa Perangkat Lunak.</strong>
+    <strong>Arsitektur Portofolio Generasi Baru Berbasis Next.js App Router, Sanity Headless CMS, dan Desain Sistem Modern untuk Fullstack & Mobile Engineering.</strong>
   </p>
 
   <p align="center">
@@ -16,8 +16,8 @@
   </p>
 
   <p align="center">
-    <img src="https://img.shields.io/badge/Next.js-16%2B_(Turbopack)-black?style=flat-square&logo=next.js&logoColor=white" alt="Next.js" />
-    <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React 19" />
+    <img src="https://img.shields.io/badge/Next.js-16%2B_Turbopack-black?style=flat-square&logo=next.js&logoColor=white" alt="Next.js" />
+    <img src="https://img.shields.io/badge/React-19-blue?style=flat-square&logo=react&logoColor=white" alt="React 19" />
     <img src="https://img.shields.io/badge/Sanity-Studio_v3-F03E2F?style=flat-square&logo=sanity&logoColor=white" alt="Sanity CMS" />
     <img src="https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
     <img src="https://img.shields.io/badge/GitHub_Pages-Deployed-222222?style=flat-square&logo=githubpages&logoColor=white" alt="GitHub Pages" />
@@ -25,204 +25,152 @@
   </p>
 
   <p align="center">
-    🔗 <strong>Akses Langsung:</strong> <a href="https://mhmdhfisali.github.io"><strong>https://mhmdhfisali.github.io</strong></a>
+    Akses Langsung: <a href="https://mhmdhfisali.github.io"><strong>https://mhmdhfisali.github.io</strong></a>
   </p>
 </div>
 
 ---
 
-## 🌟 Fitur Utama & Keunggulan Rekayasa
+## Ringkasan Proyek
 
-| Kategori | Fitur & Implementasi Teknis |
-| :--- | :--- |
-| **Navigasi Presisi & True-Center** | *Floating pill navbar* dengan auto-initials dinamis, status ketersediaan kerja (*live glow badge*), tata letak navigasi terkunci di sumbu tengah layar (*absolute true-center*), kendali mute audio, dan drawer adaptif mobile. |
-| **Interactive CoverFlow Carousel** | Showcase proyek horizontal berorientasi fokus tengah (*Center-Focus Elevation*). Dilengkapi pencarian kata kunci instan, indikator pelacak dinamis (*glowing scrubber progress*), filter kategori real-time, dan peralihan mode *Slider Focus* vs *Grid*. |
-| **Live Engineering Pulse (GitHub)** | Visualisasi stream kontribusi tahun berjalan dan siklus kerja pengembang (*Developer Workflow*) yang terhubung langsung dengan repositori publik GitHub. |
-| **Suara Mikro Taktil & Mute Control** | Umpan balik suara interaksi tombol berbasis Web Audio API murni tanpa file aset eksternal, dilengkapi toggle mute/unmute dengan penyimpanan preferensi di `localStorage`. |
-| **Pencarian Cepat Keyboard (⌘K / Ctrl+K)** | Command palette modal responsif untuk navigasi instan antar-seksi dan tautan repositori eksternal via pintasan keyboard. |
-| **Modal Case Study Portals** | Arsitektur dialog multi-fase menggunakan `createPortal` menimpa stacking context `<body>`, mencegah scrolling latar saat pratinjau studi kasus mendalam dan dokumen sertifikasi. |
-| **Riwayat & Garis Waktu** | *Glowing spine connector* pada riwayat pendidikan & pengalaman kerja yang mengisi garis (*fill progress*) secara dinamis sesuai pergerakan viewport pengguna. |
-| **Bento Contact Hub** | Integrasi kartu kontak terpadu dengan penyalin instan (*one-click clipboard copy*) email, kanal repositori, serta tautan komunikasi langsung (WhatsApp, LinkedIn, Instagram). |
+Repositori monorepo ini menaungi sistem portofolio profesional untuk **Muhamad Hafis Ali** (*Fullstack Developer & Mobile Developer*). Proyek ini menggabungkan frontend berkinerja tinggi berbasis Next.js App Router (Turbopack, SSG) dengan backend konten terstruktur berbasis Sanity Studio v3.
+
+Dua repositori utama yang terhubung:
+1. **[mhmdhfisali/Portofolio](https://github.com/mhmdhfisali/Portofolio)** — Repositori utama (*source code*) monorepo pengembangan.
+2. **[mhmdhfisali/mhmdhfisali.github.io](https://github.com/mhmdhfisali/mhmdhfisali.github.io)** — Repositori publik dengan otomatisasi GitHub Pages Actions untuk deployment statis live.
 
 ---
 
-## 🏗️ Tech Stack Monorepo
+## Fitur Utama & Keunggulan Rekayasa
+
+| Modul / Fitur | Implementasi & Karakteristik Teknis |
+| :--- | :--- |
+| **Profil & Hero Dinamis** | Layout foto portrait tanpa frame kaku dengan aksen neon ambient glow dan cincin orbit sirkular. Menampilkan metrik paper riset terbitan nasional, proyek selesai, dan status ketersediaan kerja. |
+| **Navigasi Pintar (*Scrollspy & Progress*)** | Floating navbar dengan scroll indicator realtime (progress bar 2px), indikator aktif per seksi, switch bahasa (ID/EN), kontrol audio efek suara, dan tema gelap/terang. |
+| **Animasi Keahlian (*Skills Marquee*)** | Running marquee dua baris silang dengan tempo terkalibrasi santai (58s di mobile, 72s di desktop). Dilengkapi *smooth pause* otomatis saat kursor mouse diarahkan atau layar disentuh. |
+| **Aktivitas GitHub Real-Time** | Integrasi API GitHub resmi untuk menampilkan commit stream berjalan, rekap metrik kontribusi 12 bulan terakhir, dan streak produktivitas kode publik. |
+| **Katalog Proyek Multi-Perusahaan** | Mendukung proyek perusahaan berskala enterprise (**PT Sinar Meadow International Indonesia** maupun perusahaan masa depan) serta proyek publik/riset (misal: absolutestore.id) dengan badge perusahaan terpisah dan filter interaktif. |
+| **Studi Kasus & Metrik Bisnis** | Modal dialog studi kasus (`ProjectModal`) menampilkan bento grid metrik efisiensi nyata (misal: `< 5 Menit` otomasi pabrik, `35% Lebih Cepat`, `99.9%` uptime) dan galeri screenshot interaktif dengan fitur zoom lightbox. |
+| **Dukungan Bilingual Menyeluruh** | Internationalization (i18n) terintegrasi pada seluruh elemen teks, navigasi, bio, metrik, detail studi kasus, artikel, hingga formulir kontak. |
+| **Ergonomi Mobile Terpadu** | Magnetic CSS scroll snap (`snap-x snap-mandatory` dan `snap-center`) pada carousel kartu di layar ponsel, tombol aksi simetris di atas lipatan layar (*above the fold*), dan drawer navigasi samping berikon SVG. |
+| **100% SVG Icons Profesional** | Seluruh tampilan bersih dari emoji biasa, digantikan dengan icon SVG vektor modern bergaris tajam dan konsisten. |
+
+---
+
+## Tech Stack Monorepo
 
 ### 1. Frontend (`portfolio-frontend`)
-* **Core Framework:** Next.js (App Router, Turbopack, React 19)
-* **Hosting Platform:** [GitHub Pages](https://mhmdhfisali.github.io)
-* **Styling Engine:** Tailwind CSS v4, Dark Mode First (*Slate-Charcoal Palette: `#181a20`*)
+* **Framework:** Next.js (App Router, Turbopack, React 19)
+* **Styling & Design System:** Tailwind CSS, Slate/Dark Modern Theme
 * **Typography:** Geist Sans & Geist Mono
 * **Data Integration:** `@sanity/client`, `@sanity/image-url`
-* **Static Site Generation (SSG):** Optimal untuk GitHub Pages via `output: 'export'`
+* **Static Export:** `output: 'export'` dioptimalkan untuk performa maksimal pada GitHub Pages
+* **SEO & Metadata:** OpenGraph dynamic image generator, JSON-LD Schema.org Person, XML Sitemap, dan Webmanifest
 
 ### 2. Backend CMS (`portofolio-backend`)
-* **Core Platform:** Sanity Studio v3 (Headless Structured Content)
-* **Cloud Studio:** [mhmdhfisali-github-io.sanity.studio](https://mhmdhfisali-github-io.sanity.studio)
-* **Skema Data Terstruktur:**
-  * `profile` — Data identitas, status ketersediaan kerja, metrik hero, berkas CV (PDF), dan kontak sosial.
-  * `project` — Katalog proyek komprehensif, multi-tahapan studi kasus teknis (*case study phases*), dan tautan repositori/demo.
-  * `skill` — Taksonomi keahlian rekayasa, persentase kemahiran, dan pemetaan ikon teknologi otomatis.
-  * `experience` & `education` — Garis waktu karier profesional dan riwayat akademik.
-  * `certification` — Showcase dokumen kredensial, verifikasi tautan resmi, dan galeri berkas sertifikat.
-  * `post` — Publikasi makalah riset ilmiah dan catatan komputasi teknis.
+* **Headless Studio:** Sanity Studio v3 (React, Vite, TypeScript/JavaScript)
+* **Hosting Studio:** [mhmdhfisali-github-io.sanity.studio](https://mhmdhfisali-github-io.sanity.studio)
+* **Skema Konten:**
+  * `profile` — Identitas, headline bilingual, bio, metrik hero, URL paper riset/DOI, CV PDF Google Drive, dan kanal komunikasi.
+  * `project` — Judul, deskripsi bilingual, kategori enterprise/pribadi, nama perusahaan, metrik dampak bisnis (`impactMetrics`), galeri screenshot (`galleryImages`), dan tahapan studi kasus.
+  * `skill` — Kategori teknologi, tingkat kemahiran, dan ikon SVG.
+  * `experience` & `education` — Riwayat karier industri, jabatan bilingual, dan poin capaian (*highlights*).
+  * `certification` — Lembaga penerbit, ID kredensial lisensi resmi, tanggal terbit, dan URL verifikasi.
+  * `post` — Artikel teknis dan publikasi paper ilmiah (status paper, nama jurnal/prosiding, DOI link).
 
 ---
 
-## 📁 Struktur Monorepo
+## Struktur Direktori
 
 ```text
 Portofolio/
-├── .gitignore                      # Konfigurasi ignore universal (Node, Next, Sanity, Env)
-├── README.md                       # Dokumentasi komprehensif arsitektur proyek
+├── .github/
+│   └── workflows/
+│       └── deploy.yml            # CI/CD otomatisasi build & deployment ke GitHub Pages
+├── .gitignore                    # Universal ignore rule (Node, Next.js, Sanity, dist, .env)
+├── README.md                     # Dokumentasi arsitektur proyek
 │
-├── portfolio-frontend/            # Web Client (Next.js App Router)
+├── portfolio-frontend/          # Web Client (Next.js App Router)
 │   ├── app/
-│   │   ├── layout.tsx              # Root layout, ThemeProvider React 19, metadata & sensor global
-│   │   ├── page.tsx                # Server Component aggregator dengan parallel fetching Sanity & SSG
-│   │   ├── opengraph-image.tsx    # Dynamic OpenGraph Card generator
-│   │   ├── icon.tsx                # Dynamic SVG Favicon generator
-│   │   └── globals.css             # Desain token, scrollbar styling, cross-browser hide-scrollbar
-│   ├── components/                 # Komponen antarmuka modular
-│   │   ├── Hero.jsx                # 3D perspective hero card, telemetry metrics & direct CV CTA
-│   │   ├── Navbar.jsx              # Floating true-center navbar dengan auto-initials & sound toggle
-│   │   ├── GitHubActivity.jsx      # Heatmap aktivitas commit & developer workflow bento
-│   │   ├── Projects.jsx            # CoverFlow center-focus carousel, search bar & glowing scrubber
-│   │   ├── ProjectModal.jsx        # Case study portal dialog multi-fase & image lightbox
-│   │   ├── Skills.jsx              # Grid kemahiran instrumen rekayasa & filter kategori
-│   │   ├── ExperienceEducation.jsx # Connected timeline dengan dynamic glowing spine progress
-│   │   ├── Certifications.jsx      # Kredensial sertifikasi resmi dengan multi-image slider modal
-│   │   ├── Posts.jsx               # Publikasi ilmiah & artikel dengan external link resolver
-│   │   ├── ContactDrawer.jsx       # Bento grid kontak resmi & integrasi saluran terverifikasi
-│   │   ├── CommandPalette.jsx      # Quick command palette modal (Cmd+K / Ctrl+K)
-│   │   ├── SoundFeedback.jsx       # Synthesizer audio klik mikro taktil (Web Audio API)
-│   │   ├── CursorSpotlight.jsx     # Ambient spotlight tracker mouse
-│   │   ├── ScrollProgress.jsx      # Laser progress bar di bagian atas layar
-│   │   ├── ScrollToTop.jsx         # Floating smooth return-to-top button
-│   │   ├── ScrollReveal.jsx        # IntersectionObserver motion wrapper
-│   │   └── ThemeProvider.tsx       # Custom clean theme provider (React 19 compatible)
-│   └── sanity.js                   # Inisialisasi Sanity Client & visual asset builder
+│   │   ├── layout.tsx            # Metadata SEO, OpenGraph, JSON-LD, Theme & Language Provider
+│   │   ├── page.tsx              # Aggregator fetch data Sanity paralel & fallback
+│   │   ├── opengraph-image.tsx  # Dynamic OpenGraph Card generator
+│   │   ├── icon.tsx              # Favicon generator
+│   │   └── globals.css           # Token desain, animasi marquee, dan scrollbar
+│   ├── components/               # Komponen antarmuka modular
+│   │   ├── Hero.jsx              # Hero portrait cutout, cyber halo & CTA simetris
+│   │   ├── Navbar.jsx            # Floating navbar, reading progress bar & drawer menu
+│   │   ├── Skills.jsx            # Dynamic dual-track running marquee
+│   │   ├── GitHubActivity.jsx    # Realtime GitHub pulse stream & contributions
+│   │   ├── Projects.jsx          # Project grid & filter enterprise/pribadi
+│   │   ├── ProjectModal.jsx      # Portal modal dengan impact metrics & gallery lightbox
+│   │   ├── ExperienceEducation.jsx # Connected glowing timeline
+│   │   ├── Certifications.jsx    # Verifikasi kredensial & sertifikat
+│   │   ├── Posts.jsx             # Daftar artikel & paper riset ilmiah
+│   │   ├── ContactDrawer.jsx     # Bento kontak & direct email
+│   │   └── Footer.jsx            # Footer minimalis satu baris dengan zona waktu
+│   ├── context/
+│   │   └── LanguageContext.jsx   # State management bilingual (ID/EN)
+│   ├── lib/
+│   │   ├── translations.js       # Kamus bilingual lengkap ID/EN
+│   │   ├── defaultProjects.js    # Data fallback proyek terperinci dengan impact metrics
+│   │   └── fallbackData.js       # Fallback profil & keahlian untuk resiliensi offline
+│   └── sanity.js                 # Inisialisasi client Sanity & image builder
 │
-└── portofolio-backend/            # Sanity Studio Content Management
-    ├── schemaTypes/                # Definisi skema data (profile, project, skill, post, dll.)
-    ├── sanity.config.js            # Konfigurasi desk structure, project ID, dan dataset
-    └── sanity.cli.js               # Konfigurasi CLI deployment Sanity
-
+└── portofolio-backend/          # Sanity Studio CMS
+    ├── schemaTypes/              # Skema konten terstruktur (project, profile, skill, dll.)
+    ├── icons.jsx                 # Custom SVG icons untuk navigasi visual studio
+    ├── sanity.config.js          # Konfigurasi desk structure & plugin
+    ├── sanity.cli.js             # Konfigurasi CLI
+    └── BACKEND_GUIDE.md          # Panduan lengkap pengelolaan konten Sanity
 ```
 
 ---
 
-## 🚀 Panduan Menjalankan di Lingkungan Lokal
+## Panduan Menjalankan di Lingkungan Lokal
 
 ### Prasyarat
-
-* **Node.js** v18.17+ atau v20+
+* **Node.js** v20+ atau v22+
 * **Package Manager** `npm`
 
-### 1. Konfigurasi Backend (Sanity Studio)
+### 1. Menjalankan Backend (Sanity Studio)
 
 ```bash
-# Masuk ke direktori backend
 cd portofolio-backend
-
-# Instal seluruh dependensi
 npm install
-
-# Jalankan server pengembangan Sanity
 npm run dev
-
 ```
 
-> Akses Sanity Studio lokal di: **`http://localhost:3333`**
+Akses visual editor Sanity Studio di browser: **`http://localhost:3333`**
 
----
+### 2. Menjalankan Frontend (Next.js)
 
-### 2. Konfigurasi Frontend (Next.js)
-
-Buka jendela terminal baru:
+Buka terminal baru:
 
 ```bash
-# Masuk ke direktori frontend
 cd portfolio-frontend
-
-# Instal dependensi frontend
 npm install
-
-```
-
-Pastikan berkas `.env.local` tersedia di dalam folder `portfolio-frontend/`:
-
-```env
-NEXT_PUBLIC_SANITY_PROJECT_ID=0dyfyoih
-NEXT_PUBLIC_SANITY_DATASET=production
-NEXT_PUBLIC_SANITY_API_VERSION=2024-01-01
-
-```
-
-Jalankan server pengembangan:
-
-```bash
 npm run dev
-
 ```
 
-> Akses web portofolio lokal di: **`http://localhost:3000`**
+Akses web portofolio di browser: **`http://localhost:3000`**
 
 ---
 
-## ⚡ Deployment & Workflow
+## Alur Deployment
 
-### 1. Cloud Sanity Studio
+1. **GitHub Pages (Otomatis):**
+   Setiap kali perubahan di-push ke branch `main`, GitHub Actions workflow di `.github/workflows/deploy.yml` akan secara otomatis menjalankan proses kompilasi Next.js (`npm run build`) dan mempublikasikan hasil statis ke domain [mhmdhfisali.github.io](https://mhmdhfisali.github.io).
 
-Untuk memperbarui definisi skema ke cloud studio:
-
-```bash
-cd portofolio-backend
-npx sanity deploy
-
-```
-
-### 2. GitHub Pages Live Deployment
-
-Frontend secara otomatis di-build dan di-deploy ke GitHub Pages melalui workflow GitHub Actions setiap kali ada dorongan kode (*push*) ke cabang `main`:
-
-* **Live URL:** [https://mhmdhfisali.github.io](https://mhmdhfisali.github.io)
+2. **Sanity Studio Cloud (Opsional):**
+   Untuk menyinkronkan skema studio terbaru ke cloud Sanity:
+   ```bash
+   cd portofolio-backend
+   npx sanity deploy
+   ```
 
 ---
 
-## 🔄 Alur Sinkronisasi Git
+## Lisensi
 
-Pembaruan monorepo dikelola terpusat dari root direktori proyek:
-
-```bash
-# Cek status berkas yang dimodifikasi
-git status
-
-# Tambahkan seluruh perubahan berkas
-git add .
-
-# Buat commit pesan terstruktur
-git commit -m "docs: update comprehensive README with latest architecture and live links"
-
-# Dorong perubahan ke cabang utama GitHub
-git push origin main
-
-```
-
----
-
-## 📜 Lisensi
-
-Proyek ini dirancang dan dikembangkan secara independen oleh **Muhamad Hafis Ali** di bawah lisensi terbuka [MIT License](https://www.google.com/search?q=LICENSE).
-
-```
-
-Simpan berkas `README.md` tersebut di root proyekmu, lalu dorong ke repositori remote:
-
-```bash
-cd ~/Proyek/Portofolio
-git add README.md
-git commit -m "docs: update comprehensive README with latest architecture and live links"
-git push origin main
-
-```
+Proyek ini dirancang dan dikembangkan secara independen oleh **Muhamad Hafis Ali** di bawah lisensi terbuka [MIT License](LICENSE).

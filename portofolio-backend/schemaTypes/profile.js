@@ -1,7 +1,10 @@
+import {UserIcon} from '../icons'
+
 export default {
   name: 'profile',
   title: 'Profil Utama',
   type: 'document',
+  icon: UserIcon,
   groups: [
     {name: 'bioGroup', title: 'Identitas & Bio', default: true},
     {name: 'telemetryGroup', title: 'Metrik Hero'},
@@ -17,18 +20,31 @@ export default {
     },
     {
       name: 'headline',
-      title: 'Headline Profesional',
+      title: 'Headline Profesional (Bahasa Indonesia)',
       type: 'string',
       group: 'bioGroup',
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'headlineEn',
+      title: 'Professional Headline (English)',
+      type: 'string',
+      group: 'bioGroup',
+    },
+    {
       name: 'bio',
-      title: 'Bio Ringkas Hero',
+      title: 'Bio Ringkas Hero (Bahasa Indonesia)',
       type: 'text',
       rows: 3,
       group: 'bioGroup',
       validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'bioEn',
+      title: 'Short Bio (English)',
+      type: 'text',
+      rows: 3,
+      group: 'bioGroup',
     },
     {
       name: 'profileImage',
@@ -52,6 +68,13 @@ export default {
       title: 'Jumlah Paper Riset Terbit',
       type: 'string',
       initialValue: '1',
+      group: 'telemetryGroup',
+    },
+    {
+      name: 'researchPaperUrl',
+      title: 'URL Tautan Publikasi Riset / DOI Paper (Opsional)',
+      type: 'url',
+      description: 'Tautan langsung ke Google Scholar, IEEE, atau SINTA',
       group: 'telemetryGroup',
     },
     {
