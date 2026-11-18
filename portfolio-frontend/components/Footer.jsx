@@ -26,7 +26,7 @@ export default function Footer({ profile = {} }) {
           <span>© {new Date().getFullYear()}</span>
           <span className="text-gray-300 dark:text-white/20">•</span>
           <a
-            href="#beranda"
+            href="#home"
             className="hover:text-blue-600 dark:text-cyan-400 transition-colors inline-flex items-center gap-1 py-1 px-2 rounded-md hover:bg-gray-100 dark:hover:bg-white/[0.04]"
           >
             <span>{t.footer.backToTop}</span>

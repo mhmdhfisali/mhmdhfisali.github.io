@@ -14,13 +14,19 @@ export default function CommandPalette({ profile = {} }) {
     {
       name: t.commandPalette?.home || "Ke Beranda",
       shortcut: "H",
-      href: "#beranda",
+      href: "#home",
       category: t.commandPalette?.categories?.navigation || "Navigasi",
     },
     {
       name: t.commandPalette?.skills || "Lihat Keahlian & Tech Stack",
       shortcut: "S",
       href: "#skills",
+      category: t.commandPalette?.categories?.navigation || "Navigasi",
+    },
+    {
+      name: t.commandPalette?.activity || "Aktivitas & Kontribusi GitHub",
+      shortcut: "A",
+      href: "#activity",
       category: t.commandPalette?.categories?.navigation || "Navigasi",
     },
     {
@@ -42,15 +48,15 @@ export default function CommandPalette({ profile = {} }) {
       category: t.commandPalette?.categories?.navigation || "Navigasi",
     },
     {
-      name: t.commandPalette?.posts || "Artikel & Publikasi Riset",
-      shortcut: "A",
-      href: "#posts",
+      name: t.commandPalette?.articles || t.commandPalette?.posts || "Artikel & Publikasi Riset",
+      shortcut: "R",
+      href: "#articles",
       category: t.commandPalette?.categories?.navigation || "Navigasi",
     },
     {
       name: t.commandPalette?.contact || "Hubungi / Kontak",
       shortcut: "C",
-      href: "#kontak",
+      href: "#contact",
       category: t.commandPalette?.categories?.action || "Aksi",
     },
     {
@@ -97,6 +103,7 @@ export default function CommandPalette({ profile = {} }) {
       const target = document.querySelector(item.href);
       if (target) {
         target.scrollIntoView({ behavior: "smooth" });
+        window.history.pushState(null, "", item.href);
       }
     }
   };

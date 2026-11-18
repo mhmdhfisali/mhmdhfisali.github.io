@@ -7,7 +7,7 @@ export default function Navbar({ profile = {} }) {
   const { locale, toggleLocale, t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [activeSection, setActiveSection] = useState("#beranda");
+  const [activeSection, setActiveSection] = useState("#home");
   const [isDark, setIsDark] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -30,8 +30,8 @@ export default function Navbar({ profile = {} }) {
 
   const navItems = [
     {
-      name: t.nav.beranda,
-      link: "#beranda",
+      name: t.nav.home || t.nav.beranda || "Home",
+      link: "#home",
       icon: (
         <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -48,8 +48,8 @@ export default function Navbar({ profile = {} }) {
       ),
     },
     {
-      name: t.nav.github,
-      link: "#github",
+      name: t.nav.activity || t.nav.github || "Activity",
+      link: "#activity",
       icon: (
         <svg className="w-3.5 h-3.5 shrink-0 fill-current" viewBox="0 0 24 24">
           <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
@@ -84,8 +84,8 @@ export default function Navbar({ profile = {} }) {
       ),
     },
     {
-      name: t.nav.posts,
-      link: "#posts",
+      name: t.nav.articles || t.nav.posts || "Articles",
+      link: "#articles",
       icon: (
         <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
@@ -93,8 +93,8 @@ export default function Navbar({ profile = {} }) {
       ),
     },
     {
-      name: t.nav.kontak,
-      link: "#kontak",
+      name: t.nav.contact || t.nav.kontak || "Contact",
+      link: "#contact",
       icon: (
         <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -122,14 +122,14 @@ export default function Navbar({ profile = {} }) {
     setIsMuted(savedMute);
 
     const sectionIds = [
-      "beranda",
+      "home",
       "skills",
-      "github",
+      "activity",
       "projects",
       "experience",
       "certifications",
-      "posts",
-      "kontak",
+      "articles",
+      "contact",
     ];
 
     const handleScroll = () => {
@@ -147,11 +147,11 @@ export default function Navbar({ profile = {} }) {
         document.documentElement.scrollHeight - 60;
 
       if (isAtBottom) {
-        setActiveSection("#kontak");
+        setActiveSection("#contact");
         return;
       }
 
-      let current = "#beranda";
+      let current = "#home";
       for (const id of sectionIds) {
         const el = document.getElementById(id);
         if (el) {
@@ -227,8 +227,8 @@ export default function Navbar({ profile = {} }) {
       >
         {/* SISI KIRI: LOGO INISIAL & STATUS */}
         <a
-          href="#beranda"
-          onClick={(e) => handleNavClick(e, "#beranda")}
+          href="#home"
+          onClick={(e) => handleNavClick(e, "#home")}
           className="flex items-center gap-2.5 group cursor-pointer shrink-0 z-10"
         >
           <span
@@ -389,8 +389,8 @@ export default function Navbar({ profile = {} }) {
 
           {/* Contact CTA: ditampilkan di tablet & wide desktop; di compact desktop disembunyikan agar tidak mepet dengan nav Contact */}
           <a
-            href="#kontak"
-            onClick={(e) => handleNavClick(e, "#kontak")}
+            href="#contact"
+            onClick={(e) => handleNavClick(e, "#contact")}
             className="hidden sm:inline-flex lg:hidden xl:inline-flex items-center gap-1.5 bg-gray-950 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-gray-950 px-3.5 xl:px-4 py-1.5 xl:py-2 rounded-full text-xs font-semibold tracking-tight transition-all active:scale-95 shadow-xs cursor-pointer whitespace-nowrap"
           >
             <span>{t.nav.contactCta}</span>

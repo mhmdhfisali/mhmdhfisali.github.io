@@ -200,35 +200,37 @@ export default async function Home() {
       <Navbar profile={profile} />
 
       <main className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8 space-y-2 sm:space-y-0">
-        {/* 1. SEKSI BERANDA */}
-        <section id="beranda" className={heroSectionClass}>
+        {/* 1. SEKSI BERANDA / HOME */}
+        <section id="home" className={heroSectionClass}>
+          <span id="beranda" className="sr-only" />
           <ScrollReveal direction="converge" delay={100} className="w-full">
             <Hero profile={profile} />
           </ScrollReveal>
         </section>
 
-        {/* 2. SEKSI KEAHLIAN */}
+        {/* 2. SEKSI KEAHLIAN / SKILLS */}
         <section id="skills" className={contentSectionClass}>
           <ScrollReveal direction="up" delay={50} className="w-full">
             <Skills skills={skills} />
           </ScrollReveal>
         </section>
 
-        {/* 2.5 SEKSI GITHUB ACTIVITY */}
-        <section id="github" className={contentSectionClass}>
+        {/* 2.5 SEKSI AKTIVITAS / ACTIVITY */}
+        <section id="activity" className={contentSectionClass}>
+          <span id="github" className="sr-only" />
           <ScrollReveal direction="up" delay={60} className="w-full">
             <GitHubActivity username={githubUsername} />
           </ScrollReveal>
         </section>
 
-        {/* 3. SEKSI PROYEK */}
+        {/* 3. SEKSI PROYEK / PROJECTS */}
         <section id="projects" className={contentSectionClass}>
           <ScrollReveal direction="converge" delay={80} className="w-full">
             <Projects projects={mergedProjects} />
           </ScrollReveal>
         </section>
 
-        {/* 4. SEKSI PENGALAMAN & PENDIDIKAN */}
+        {/* 4. SEKSI PENGALAMAN & PENDIDIKAN / EXPERIENCE */}
         <section id="experience" className={contentSectionClass}>
           <ScrollReveal direction="up" delay={80} className="w-full">
             <ExperienceEducation
@@ -238,28 +240,30 @@ export default async function Home() {
           </ScrollReveal>
         </section>
 
-        {/* 5. SEKSI SERTIFIKASI */}
+        {/* 5. SEKSI SERTIFIKASI / CERTIFICATIONS */}
         <section id="certifications" className={contentSectionClass}>
           <ScrollReveal direction="converge" delay={80} className="w-full">
             <Certifications certifications={certifications} />
           </ScrollReveal>
         </section>
 
-        {/* 6. SEKSI ARTIKEL */}
+        {/* 6. SEKSI ARTIKEL / ARTICLES */}
         <section
-          id="posts"
+          id="articles"
           className="w-full flex flex-col justify-center py-6 sm:pt-24 sm:pb-36 sm:min-h-[85vh] scroll-mt-20"
         >
+          <span id="posts" className="sr-only" />
           <ScrollReveal direction="scale" delay={80} className="w-full">
             <Posts posts={posts} />
           </ScrollReveal>
         </section>
 
-        {/* 7. SEKSI KONTAK */}
+        {/* 7. SEKSI KONTAK / CONTACT */}
         <section
-          id="kontak"
+          id="contact"
           className="w-full flex flex-col justify-center py-6 sm:pt-32 sm:pb-28 sm:min-h-[75vh] scroll-mt-20"
         >
+          <span id="kontak" className="sr-only" />
           <ScrollReveal direction="up" delay={50} className="w-full">
             <ContactDrawer profile={profile} />
           </ScrollReveal>
