@@ -13,7 +13,7 @@ export default function ContactDrawer({ profile = {} }) {
   const github = profile?.githubUrl || "https://github.com/mhmdhfisali";
   const linkedin =
     profile?.linkedinUrl || "https://www.linkedin.com/in/mhmdhfisali";
-  const instagram = profile?.instagramUrl || "https://instagram.com";
+  const instagram = profile?.instagramUrl || "https://www.instagram.com/_hafisaliii";
   const whatsapp = profile?.phone
     ? `https://wa.me/${profile.phone.replace(/[^0-9]/g, "")}`
     : "https://wa.me/6285945720329";

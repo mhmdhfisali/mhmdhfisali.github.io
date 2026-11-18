@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function CommandPalette({ profile = {} }) {
-  const { t, language, setLanguage } = useLanguage();
+  const { t, locale, toggleLocale } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
 
@@ -56,7 +56,7 @@ export default function CommandPalette({ profile = {} }) {
     {
       name: t.commandPalette?.switchLang || "Ganti Bahasa / Switch Language",
       shortcut: "T",
-      action: () => setLanguage(language === "id" ? "en" : "id"),
+      action: () => toggleLocale(),
       category: t.commandPalette?.categories?.action || "Aksi",
     },
     {

@@ -42,7 +42,9 @@ export function LanguageProvider({ children }) {
     <LanguageContext.Provider
       value={{
         locale,
+        language: locale,
         setLocale: handleSetLocale,
+        setLanguage: handleSetLocale,
         toggleLocale,
         t,
         isMounted,
