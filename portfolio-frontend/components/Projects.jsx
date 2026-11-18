@@ -261,6 +261,8 @@ export default function Projects({ projects = [] }) {
 
   const carouselRef = useRef(null);
   const cardRefs = useRef([]);
+  const isProgrammaticScroll = useRef(false);
+  const scrollTimeoutRef = useRef(null);
 
   // Ekstraksi daftar unik perusahaan secara dinamis untuk skalabilitas jangka panjang
   const availableCompanies = useMemo(() => {
@@ -338,18 +340,10 @@ export default function Projects({ projects = [] }) {
       setScrollProgress(100);
     }
 
-    if (scrollLeft <= 30) {
-      setActiveIndex(0);
-      return;
-    }
-
-    if (scrollLeft >= maxScroll - 30) {
-      setActiveIndex(filteredProjects.length - 1);
-      return;
-    }
+    if (isProgrammaticScroll.current) return;
 
     const containerRect = container.getBoundingClientRect();
-    const triggerPoint = containerRect.left + containerRect.width * 0.35;
+    const viewportCenter = containerRect.left + containerRect.width / 2;
 
     let closestIdx = 0;
     let minDistance = Infinity;
@@ -358,7 +352,7 @@ export default function Projects({ projects = [] }) {
       if (!card) return;
       const cardRect = card.getBoundingClientRect();
       const cardCenter = cardRect.left + cardRect.width / 2;
-      const dist = Math.abs(triggerPoint - cardCenter);
+      const dist = Math.abs(viewportCenter - cardCenter);
 
       if (dist < minDistance) {
         minDistance = dist;
@@ -380,6 +374,7 @@ export default function Projects({ projects = [] }) {
     return () => {
       el.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
     };
   }, [filteredProjects, layoutMode]);
 
@@ -389,28 +384,33 @@ export default function Projects({ projects = [] }) {
     const card = cardRefs.current[index];
     if (!container || !card) return;
 
+    setActiveIndex(index);
+    isProgrammaticScroll.current = true;
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = setTimeout(() => {
+      isProgrammaticScroll.current = false;
+    }, 500);
+
+    const maxScroll = container.scrollWidth - container.clientWidth;
     let targetLeft = 0;
     if (index === 0) {
       targetLeft = 0;
+    } else if (index === filteredProjects.length - 1) {
+      targetLeft = maxScroll;
     } else {
-      targetLeft = card.offsetLeft - (container.clientWidth / 2 - card.offsetWidth / 2);
+      targetLeft = card.offsetLeft - (container.clientWidth - card.offsetWidth) / 2;
     }
 
     container.scrollTo({
-      left: Math.max(0, targetLeft),
+      left: Math.max(0, Math.min(maxScroll, targetLeft)),
       behavior: "smooth",
     });
   };
 
   const handleCardClick = (project, index) => {
-    if (layoutMode === "grid") {
-      setSelectedProject(project);
-      return;
-    }
-
-    if (activeIndex === index) {
-      setSelectedProject(project);
-    } else {
+    setActiveIndex(index);
+    setSelectedProject(project);
+    if (layoutMode === "carousel") {
       scrollToCard(index);
     }
   };
@@ -673,7 +673,7 @@ export default function Projects({ projects = [] }) {
 
           <div
             ref={carouselRef}
-            className="flex items-stretch gap-3.5 sm:gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pt-1 pb-3.5 sm:pt-2 sm:pb-5 px-3 sm:px-1 no-scrollbar [&::-webkit-scrollbar]:hidden"
+            className="flex items-stretch gap-3.5 sm:gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory sm:snap-none pt-1 pb-3.5 sm:pt-2 sm:pb-5 px-3 sm:px-1 no-scrollbar [&::-webkit-scrollbar]:hidden"
           >
             {filteredProjects.map((project, idx) => {
               const isActive = idx === activeIndex;

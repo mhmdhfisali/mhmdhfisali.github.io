@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#0d1527"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+  
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)"/>
+  <rect x="18" y="18" width="476" height="476" rx="98" fill="none" stroke="url(#borderGrad)" stroke-width="14"/>
+  <circle cx="256" cy="256" r="160" fill="#38bdf8" opacity="0.1"/>
+  
+  <circle cx="415" cy="98" r="24" fill="#10b981"/>
+  <circle cx="415" cy="98" r="15" fill="#34d399"/>
+  
+  <text x="256" y="315" font-family="system-ui, -apple-system, sans-serif" font-size="150" font-weight="900" letter-spacing="-3" fill="#ffffff" text-anchor="middle">MHA</text>
+  
+  <rect x="156" y="348" width="200" height="12" rx="6" fill="url(#accentGrad)"/>
+</svg>

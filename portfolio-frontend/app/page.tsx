@@ -140,9 +140,11 @@ export default async function Home() {
           dp.title.toLowerCase().includes(sp.title.toLowerCase().slice(0, 15))),
     );
     if (existingIdx !== -1) {
+      const curatedOrder = mergedProjects[existingIdx].featuredOrder;
       mergedProjects[existingIdx] = {
         ...mergedProjects[existingIdx],
         ...sp,
+        featuredOrder: curatedOrder,
         projectType: sp.projectType || mergedProjects[existingIdx].projectType,
         company: sp.company || mergedProjects[existingIdx].company,
         deploymentStatus:
@@ -165,9 +167,21 @@ export default async function Home() {
     }
   });
 
-  // Sort by featuredOrder asc
+  const CANONICAL_ORDER: Record<string, number> = {
+    "project-ppic-smii": 1,
+    "project-ipc-smii": 2,
+    "project-dashboard-smii": 3,
+    "project-absolutestore": 4,
+    "ca94d2a9-7c10-4784-ab61-efe7a895e911": 5,
+    "e4adfc50-99a9-433f-98f0-2a960ad394db": 6,
+    "a5e66933-006d-4263-8c63-f85099020fb4": 7,
+  };
+
+  // Sort by canonical order asc (SMII enterprise -> live production -> mobile -> research)
   mergedProjects.sort(
-    (a, b) => (a.featuredOrder || 99) - (b.featuredOrder || 99),
+    (a, b) =>
+      (CANONICAL_ORDER[a._id] || a.featuredOrder || 99) -
+      (CANONICAL_ORDER[b._id] || b.featuredOrder || 99),
   );
 
   // CLASS RESPONSIVE: Padding proporsional & rapat di mobile (tanpa gap kosong raksasa), lapang di desktop
