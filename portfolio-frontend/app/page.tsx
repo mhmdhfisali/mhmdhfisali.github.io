@@ -248,10 +248,7 @@ export default async function Home() {
         </section>
 
         {/* 6. SEKSI ARTIKEL / ARTICLES */}
-        <section
-          id="articles"
-          className="w-full flex flex-col justify-center py-6 sm:pt-24 sm:pb-36 sm:min-h-[85vh] scroll-mt-20"
-        >
+        <section id="articles" className={contentSectionClass}>
           <span id="posts" className="sr-only" />
           <ScrollReveal direction="scale" delay={80} className="w-full">
             <Posts posts={posts} />
@@ -259,10 +256,7 @@ export default async function Home() {
         </section>
 
         {/* 7. SEKSI KONTAK / CONTACT */}
-        <section
-          id="contact"
-          className="w-full flex flex-col justify-center py-6 sm:pt-32 sm:pb-28 sm:min-h-[75vh] scroll-mt-20"
-        >
+        <section id="contact" className={contentSectionClass}>
           <span id="kontak" className="sr-only" />
           <ScrollReveal direction="up" delay={50} className="w-full">
             <ContactDrawer profile={profile} />
