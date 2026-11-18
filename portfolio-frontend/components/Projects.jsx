@@ -263,6 +263,7 @@ export default function Projects({ projects = [] }) {
   const cardRefs = useRef([]);
   const isProgrammaticScroll = useRef(false);
   const scrollTimeoutRef = useRef(null);
+  const modalTimerRef = useRef(null);
 
   // Ekstraksi daftar unik perusahaan secara dinamis untuk skalabilitas jangka panjang
   const availableCompanies = useMemo(() => {
@@ -282,8 +283,8 @@ export default function Projects({ projects = [] }) {
   const typeTabs = useMemo(() => {
     return [
       { id: "all", label: t.projects.typeFilter.all, type: "all" },
-      { id: "company", label: t.projects.typeFilter.company, type: "company" },
       { id: "personal", label: t.projects.typeFilter.personal, type: "personal" },
+      { id: "company", label: t.projects.typeFilter.company, type: "company" },
     ];
   }, [t]);
 
@@ -375,6 +376,7 @@ export default function Projects({ projects = [] }) {
       el.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
       if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      if (modalTimerRef.current) clearTimeout(modalTimerRef.current);
     };
   }, [filteredProjects, layoutMode]);
 
@@ -392,14 +394,7 @@ export default function Projects({ projects = [] }) {
     }, 500);
 
     const maxScroll = container.scrollWidth - container.clientWidth;
-    let targetLeft = 0;
-    if (index === 0) {
-      targetLeft = 0;
-    } else if (index === filteredProjects.length - 1) {
-      targetLeft = maxScroll;
-    } else {
-      targetLeft = card.offsetLeft - (container.clientWidth - card.offsetWidth) / 2;
-    }
+    const targetLeft = card.offsetLeft - (container.clientWidth - card.offsetWidth) / 2;
 
     container.scrollTo({
       left: Math.max(0, Math.min(maxScroll, targetLeft)),
@@ -408,10 +403,22 @@ export default function Projects({ projects = [] }) {
   };
 
   const handleCardClick = (project, index) => {
-    setActiveIndex(index);
-    setSelectedProject(project);
-    if (layoutMode === "carousel") {
+    if (layoutMode === "carousel" && index !== activeIndex) {
+      // 1. Gulir kartu yang dipilih tepat ke tengah spotlight
       scrollToCard(index);
+
+      // 2. Batalkan timer jika ada klik cepat
+      if (modalTimerRef.current) clearTimeout(modalTimerRef.current);
+
+      // 3. Beri waktu agar kartu meluncur mulus ke tengah (~350ms), lalu buka modal studi kasus
+      modalTimerRef.current = setTimeout(() => {
+        setSelectedProject(project);
+      }, 350);
+    } else {
+      // Jika kartu sudah berada di tengah (atau mode grid), langsung buka seketika
+      if (modalTimerRef.current) clearTimeout(modalTimerRef.current);
+      setActiveIndex(index);
+      setSelectedProject(project);
     }
   };
 
@@ -673,7 +680,7 @@ export default function Projects({ projects = [] }) {
 
           <div
             ref={carouselRef}
-            className="flex items-stretch gap-3.5 sm:gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory sm:snap-none pt-1 pb-3.5 sm:pt-2 sm:pb-5 px-3 sm:px-1 no-scrollbar [&::-webkit-scrollbar]:hidden"
+            className="flex items-stretch gap-3.5 sm:gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory sm:snap-none pt-1 pb-3.5 sm:pt-2 sm:pb-5 px-[8vw] sm:px-[calc(50%-175px)] md:px-[calc(50%-185px)] no-scrollbar [&::-webkit-scrollbar]:hidden"
           >
             {filteredProjects.map((project, idx) => {
               const isActive = idx === activeIndex;
@@ -684,7 +691,7 @@ export default function Projects({ projects = [] }) {
                   className={`w-[84vw] max-w-[310px] sm:w-[350px] md:w-[370px] shrink-0 snap-center transition-all duration-300 ${
                     isActive
                       ? "opacity-100 scale-100 z-20"
-                      : "opacity-60 hover:opacity-85 scale-[0.98] z-10"
+                      : "opacity-60 hover:opacity-90 scale-[0.96] z-10 hover:scale-[0.98]"
                   }`}
                 >
                   <ProjectCard

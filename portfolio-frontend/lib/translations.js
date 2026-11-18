@@ -99,8 +99,8 @@ export const translations = {
       subtitle: "Kompilasi implementasi aplikasi seluler, platform berbasis web, dan arsitektur model komputasi yang pernah dibangun dari perancangan hingga siap pakai.",
       typeFilter: {
         all: "Semua Proyek",
-        company: "Proyek Perusahaan",
-        personal: "Proyek Pribadi & Riset",
+        personal: "Pribadi",
+        company: "Perusahaan",
       },
       allCompanies: "Semua Perusahaan",
       selectCompany: "Pilih Perusahaan",
@@ -336,8 +336,8 @@ export const translations = {
       subtitle: "A compilation of mobile applications, web platforms, and computing architectures built from initial design to production readiness.",
       typeFilter: {
         all: "All Projects",
-        company: "Company Projects",
-        personal: "Personal & Research",
+        personal: "Personal",
+        company: "Company",
       },
       allCompanies: "All Companies",
       selectCompany: "Select Company",
