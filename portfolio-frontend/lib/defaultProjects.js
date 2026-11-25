@@ -1,8 +1,8 @@
 export const defaultProjects = [
   {
     _id: "project-ppic-smii",
-    title: "PPIC System: Production Planning & Inventory Control",
-    titleEn: "PPIC System: Production Planning & Inventory Control",
+    title: "PPIC System: Production Planning and Inventory Control",
+    titleEn: "PPIC System: Production Planning and Inventory Control",
     slug: { current: "ppic-system-smii" },
     projectType: "company",
     company: "PT Sinar Meadow International Indonesia",
@@ -11,15 +11,15 @@ export const defaultProjects = [
     role: "Web Development Intern / Full-Stack Engineer",
     roleEn: "Web Development Intern / Full-Stack Engineer",
     summary:
-      "Sistem enterprise internal untuk perencanaan kapasitas produksi, monitoring stok bahan baku formula margarin, dan penjadwalan batch harian secara terintegrasi di PT Sinar Meadow International Indonesia.",
+      "Sistem internal perencanaan kapasitas produksi, monitoring stok bahan baku formula margarin, dan penjadwalan batch harian terintegrasi di PT Sinar Meadow International Indonesia.",
     summaryEn:
-      "Enterprise internal platform for production capacity planning, raw material inventory monitoring, and daily batch scheduling integration at PT Sinar Meadow International Indonesia.",
+      "Internal manufacturing system for production capacity planning, raw material stock monitoring, and integrated daily batch scheduling at PT Sinar Meadow International Indonesia.",
     techStack: ["PHP", "Laravel", "MySQL", "JavaScript", "Tailwind CSS", "REST API", "Docker"],
     featuredOrder: 1,
     impactMetrics: [
       {
         value: "< 5 Menit",
-        label: "Otomasi jadwal harian pabrik (dari sebelumnya manual 2 jam)",
+        label: "Otomasi jadwal harian pabrik (sebelumnya manual 2 jam)",
         labelEn: "Automated daily plant scheduling (down from 2 hours manual)",
       },
       {
@@ -29,53 +29,53 @@ export const defaultProjects = [
       },
       {
         value: "Zero Conflict",
-        label: "Eliminasi tumpang-tindih work order antar shift produksi",
-        labelEn: "Elimination of multi-shift work order overlaps & scheduling conflicts",
+        label: "Eliminasi tumpang tindih work order antar shift produksi",
+        labelEn: "Elimination of multi-shift work order overlaps and conflicts",
       },
     ],
     caseStudyPhases: [
       {
         phaseName: "Fase 01",
         phaseNameEn: "Phase 01",
-        topic: "Analisis Alur PPIC",
+        topic: "Analisis Alur",
         topicEn: "Workflow Analysis",
-        title: "Pemetaan Alur Produksi & Inventarisasi Formula",
-        titleEn: "Production Mapping & Formula Inventory",
+        title: "Pemetaan Alur Produksi dan Inventaris Formula",
+        titleEn: "Production Mapping and Formula Inventory",
         description:
-          "Menganalisis alur kerja manual penjadwalan pabrik margarin, standarisasi formula batch, serta kebutuhan pencatatan ketersediaan bahan baku secara real-time.",
+          "Menganalisis alur kerja manual penjadwalan pabrik margarin dan standarisasi pencatatan stok bahan baku.",
         descriptionEn:
-          "Analyzed margarine manufacturing scheduling workflows, recipe formulation standards, and real-time raw material requirements.",
+          "Analyzed manual plant scheduling workflows and standardized raw material inventory logs.",
       },
       {
         phaseName: "Fase 02",
         phaseNameEn: "Phase 02",
         topic: "Arsitektur Database",
         topicEn: "Database Architecture",
-        title: "Desain Relasi Data Transaksional & Work Orders",
-        titleEn: "Transactional Data Schema & Work Orders",
+        title: "Desain Relasi Data Transaksional dan Work Orders",
+        titleEn: "Transactional Data Schema and Work Orders",
         description:
-          "Merancang skema database relasional ternormalisasi untuk menangani multi-shift work order, estimasi pemakaian material, dan pelacakan batch code.",
+          "Merancang skema database relasional untuk menangani multi-shift work order dan pelacakan batch code.",
         descriptionEn:
-          "Designed normalized relational database schemas handling multi-shift work orders, material consumption projections, and batch code traceability.",
+          "Designed relational database schemas handling multi-shift work orders and batch code tracking.",
       },
       {
         phaseName: "Fase 03",
         phaseNameEn: "Phase 03",
-        topic: "Implementasi & Integrasi",
-        topicEn: "Implementation & Integration",
-        title: "Pembangunan Modul Perencanaan & Pengujian Internal",
-        titleEn: "Planning Module Implementation & Internal Validation",
+        topic: "Implementasi Sistem",
+        topicEn: "System Implementation",
+        title: "Pembangunan Modul Jadwal dan Validasi Pabrik",
+        titleEn: "Schedule Module and Operational Validation",
         description:
-          "Membangun antarmuka manajemen jadwal, kalkulator otomatis kebutuhan bahan baku, serta validasi operasional bersama tim produksi pabrik.",
+          "Membangun kalkulator otomatis kebutuhan bahan baku dan validasi operasional bersama tim produksi.",
         descriptionEn:
-          "Implemented scheduling UI, automated ingredient requirement calculators, and conducted operational validation with plant production personnel.",
+          "Built automated material requirement calculators and conducted validation with plant personnel.",
       },
     ],
   },
   {
     _id: "project-ipc-smii",
-    title: "IPC System: In-Process Quality Control & Sampling Validation",
-    titleEn: "IPC System: In-Process Quality Control & Sampling Validation",
+    title: "IPC System: In-Process Quality Control dan Validasi Sampling",
+    titleEn: "IPC System: In-Process Quality Control and Sampling Validation",
     slug: { current: "ipc-system-smii" },
     projectType: "company",
     company: "PT Sinar Meadow International Indonesia",
@@ -89,9 +89,9 @@ export const defaultProjects = [
     ursUrl: "https://drive.google.com/file/d/1w4wKxYpwN3p4seTWhDVsGxVj2CmoSKxF/view?usp=sharing",
     manualBookUrl: "https://drive.google.com/file/d/1N0MdCRBy9pLkaCA1VboyG7MSTIt-fHdS/view?usp=sharing",
     summary:
-      "Sistem digitalisasi inspeksi mutu in-process (IPC) pabrik PT Sinar Meadow International Indonesia untuk pemantauan real-time lini kemas (Line A-G & Repack), input checklist parameter mutu (Stencil, Tare, Netto), integrasi kamera web langsung, penandaan area cacat (Defect Annotation), dan cap watermark anti-manipulasi.",
+      "Digitalisasi inspeksi mutu lini kemas pabrik secara real-time. Dilengkapi kamera web terintegrasi, anotasi cacat kemasan, dan validasi toleransi otomatis.",
     summaryEn:
-      "In-Process Quality Control (IPC) industrial digitalization platform for PT Sinar Meadow International Indonesia. Monitors real-time packaging lines (Line A-G & Repack), parameter checklists (Stencil, Tare, Netto), in-app web camera capture, defect canvas annotation, and tamper-evident watermarking.",
+      "Real-time in-process packaging quality inspection platform. Features in-app web camera capture, canvas defect annotation, and automated tolerance validation.",
     techStack: [
       "PHP",
       "CodeIgniter / Laravel",
@@ -105,75 +105,75 @@ export const defaultProjects = [
     featuredOrder: 2,
     impactMetrics: [
       {
-        value: "1-2 Jam/Shift",
-        label: "Penghematan waktu harian tim QA (eliminasi rekap form manual & pencarian binder)",
-        labelEn: "Daily QA shift time saved (eliminated manual binder logs & paper collation)",
+        value: "1-2 Jam",
+        label: "Hemat waktu rekap per shift (tanpa binder fisik)",
+        labelEn: "Shift time saved from physical binder logs",
       },
       {
-        value: "1.000+ Foto/Bln",
-        label: "Digitalisasi foto bukti visual inspeksi ber-watermark waktu, shift, & anotasi cacat",
-        labelEn: "Monthly inspection photos digitized with tamper-evident watermark & defect annotation",
+        value: "1.000+",
+        label: "Foto bukti inspeksi digital per bulan",
+        labelEn: "Monthly inspection photos digitized",
       },
       {
-        value: "8 Lini Kemas",
-        label: "Validasi toleransi stencil, tare & netto real-time di Line A-G & Area Repack",
-        labelEn: "Real-time stencil, tare & netto tolerance checks across Lines A-G & Repack",
+        value: "8 Lini",
+        label: "Validasi real-time Lini A sampai G dan Repack",
+        labelEn: "Real-time checks across Lines A-G and Repack",
       },
     ],
     galleryImages: [
       {
         url: "/images/projects/ipc/01-dashboard-menu.webp",
-        caption: "Dashboard Menu IPC: Akses Cepat Input Pemeriksaan, Katalog Produk & Mode QA Command Center",
-        captionEn: "IPC Dashboard Menu: Quick Access for Inspection Input, SKU Catalog & QA Command Center Mode",
+        caption: "Menu Utama: Input Pemeriksaan dan Katalog Produk",
+        captionEn: "Main Menu: Inspection Entry and Product Catalog",
       },
       {
         url: "/images/projects/ipc/02-line-control-board.webp",
-        caption: "Packing Line Control Board: Monitoring Real-Time Shift Operasional Lini A-G & Area Repack",
-        captionEn: "Packing Line Control Board: Real-Time Operational Shift Monitoring for Lines A-G & Repack Area",
+        caption: "Papan Kontrol: Monitoring Real-Time Lini Produksi",
+        captionEn: "Control Board: Real-Time Line Monitoring",
       },
       {
         url: "/images/projects/ipc/03-step1-production-info.webp",
-        caption: "Step 1 - Production Info: Tanggal Inspeksi Auto-Locked, Pilihan SKU Produk, Nomor Batch, & Palet",
-        captionEn: "Step 1 - Production Info: Auto-Locked Date, Running SKU Selection, Batch & Pallet Sequence",
+        caption: "Tahap 1: Input Data Produk, Batch, dan Palet",
+        captionEn: "Step 1: Product, Batch, and Pallet Entry",
       },
       {
         url: "/images/projects/ipc/04-step2-parameter-checklist.webp",
-        caption: "Step 2 - QC Checklist: Verifikasi Parameter Stencil, Berat Tare (g), & Netto Produk (kg) Berbasis Toleransi",
-        captionEn: "Step 2 - QC Checklist: Stencil, Tare Weight (g), & Netto (kg) Parameter Verification with Tolerances",
+        caption: "Tahap 2: Checklist Parameter Stencil, Tare, dan Netto",
+        captionEn: "Step 2: Stencil, Tare, and Netto Parameter Checks",
       },
       {
         url: "/images/projects/ipc/05-qa-camera-viewfinder.webp",
-        caption: "In-App QA Camera: Pengambilan Foto Bukti Fisik Kemasan Langsung di Peramban Web Tanpa Pindah Aplikasi",
-        captionEn: "In-App QA Camera: Packaging Physical Evidence Capture Directly Inside Browser Without App Switching",
+        caption: "Kamera Web: Ambil Bukti Fisik Kemasan Langsung",
+        captionEn: "Web Camera: In-App Packaging Photo Capture",
       },
       {
         url: "/images/projects/ipc/06-defect-annotation.webp",
-        caption: "Defect Annotation & Watermark: Penandaan Area Cacat Lingkaran Merah & Cap Waktu/Shift Anti-Manipulasi",
-        captionEn: "Defect Annotation & Watermark: Canvas Red Circle Marking & Anti-Tamper Date/Shift Timestamp",
+        caption: "Anotasi Cacat: Lingkari Titik Rusak dan Cap Waktu",
+        captionEn: "Defect Marking: Highlight Defect and Watermark",
       },
       {
         url: "/images/projects/ipc/07-step3-confirmation-summary.webp",
-        caption: "Step 3 - Summary & Confirmation: Validasi Kelengkapan Foto & Data Batch Sebelum Commit ke Database",
-        captionEn: "Step 3 - Summary & Confirmation: Photo Completeness & Batch Verification Prior to Database Commit",
+        caption: "Tahap 3: Ringkasan dan Validasi Sebelum Simpan",
+        captionEn: "Step 3: Summary and Final Submission Check",
       },
       {
         url: "/images/projects/ipc/08-inactive-line-declaration.webp",
-        caption: "Inactive Line Declaration: Form Deklarasi Alasan Downtime Mesin & Transparansi Lini Non-Aktif",
-        captionEn: "Inactive Line Declaration: Downtime Reason Logging & Machine Breakdown Transparency Form",
+        caption: "Deklarasi Lini: Form Alasan Downtime Mesin",
+        captionEn: "Line Status: Machine Downtime Reason Form",
       },
     ],
     caseStudyPhases: [
       {
         phaseName: "Fase 01",
         phaseNameEn: "Phase 01",
-        topic: "Spesifikasi Sistem (URS)",
-        topicEn: "System Specification (URS)",
-        title: "Pemetaan Kebutuhan Departemen QA/QM & URS Standarisasi",
-        titleEn: "QA/QM Department Requirements & URS Standardization",
+        topic: "Spesifikasi URS",
+        topicEn: "URS Specification",
+        title: "Standarisasi Kebutuhan QA dan Matriks Toleransi",
+        titleEn: "QA Requirements and Tolerance Standardization",
         description:
-          "Merumuskan User Requirement Specification (URS) bersama Project Leader Jeremy Louis Adisurya untuk mengeliminasi pencatatan binder fisik, mengotomasi penguncian tanggal, dan menyusun matriks toleransi kemasan produk margarin.",
+          "Menyusun dokumen URS bersama Project Leader, memetakan parameter kritis kemasan, dan mengeliminasi binder fisik.",
         descriptionEn:
-          "Formulated User Requirement Specifications (URS) alongside Project Leader Jeremy Louis Adisurya to eliminate physical binders, auto-lock inspection dates, and standardize tolerance matrices.",
+          "Drafted URS with the Project Leader, standardized tolerance matrices, and replaced physical paper binders.",
         previewImage: {
           url: "/images/projects/ipc/01-dashboard-menu.webp",
         },
@@ -181,14 +181,14 @@ export const defaultProjects = [
       {
         phaseName: "Fase 02",
         phaseNameEn: "Phase 02",
-        topic: "In-App Camera & Annotation",
-        topicEn: "In-App Camera & Annotation",
-        title: "Integrasi Kamera Web, Watermark Timestamp & Canvas Anotasi",
-        titleEn: "Web Camera Integration, Watermark Timestamp & Canvas Annotation",
+        topic: "Kamera dan Anotasi",
+        topicEn: "Camera and Annotation",
+        title: "Kamera Web In-App dan Watermark Cap Waktu",
+        titleEn: "Web Camera and Tamper-Evident Watermarking",
         description:
-          "Membangun modul viewfinder kamera in-app dengan capture instan, canvas drawing untuk melingkari titik cacat kemasan berwarna merah, serta watermarking dinamis anti-manipulasi berisi tanggal, jam WIB, shift, dan nama lini.",
+          "Membangun modul kamera in-app, alat canvas penanda cacat merah, serta cap waktu dan shift otomatis.",
         descriptionEn:
-          "Engineered in-app camera viewfinder with instant capture, interactive canvas defect annotation (red circle), and tamper-evident watermarking encoding date, WIB time, shift, and line name.",
+          "Built in-app camera capture, canvas red-circle defect marker, and automated timestamp/shift watermarking.",
         previewImage: {
           url: "/images/projects/ipc/06-defect-annotation.webp",
         },
@@ -196,14 +196,14 @@ export const defaultProjects = [
       {
         phaseName: "Fase 03",
         phaseNameEn: "Phase 03",
-        topic: "Control Board & Akuntabilitas",
-        topicEn: "Control Board & Accountability",
-        title: "Packing Line Control Board & Deklarasi Inactive Line",
-        titleEn: "Packing Line Control Board & Inactive Line Accountability",
+        topic: "Papan Kontrol",
+        topicEn: "Control Board",
+        title: "Monitoring Multi-Lini dan Deklarasi Downtime",
+        titleEn: "Multi-Line Monitoring and Downtime Logging",
         description:
-          "Mengembangkan papan kontrol terpusat untuk memantau status inspeksi Shift 1-3 pada Lini A-G dan Repack, form deklarasi downtime mesin saat lini non-aktif, serta summary validasi kelengkapan foto sebelum penyimpanan permanen.",
+          "Mengembangkan papan kontrol Shift 1 sampai 3 pada 8 lini kemas, form downtime, serta validasi data batch.",
         descriptionEn:
-          "Built centralized control board monitoring inspection status across Shifts 1-3 for Lines A-G & Repack, downtime declaration forms for inactive lines, and multi-step validation checks.",
+          "Delivered multi-shift control board across 8 packaging lines, machine downtime reason forms, and batch validation.",
         previewImage: {
           url: "/images/projects/ipc/02-line-control-board.webp",
         },
@@ -212,8 +212,8 @@ export const defaultProjects = [
   },
   {
     _id: "project-dashboard-smii",
-    title: "Executive Production & Operational Dashboard SMII",
-    titleEn: "SMII Executive Production & Operational Analytics Dashboard",
+    title: "Executive Production and Operational Dashboard SMII",
+    titleEn: "SMII Executive Production and Operational Analytics Dashboard",
     slug: { current: "dashboard-smii" },
     projectType: "company",
     company: "PT Sinar Meadow International Indonesia",
@@ -230,13 +230,13 @@ export const defaultProjects = [
     impactMetrics: [
       {
         value: "24/7 Real-Time",
-        label: "Pemantauan efisiensi OEE & throughput lini pengemasan",
-        labelEn: "24/7 OEE efficiency & packaging line throughput telemetry",
+        label: "Pemantauan efisiensi OEE dan throughput lini pengemasan",
+        labelEn: "24/7 OEE efficiency and packaging line throughput telemetry",
       },
       {
         value: "50% Lebih Cepat",
-        label: "Deteksi dini anomali mesin & peringatan downtime operasional",
-        labelEn: "Early machine anomaly detection & operational downtime alerts",
+        label: "Deteksi dini anomali mesin dan peringatan downtime operasional",
+        labelEn: "Early machine anomaly detection and operational downtime alerts",
       },
       {
         value: "Multi-Lini",
@@ -262,8 +262,8 @@ export const defaultProjects = [
         phaseNameEn: "Phase 02",
         topic: "Visualisasi UI/UX",
         topicEn: "UI/UX Visualization",
-        title: "Perancangan Widget KPI & Telemetri Visual",
-        titleEn: "KPI Widgets & Visual Telemetry Design",
+        title: "Perancangan Widget KPI dan Telemetri Visual",
+        titleEn: "KPI Widgets and Visual Telemetry Design",
         description:
           "Merancang visual interaktif grafik throughput, persentase downtime, dan status utilisasi mesin yang mudah dibaca pimpinan produksi.",
         descriptionEn:
@@ -274,8 +274,8 @@ export const defaultProjects = [
         phaseNameEn: "Phase 03",
         topic: "Live Monitoring",
         topicEn: "Live Monitoring",
-        title: "Pembaruan Berkala & Optimasi Kecepatan Tampil",
-        titleEn: "Interval Refresh & Render Performance Optimization",
+        title: "Pembaruan Berkala dan Optimasi Kecepatan Tampil",
+        titleEn: "Interval Refresh and Render Performance Optimization",
         description:
           "Mengoptimalkan query analitik besar agar grafik dan rangkuman angka dapat dirender dengan instan dan hemat sumber daya server.",
         descriptionEn:
@@ -285,14 +285,14 @@ export const defaultProjects = [
   },
   {
     _id: "project-absolutestore",
-    title: "absolutestore.id: Automated Digital Goods & Top-Up Platform",
-    titleEn: "absolutestore.id: Automated Digital Goods & Top-Up Platform",
+    title: "absolutestore.id: Platform Top-Up dan Produk Digital",
+    titleEn: "absolutestore.id: Automated Digital Goods and Top-Up Platform",
     slug: { current: "absolutestore-id" },
     projectType: "personal",
     category: "web",
     deploymentStatus: "live",
-    role: "Founder & Lead Full-Stack Developer",
-    roleEn: "Founder & Lead Full-Stack Developer",
+    role: "Founder dan Lead Full-Stack Developer",
+    roleEn: "Founder and Lead Full-Stack Developer",
     summary:
       "Platform e-commerce digital top-up game dan voucher instan live dengan integrasi payment gateway otomatis, pemrosesan transaksi berkecepatan tinggi, dan webhook real-time.",
     summaryEn:
@@ -309,8 +309,8 @@ export const defaultProjects = [
       },
       {
         value: "< 3 Detik",
-        label: "Kecepatan validasi pembayaran QRIS & webhook otomatis",
-        labelEn: "Instant QRIS payment validation & automated webhook callback",
+        label: "Kecepatan validasi pembayaran QRIS dan webhook otomatis",
+        labelEn: "Instant QRIS payment validation and automated webhook callback",
       },
       {
         value: "100% Otomatis",
@@ -324,8 +324,8 @@ export const defaultProjects = [
         phaseNameEn: "Phase 01",
         topic: "Arsitektur Sistem",
         topicEn: "System Architecture",
-        title: "Perancangan Katalog Produk & Antarmuka Cepat",
-        titleEn: "Product Catalog Design & High-Speed UI",
+        title: "Perancangan Katalog Produk dan Antarmuka Cepat",
+        titleEn: "Product Catalog Design and High-Speed UI",
         description:
           "Merancang katalog produk game populer, validasi ID akun game secara dinamis, dan pengalaman transaksi tanpa hambatan bagi pengguna.",
         descriptionEn:
@@ -336,8 +336,8 @@ export const defaultProjects = [
         phaseNameEn: "Phase 02",
         topic: "Payment Gateway",
         topicEn: "Payment Gateway",
-        title: "Integrasi QRIS, Virtual Account, & Webhook Real-Time",
-        titleEn: "QRIS, Virtual Account & Real-Time Webhook Integration",
+        title: "Integrasi QRIS, Virtual Account, dan Webhook Real-Time",
+        titleEn: "QRIS, Virtual Account and Real-Time Webhook Integration",
         description:
           "Menghubungkan gerbang pembayaran otomatis nasional dengan callback webhook berkeamanan tanda tangan digital (HMAC signature).",
         descriptionEn:
@@ -348,8 +348,8 @@ export const defaultProjects = [
         phaseNameEn: "Phase 03",
         topic: "Deployment Publik",
         topicEn: "Production Deployment",
-        title: "Hosting Mandiri, Konfigurasi SSL, & Optimasi SEO",
-        titleEn: "Self-Hosting, SSL Configuration, & Production SEO",
+        title: "Hosting Mandiri, Konfigurasi SSL, dan Optimasi SEO",
+        titleEn: "Self-Hosting, SSL Configuration, and Production SEO",
         description:
           "Mengonfigurasi server cloud Linux production, reverse proxy Nginx, auto SSL certificate, serta optimasi SEO publik di https://absolutestore.id.",
         descriptionEn:
@@ -359,14 +359,14 @@ export const defaultProjects = [
   },
   {
     _id: "ca94d2a9-7c10-4784-ab61-efe7a895e911",
-    title: "Cloud E-Absensi: Mobile Geofencing & Biometric Attendance",
-    titleEn: "Cloud E-Absensi: Mobile Geofencing & Biometric Attendance",
+    title: "Cloud E-Absensi: Mobile Geofencing dan Biometrik",
+    titleEn: "Cloud E-Absensi: Mobile Geofencing and Biometric Attendance",
     slug: { current: "cloud-e-absensi" },
     projectType: "personal",
     category: "mobile",
     deploymentStatus: "live",
-    role: "Lead Mobile & Backend Developer",
-    roleEn: "Lead Mobile & Backend Developer",
+    role: "Lead Mobile dan Backend Developer",
+    roleEn: "Lead Mobile and Backend Developer",
     summary:
       "Aplikasi absensi cloud berbasis Flutter dan Firebase dengan validasi koordinat GPS geofencing radius kantor, verifikasi foto selfie, dan dashboard manajemen karyawan multi-role.",
     summaryEn:
@@ -388,7 +388,7 @@ export const defaultProjects = [
       {
         value: "< 1.5 Detik",
         label: "Waktu verifikasi foto selfie dan pencatatan log presensi",
-        labelEn: "Selfie photo verification & attendance log write latency",
+        labelEn: "Selfie photo verification and attendance log write latency",
       },
     ],
     caseStudyPhases: [
@@ -397,8 +397,8 @@ export const defaultProjects = [
         phaseNameEn: "Phase 01",
         topic: "Mobile UI",
         topicEn: "Mobile UI",
-        title: "Pengembangan Antarmuka Flutter & State Management",
-        titleEn: "Flutter Interface & State Management",
+        title: "Pengembangan Antarmuka Flutter dan State Management",
+        titleEn: "Flutter Interface and State Management",
         description:
           "Merancang UI responsif multi-platform dengan manajemen status yang ringan dan intuitif untuk karyawan lapangan maupun kantor.",
         descriptionEn:
@@ -409,8 +409,8 @@ export const defaultProjects = [
         phaseNameEn: "Phase 02",
         topic: "Geofencing",
         topicEn: "Geofencing",
-        title: "Implementasi GPS Radius & Anti-Fake GPS",
-        titleEn: "GPS Radius & Anti-Spoofing Implementation",
+        title: "Implementasi GPS Radius dan Anti-Fake GPS",
+        titleEn: "GPS Radius and Anti-Spoofing Implementation",
         description:
           "Mengintegrasikan kalkulasi jarak Euclidean / Haversine untuk memastikan pengguna berada dalam radius valid lokasi kantor.",
         descriptionEn:
@@ -420,30 +420,47 @@ export const defaultProjects = [
   },
   {
     _id: "e4adfc50-99a9-433f-98f0-2a960ad394db",
-    title: "Real-Time Computer Vision Klasifikasi Sampah (YOLOv8 & IoT)",
-    titleEn: "Real-Time Computer Vision Waste Classification (YOLOv8 & IoT)",
+    title: "Real-Time Computer Vision Klasifikasi Sampah (YOLOv8 dan IoT)",
+    titleEn: "Real-Time Computer Vision Waste Classification (YOLOv8 and IoT)",
     slug: { current: "computer-vision-yolov8" },
     projectType: "personal",
     category: "system",
     deploymentStatus: "research",
-    role: "Lead Computer Vision Researcher & Developer",
-    roleEn: "Lead Computer Vision Researcher & Developer",
+    role: "Lead Computer Vision Researcher dan Developer",
+    roleEn: "Lead Computer Vision Researcher and Developer",
     summary:
       "Perancangan dan pelatihan model Deep Learning YOLOv8n untuk sistem klasifikasi sampah real-time terintegrasi perangkat IoT yang dipublikasikan pada Seminar Nasional Riset dan Inovasi Teknologi.",
     summaryEn:
-      "Design and fine-tuning of YOLOv8n Deep Learning model for real-time automated waste classification integrated with IoT hardware, published in National Research & Technology Proceedings.",
+      "Design and fine-tuning of YOLOv8n Deep Learning model for real-time automated waste classification integrated with IoT hardware, published in National Research and Technology Proceedings.",
     demoUrl: "https://proceeding.unindra.ac.id/index.php/semnasristek/article/view/8895",
     githubUrl: "https://github.com/mhmdhfisali",
     techStack: ["Python", "PyTorch", "YOLOv8", "OpenCV", "IoT", "Raspberry Pi", "Roboflow"],
     featuredOrder: 6,
+    impactMetrics: [
+      {
+        value: "> 30 FPS",
+        label: "Kecepatan inferensi model YOLOv8n secara real-time",
+        labelEn: "Real-time YOLOv8n inference frame rate performance",
+      },
+      {
+        value: "Semnasristek",
+        label: "Publikasi ilmiah terindeks pada seminar nasional",
+        labelEn: "Indexed scientific paper published at national conference",
+      },
+      {
+        value: "Otomatis",
+        label: "Klasifikasi citra limbah terintegrasi hardware IoT",
+        labelEn: "Automated waste classification integrated with IoT hardware",
+      },
+    ],
     caseStudyPhases: [
       {
         phaseName: "Fase 01",
         phaseNameEn: "Phase 01",
-        topic: "Dataset & Anotasi",
-        topicEn: "Dataset & Annotation",
-        title: "Pengumpulan Data Visual & Augmentasi Gambar",
-        titleEn: "Visual Data Collection & Augmentation",
+        topic: "Dataset dan Anotasi",
+        topicEn: "Dataset and Annotation",
+        title: "Pengumpulan Data Visual dan Augmentasi Gambar",
+        titleEn: "Visual Data Collection and Augmentation",
         description:
           "Mengumpulkan ribuan sampel citra limbah anorganik dan organik dengan berbagai sudut pencahayaan dan variasi augmentasi gambar.",
         descriptionEn:
@@ -454,8 +471,8 @@ export const defaultProjects = [
         phaseNameEn: "Phase 02",
         topic: "Training Model",
         topicEn: "Model Training",
-        title: "Fine-Tuning YOLOv8n & Evaluasi mAP",
-        titleEn: "YOLOv8n Fine-Tuning & mAP Evaluation",
+        title: "Fine-Tuning YOLOv8n dan Evaluasi mAP",
+        titleEn: "YOLOv8n Fine-Tuning and mAP Evaluation",
         description:
           "Melatih arsitektur neural network YOLOv8 nano agar menghasilkan inferensi cepat di atas 30 FPS dengan metrik mAP tinggi.",
         descriptionEn:
@@ -477,14 +494,14 @@ export const defaultProjects = [
   },
   {
     _id: "a5e66933-006d-4263-8c63-f85099020fb4",
-    title: "Smart Lighting System Berbasis IoT & Sensor Cahaya",
+    title: "Smart Lighting System Berbasis IoT dan Sensor Cahaya",
     titleEn: "IoT-Based Smart Automated Lighting System",
     slug: { current: "smart-lighting-iot" },
     projectType: "personal",
     category: "system",
     deploymentStatus: "research",
-    role: "IoT Hardware & Software Developer",
-    roleEn: "IoT Hardware & Software Developer",
+    role: "IoT Hardware dan Software Developer",
+    roleEn: "IoT Hardware and Software Developer",
     summary:
       "Prototipe otomasi pencahayaan cerdas hemat energi dengan integrasi daylight sensor cahaya yang berhasil meraih Juara 3 IT Bootcamp.",
     summaryEn:
@@ -492,14 +509,31 @@ export const defaultProjects = [
     githubUrl: "https://github.com/mhmdhfisali",
     techStack: ["C++", "Arduino / ESP32", "LDR Sensor", "Relay Module", "IoT"],
     featuredOrder: 7,
+    impactMetrics: [
+      {
+        value: "Juara 3",
+        label: "Penghargaan inovasi prototipe IT Bootcamp",
+        labelEn: "IT Bootcamp prototype innovation award",
+      },
+      {
+        value: "Otomatis",
+        label: "Efisiensi daya berbasis sensor intensitas cahaya",
+        labelEn: "Power efficiency based on ambient light sensor",
+      },
+      {
+        value: "Isolasi Aman",
+        label: "Proteksi switching beban listrik tegangan tinggi",
+        labelEn: "Safe high-voltage electrical load switching protection",
+      },
+    ],
     caseStudyPhases: [
       {
         phaseName: "Fase 01",
         phaseNameEn: "Phase 01",
         topic: "Rangkaian Elektronika",
         topicEn: "Circuit Prototyping",
-        title: "Desain Skematik Sirkuit Sensor & Aktuator",
-        titleEn: "Sensor & Actuator Circuit Schematic Design",
+        title: "Desain Skematik Sirkuit Sensor dan Aktuator",
+        titleEn: "Sensor and Actuator Circuit Schematic Design",
         description:
           "Merancang sirkuit terpadu mikrokontroler dengan isolasi optocoupler untuk keandalan switching beban listrik tegangan tinggi.",
         descriptionEn:

@@ -21,7 +21,7 @@ function ProjectCard({ project, isActive, onClick }) {
     const c = cat.toLowerCase();
     if (c === "web") return "Web App";
     if (c === "mobile") return "Mobile App";
-    if (c === "system") return "System & Architecture";
+    if (c === "system") return locale === "en" ? "System and Architecture" : "Sistem dan Arsitektur";
     return cat;
   };
 

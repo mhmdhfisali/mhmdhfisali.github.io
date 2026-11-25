@@ -46,7 +46,7 @@ export default function ProjectModal({ project, onClose }) {
         badge: "ENTERPRISE SYSTEM ARCHITECTURE",
         steps: [
           { node: "Jadwal Shift Pabrik", sub: "Production Personnel" },
-          { node: "PPIC Core Engine", sub: "Laravel & MySQL Relational" },
+          { node: "PPIC Core Engine", sub: "Laravel dan MySQL Relational" },
           { node: "Work Orders Otomatis", sub: "< 5 Mnt / Zero Overlap" },
         ],
       };
@@ -63,9 +63,9 @@ export default function ProjectModal({ project, onClose }) {
     }
     if (id.includes("dashboard") || pTitle.includes("dashboard")) {
       return {
-        badge: "TELEMETRY & KPI PIPELINE",
+        badge: "TELEMETRY DAN KPI PIPELINE",
         steps: [
-          { node: "Data Agregasi Lini", sub: "Packaging & Process Units" },
+          { node: "Data Agregasi Lini", sub: "Packaging dan Process Units" },
           { node: "Analytic Query Engine", sub: "Fast Aggregation Logic" },
           { node: "Executive KPI View", sub: "Real-time Machine Metrics" },
         ],
@@ -75,7 +75,7 @@ export default function ProjectModal({ project, onClose }) {
       return {
         badge: "MOBILE GEOFENCING ARCHITECTURE",
         steps: [
-          { node: "Flutter Mobile GPS", sub: "Android & iOS Client" },
+          { node: "Flutter Mobile GPS", sub: "Android dan iOS Client" },
           { node: "Haversine Distance Check", sub: "Anti-Fake GPS (<5m)" },
           { node: "Firebase Cloud Sync", sub: "99.8% Real-Time Attendance" },
         ],
@@ -85,8 +85,8 @@ export default function ProjectModal({ project, onClose }) {
       return {
         badge: "HIGH-CONCURRENCY E-COMMERCE",
         steps: [
-          { node: "Client Storefront", sub: "Next.js & Responsive UI" },
-          { node: "Order & Webhook Engine", sub: "HMAC Signed Settlement" },
+          { node: "Client Storefront", sub: "Next.js dan Responsive UI" },
+          { node: "Order dan Webhook Engine", sub: "HMAC Signed Settlement" },
           { node: "Instant Delivery", sub: "< 3s Automated QRIS Top-Up" },
         ],
       };
@@ -95,8 +95,8 @@ export default function ProjectModal({ project, onClose }) {
       badge: "ENGINEERING ARCHITECTURE BLUEPRINT",
       steps: [
         { node: "Data Intake", sub: "Client Input / Ingestion" },
-        { node: "Core Logic Unit", sub: "Business Rules & Service Layer" },
-        { node: "Validated Output", sub: "Secure Output & Logging" },
+        { node: "Core Logic Unit", sub: "Business Rules dan Service Layer" },
+        { node: "Validated Output", sub: "Secure Output dan Logging" },
       ],
     };
   }, [project]);
@@ -170,7 +170,7 @@ export default function ProjectModal({ project, onClose }) {
                   href={project.ursUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-cyan-400 text-[10px] sm:text-xs font-mono font-semibold border border-blue-200/80 dark:border-blue-800/50 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-cyan-400 text-[10px] sm:text-xs font-mono font-semibold border border-blue-200/80 dark:border-blue-800/50 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"
                   title="User Requirement Specification (URS)"
                 >
                   <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -185,7 +185,7 @@ export default function ProjectModal({ project, onClose }) {
                   href={project.manualBookUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 text-[10px] sm:text-xs font-mono font-semibold border border-amber-200/80 dark:border-amber-800/50 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 text-[10px] sm:text-xs font-mono font-semibold border border-amber-200/80 dark:border-amber-800/50 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors"
                   title="Manual Book IPC"
                 >
                   <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -463,7 +463,7 @@ export default function ProjectModal({ project, onClose }) {
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   <span className="text-[10px] sm:text-[11px] font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-wider font-bold">
-                    {locale === "en" ? "Key Business & Engineering Impact" : "Dampak Bisnis & Efisiensi Sistem"}
+                    {locale === "en" ? "Key Business and Engineering Impact" : "Dampak Bisnis dan Efisiensi Sistem"}
                   </span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -580,7 +580,7 @@ export default function ProjectModal({ project, onClose }) {
                 <div className="flex items-center justify-between flex-wrap gap-2">
                   <div>
                     <h4 className="text-sm sm:text-base font-extrabold text-gray-950 dark:text-white tracking-tight">
-                      {locale === "en" ? "Interface & Technical Gallery" : "Galeri Antarmuka & Alur Sistem"}
+                      {locale === "en" ? "Interface and Technical Gallery" : "Galeri Antarmuka dan Alur Sistem"}
                     </h4>
                     <p className="text-[11px] sm:text-xs font-mono text-gray-400 mt-0.5">
                       {locale === "en" ? "Click any screenshot to zoom in full resolution" : "Klik gambar untuk memperbesar resolusi penuh"}
@@ -590,7 +590,7 @@ export default function ProjectModal({ project, onClose }) {
                     {project.galleryImages.length} {locale === "en" ? "Screenshots" : "Dokumentasi Alur"}
                   </span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
                   {project.galleryImages.map((imgItem, idx) => {
                     const imgUrl = getImageUrl(imgItem);
                     const caption = locale === "en" && imgItem.captionEn ? imgItem.captionEn : imgItem.caption;
