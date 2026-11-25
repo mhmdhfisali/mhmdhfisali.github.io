@@ -150,7 +150,7 @@ const jsonLdData = {
       },
       alumniOf: {
         "@type": "CollegeOrUniversity",
-        name: "Universitas Indraprasta PGRI",
+        name: "Universitas Bina Sarana Informatika",
       },
       knowsAbout: [
         "Software Engineering",
