@@ -294,66 +294,146 @@ export const defaultProjects = [
     role: "Founder dan Lead Full-Stack Developer",
     roleEn: "Founder and Lead Full-Stack Developer",
     summary:
-      "Platform e-commerce digital top-up game dan voucher instan live dengan integrasi payment gateway otomatis, pemrosesan transaksi berkecepatan tinggi, dan webhook real-time.",
+      "Platform e-commerce digital top-up game dan voucher otomatis berbasis Laravel yang berjalan live di Hostinger dengan pemenuhan H2H instan 1 sampai 3 detik, integrasi QRIS, dan bot notifikasi WhatsApp.",
     summaryEn:
-      "Live production digital e-commerce store for instant game top-ups and vouchers featuring automated payment gateway integration, high-concurrency order engine, and real-time webhooks.",
+      "Production Laravel digital e-commerce platform hosted on Hostinger featuring 1 to 3 second instant H2H fulfillment, automated QRIS payment settlement, and WhatsApp notification daemon.",
     demoUrl: "https://absolutestore.id",
     githubUrl: "https://github.com/mhmdhfisali",
-    techStack: ["Next.js", "React", "Node.js", "PHP", "MySQL", "Payment Gateway API", "Nginx", "Linux"],
+    techStack: [
+      "Laravel",
+      "PHP 8.5",
+      "Tailwind CSS v4",
+      "Livewire",
+      "Filament Admin v3",
+      "MySQL",
+      "Hostinger Cloud",
+      "Payment Gateway API",
+      "Digiflazz H2H",
+      "WhatsApp Baileys Daemon",
+    ],
     featuredOrder: 4,
+    thumbnail: {
+      url: "/images/projects/absolutestore/01-storefront-home.webp",
+    },
     impactMetrics: [
       {
-        value: "99.9%",
-        label: "Uptime production server di domain publik absolutestore.id",
-        labelEn: "Production server uptime on public domain absolutestore.id",
+        value: "1-3 Detik",
+        label: "Kecepatan pemenuhan top-up otomatis via API H2H Digiflazz",
+        labelEn: "Instant automated top-up fulfillment via Digiflazz H2H API",
       },
       {
-        value: "< 3 Detik",
-        label: "Kecepatan validasi pembayaran QRIS dan webhook otomatis",
-        labelEn: "Instant QRIS payment validation and automated webhook callback",
+        value: "99.9% Uptime",
+        label: "Stabilitas server Hostinger di domain publik absolutestore.id",
+        labelEn: "Hostinger cloud server uptime on public domain absolutestore.id",
       },
       {
         value: "100% Otomatis",
-        label: "Pemrosesan transaksi digital tanpa intervensi manual admin",
-        labelEn: "Autonomous digital order fulfillment with zero manual intervention",
+        label: "Settlement QRIS instan dan notifikasi WhatsApp Baileys",
+        labelEn: "Instant QRIS settlement and automated Baileys WhatsApp bot",
       },
     ],
     caseStudyPhases: [
       {
         phaseName: "Fase 01",
         phaseNameEn: "Phase 01",
-        topic: "Arsitektur Sistem",
-        topicEn: "System Architecture",
-        title: "Perancangan Katalog Produk dan Antarmuka Cepat",
-        titleEn: "Product Catalog Design and High-Speed UI",
+        topic: "Storefront dan Arsitektur",
+        topicEn: "Storefront and Architecture",
+        title: "Perancangan Antarmuka Royal Gold dan Katalog Cepat",
+        titleEn: "Royal Gold UI and High-Speed Catalog Engineering",
         description:
-          "Merancang katalog produk game populer, validasi ID akun game secara dinamis, dan pengalaman transaksi tanpa hambatan bagi pengguna.",
+          "Membangun storefront modern dengan tema Royal Satin Gold berbasis Laravel dan Tailwind CSS v4 yang responsif di seluruh perangkat.",
         descriptionEn:
-          "Engineered popular gaming catalogs, dynamic player user-ID checks, and friction-free payment checkout flows.",
+          "Engineered modern responsive storefront featuring luxury Royal Satin Gold UI built with Laravel and Tailwind CSS v4.",
+        previewImage: {
+          url: "/images/projects/absolutestore/01-storefront-home.webp",
+        },
       },
       {
         phaseName: "Fase 02",
         phaseNameEn: "Phase 02",
-        topic: "Payment Gateway",
-        topicEn: "Payment Gateway",
-        title: "Integrasi QRIS, Virtual Account, dan Webhook Real-Time",
-        titleEn: "QRIS, Virtual Account and Real-Time Webhook Integration",
+        topic: "Multi-Gateway dan H2H",
+        topicEn: "Multi-Gateway and H2H",
+        title: "Integrasi Pembayaran QRIS dan Pemenuhan Digiflazz",
+        titleEn: "Automated QRIS Gateway and Digiflazz H2H Fulfillment",
         description:
-          "Menghubungkan gerbang pembayaran otomatis nasional dengan callback webhook berkeamanan tanda tangan digital (HMAC signature).",
+          "Menghubungkan payment gateway Duitku dan Midtrans serta jalur H2H supplier Digiflazz untuk pemrosesan transaksi instan 1 sampai 3 detik.",
         descriptionEn:
-          "Connected automated payment gateways supporting QRIS and Virtual Accounts secured with HMAC digital signature verification.",
+          "Integrated Duitku and Midtrans payment gateways with Digiflazz H2H pipeline for 1 to 3 second autonomous order fulfillment.",
+        previewImage: {
+          url: "/images/projects/absolutestore/03-qris-invoice.webp",
+        },
       },
       {
         phaseName: "Fase 03",
         phaseNameEn: "Phase 03",
-        topic: "Deployment Publik",
-        topicEn: "Production Deployment",
-        title: "Hosting Mandiri, Konfigurasi SSL, dan Optimasi SEO",
-        titleEn: "Self-Hosting, SSL Configuration, and Production SEO",
+        topic: "Microservice dan Kasir Mitra",
+        topicEn: "Microservice and Partner Cashier",
+        title: "Daemon WhatsApp Baileys dan Portal Kasir Thermal",
+        titleEn: "WhatsApp Baileys Daemon and Thermal Cashier Portal",
         description:
-          "Mengonfigurasi server cloud Linux production, reverse proxy Nginx, auto SSL certificate, serta optimasi SEO publik di https://absolutestore.id.",
+          "Membangun microservice WhatsApp Baileys untuk pengiriman invoice otomatis serta portal reseller mitra konter dengan cetak struk thermal.",
         descriptionEn:
-          "Configured production Linux cloud servers, Nginx reverse proxy, auto SSL encryption, and high-ranking public SEO at https://absolutestore.id.",
+          "Developed WhatsApp Baileys microservice for real-time customer invoice alerts and partner cashier portal with thermal printing.",
+        previewImage: {
+          url: "/images/projects/absolutestore/06-portal-mitra.webp",
+        },
+      },
+      {
+        phaseName: "Fase 04",
+        phaseNameEn: "Phase 04",
+        topic: "Deployment Hostinger",
+        topicEn: "Hostinger Cloud Deployment",
+        title: "Hosting Produksi, Konfigurasi SSL, dan Optimasi SEO",
+        titleEn: "Production Hosting, SSL Setup, and SEO Optimization",
+        description:
+          "Mengonfigurasi server cloud Hostinger dengan PHP 8.5, LiteSpeed cache, cron scheduler 24/7, serta optimasi SEO organik Google.",
+        descriptionEn:
+          "Configured production Hostinger cloud with PHP 8.5, LiteSpeed caching, 24/7 background cron scheduler, and high-ranking Google SEO.",
+        previewImage: {
+          url: "/images/projects/absolutestore/08-arsitektur-sistem.webp",
+        },
+      },
+    ],
+    galleryImages: [
+      {
+        url: "/images/projects/absolutestore/01-storefront-home.webp",
+        caption: "Storefront Utama: Desain Mewah Royal Gold, Banner Promo, dan Katalog Game",
+        captionEn: "Main Storefront: Royal Gold UI, Promotional Banners, and Game Catalog",
+      },
+      {
+        url: "/images/projects/absolutestore/02-checkout-flow.webp",
+        caption: "Alur Checkout: Pilihan Nominal Produk, Validasi Akun Game, dan Opsi Pembayaran",
+        captionEn: "Checkout Workflow: Denomination Selection, Game ID Validation, and Payment",
+      },
+      {
+        url: "/images/projects/absolutestore/03-qris-invoice.webp",
+        caption: "Faktur Pembayaran Otomatis: QRIS Dinamis Instan dengan Countdown Timer",
+        captionEn: "Automated Invoice: Instant Dynamic QRIS with Real-Time Expiration Countdown",
+      },
+      {
+        url: "/images/projects/absolutestore/04-tracking-transaksi.webp",
+        caption: "Fitur Cek Transaksi: Pelacakan Status Pemenuhan H2H dan Riwayat Pembelian",
+        captionEn: "Transaction Tracker: Real-Time H2H Fulfillment Status and Order History",
+      },
+      {
+        url: "/images/projects/absolutestore/05-katalog-harga.webp",
+        caption: "Katalog Daftar Harga: Informasi Tarif Produk Digital dan Pembaruan Stok Otomatis",
+        captionEn: "Real-Time Price Matrix: Digital Product Pricing and Automated Stock Status",
+      },
+      {
+        url: "/images/projects/absolutestore/06-portal-mitra.webp",
+        caption: "Portal Mitra Konter: Dashboard Khusus Reseller dan Kasir Thermal",
+        captionEn: "Retail Partner Portal: Dedicated Reseller Dashboard and Thermal Cashier",
+      },
+      {
+        url: "/images/projects/absolutestore/07-struk-thermal.webp",
+        caption: "Cetak Struk Transaksi: Format Struk Fisik Kasir Printer Bluetooth 58mm dan 80mm",
+        captionEn: "Thermal Receipt Printing: 58mm and 80mm Bluetooth Physical Cashier Slip",
+      },
+      {
+        url: "/images/projects/absolutestore/08-arsitektur-sistem.webp",
+        caption: "Arsitektur Sistem: Integrasi H2H Digiflazz, Payment Gateway, dan Daemon Baileys",
+        captionEn: "System Architecture: Digiflazz H2H, Payment Gateway, and Baileys Daemon",
       },
     ],
   },

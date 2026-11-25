@@ -83,11 +83,11 @@ export default function ProjectModal({ project, onClose }) {
     }
     if (id.includes("absolute") || pTitle.includes("absolutestore")) {
       return {
-        badge: "HIGH-CONCURRENCY E-COMMERCE",
+        badge: "LARAVEL ENTERPRISE COMMERCE",
         steps: [
-          { node: "Client Storefront", sub: "Next.js dan Responsive UI" },
-          { node: "Order dan Webhook Engine", sub: "HMAC Signed Settlement" },
-          { node: "Instant Delivery", sub: "< 3s Automated QRIS Top-Up" },
+          { node: "Laravel Storefront", sub: "Tailwind CSS dan Livewire" },
+          { node: "Order and Webhook Engine", sub: "HMAC Signed Settlement" },
+          { node: "Instant Delivery", sub: "1-3s Baileys dan H2H Fulfillment" },
         ],
       };
     }
