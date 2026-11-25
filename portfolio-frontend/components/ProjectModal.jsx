@@ -1,7 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { urlFor } from "@/sanity";
+import { getImageUrl, urlFor } from "@/sanity";
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -164,7 +164,37 @@ export default function ProjectModal({ project, onClose }) {
               </h2>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+              {project.ursUrl && (
+                <a
+                  href={project.ursUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-cyan-400 text-[10px] sm:text-xs font-mono font-semibold border border-blue-200/80 dark:border-blue-800/50 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"
+                  title="User Requirement Specification (URS)"
+                >
+                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <span>URS Doc</span>
+                </a>
+              )}
+
+              {project.manualBookUrl && (
+                <a
+                  href={project.manualBookUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 text-[10px] sm:text-xs font-mono font-semibold border border-amber-200/80 dark:border-amber-800/50 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors"
+                  title="Manual Book IPC"
+                >
+                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                  <span>Manual Book</span>
+                </a>
+              )}
+
               {project.demoUrl && (
                 <a
                   href={project.demoUrl}
@@ -214,27 +244,29 @@ export default function ProjectModal({ project, onClose }) {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
               {/* Thumbnail Box */}
               <div
-                onClick={() =>
-                  project.thumbnail &&
-                  setActiveImage({
-                    url: urlFor(project.thumbnail).url(),
-                    title: title,
-                  })
-                }
+                onClick={() => {
+                  const tUrl = getImageUrl(project.thumbnail);
+                  if (tUrl) {
+                    setActiveImage({
+                      url: tUrl,
+                      title: title,
+                    });
+                  }
+                }}
                 className={`lg:col-span-7 rounded-xl sm:rounded-2xl overflow-hidden border border-gray-200/80 dark:border-white/[0.08] bg-gray-100 dark:bg-[#0b0e14] relative group h-52 sm:h-80 lg:h-96 flex items-center justify-center p-2.5 ${
-                  project.thumbnail ? "cursor-zoom-in" : ""
+                  getImageUrl(project.thumbnail) ? "cursor-zoom-in" : ""
                 }`}
               >
-                {project.thumbnail ? (
+                {getImageUrl(project.thumbnail) ? (
                   <>
                     <img
-                      src={urlFor(project.thumbnail).url()}
+                      src={getImageUrl(project.thumbnail)}
                       alt=""
                       aria-hidden="true"
                       className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-20 dark:opacity-30 pointer-events-none scale-110"
                     />
                     <img
-                      src={urlFor(project.thumbnail).url()}
+                      src={getImageUrl(project.thumbnail)}
                       alt={title}
                       className="relative z-10 max-h-full max-w-full w-auto h-auto object-contain rounded-lg shadow-md group-hover:scale-[1.02] transition-transform duration-300"
                     />
@@ -337,6 +369,73 @@ export default function ProjectModal({ project, onClose }) {
                   </div>
                 )}
 
+                {/* Official System Documentation Card */}
+                {(project.ursUrl || project.manualBookUrl) && (
+                  <div className="p-3 sm:p-3.5 rounded-xl bg-gradient-to-br from-blue-500/10 via-cyan-500/5 to-transparent border border-blue-500/20 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[9px] sm:text-[10px] font-mono text-blue-600 dark:text-cyan-400 uppercase tracking-wider font-bold inline-flex items-center gap-1.5">
+                        <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>{locale === "en" ? "Official System Documents" : "Dokumen Resmi Sistem"}</span>
+                      </span>
+                      <span className="text-[9px] font-mono text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/40 px-1.5 py-0.5 rounded border border-cyan-200 dark:border-cyan-800/40">
+                        PDF Verified
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-0.5">
+                      {project.ursUrl && (
+                        <a
+                          href={project.ursUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-between p-2 rounded-lg bg-white/90 dark:bg-white/[0.04] border border-blue-200/80 dark:border-white/10 hover:border-blue-400 dark:hover:border-cyan-400 text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-cyan-300 transition-all group"
+                        >
+                          <div className="flex items-center gap-2 min-w-0">
+                            <div className="w-6 h-6 rounded-md bg-blue-500/10 text-blue-600 dark:text-cyan-400 flex items-center justify-center shrink-0">
+                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                              </svg>
+                            </div>
+                            <div className="min-w-0 text-left">
+                              <p className="text-[10px] sm:text-[11px] font-bold font-mono truncate">Dokumen URS</p>
+                              <p className="text-[8px] sm:text-[9px] text-gray-400 truncate">12 Halaman (QA/QM)</p>
+                            </div>
+                          </div>
+                          <svg className="w-3 h-3 text-gray-400 group-hover:text-blue-500 dark:group-hover:text-cyan-400 shrink-0 ml-1 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </a>
+                      )}
+
+                      {project.manualBookUrl && (
+                        <a
+                          href={project.manualBookUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-between p-2 rounded-lg bg-white/90 dark:bg-white/[0.04] border border-amber-200/80 dark:border-white/10 hover:border-amber-400 dark:hover:border-amber-400 text-gray-900 dark:text-gray-100 hover:text-amber-600 dark:hover:text-amber-300 transition-all group"
+                        >
+                          <div className="flex items-center gap-2 min-w-0">
+                            <div className="w-6 h-6 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                              </svg>
+                            </div>
+                            <div className="min-w-0 text-left">
+                              <p className="text-[10px] sm:text-[11px] font-bold font-mono truncate">Manual Book</p>
+                              <p className="text-[8px] sm:text-[9px] text-gray-400 truncate">Panduan Operasional</p>
+                            </div>
+                          </div>
+                          <svg className="w-3 h-3 text-gray-400 group-hover:text-amber-500 dark:group-hover:text-amber-400 shrink-0 ml-1 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 {/* Tech Stack */}
                 {project.techStack?.length > 0 && (
                   <div className="pt-2 border-t border-gray-200/60 dark:border-white/[0.06] space-y-1.5">
@@ -414,23 +513,25 @@ export default function ProjectModal({ project, onClose }) {
                           {phase.previewImage ? (
                             <div className="md:col-span-5 w-full">
                               <div
-                                onClick={() =>
-                                  phase.previewImage &&
-                                  setActiveImage({
-                                    url: urlFor(phase.previewImage).url(),
-                                    title: phaseTitle || `Phase ${idx + 1}`,
-                                  })
-                                }
+                                onClick={() => {
+                                  const pUrl = getImageUrl(phase.previewImage);
+                                  if (pUrl) {
+                                    setActiveImage({
+                                      url: pUrl,
+                                      title: phaseTitle || `Phase ${idx + 1}`,
+                                    });
+                                  }
+                                }}
                                 className="w-full aspect-[16/10] rounded-lg sm:rounded-xl overflow-hidden border border-gray-200 dark:border-white/[0.08] bg-gray-100/90 dark:bg-[#0c0f17] relative flex items-center justify-center p-1.5 group/img cursor-zoom-in"
                               >
                                 <img
-                                  src={urlFor(phase.previewImage).url()}
+                                  src={getImageUrl(phase.previewImage)}
                                   alt=""
                                   aria-hidden="true"
                                   className="absolute inset-0 w-full h-full object-cover blur-xl opacity-20 pointer-events-none"
                                 />
                                 <img
-                                  src={urlFor(phase.previewImage).url()}
+                                  src={getImageUrl(phase.previewImage)}
                                   alt={phaseTitle || `Phase ${idx + 1}`}
                                   className="relative z-10 max-h-full max-w-full w-auto h-auto object-contain rounded shadow-xs group-hover/img:scale-[1.02] transition-transform duration-300"
                                 />
@@ -476,36 +577,48 @@ export default function ProjectModal({ project, onClose }) {
             {/* Galeri Tangkapan Layar / Mockup Antarmuka */}
             {project.galleryImages && project.galleryImages.length > 0 && (
               <div className="space-y-3 pt-4 border-t border-gray-100 dark:border-white/[0.06]">
-                <div>
-                  <h4 className="text-sm sm:text-base font-extrabold text-gray-950 dark:text-white tracking-tight">
-                    {locale === "en" ? "Interface & Technical Gallery" : "Galeri Antarmuka & Tangkapan Layar"}
-                  </h4>
-                  <p className="text-[11px] sm:text-xs font-mono text-gray-400 mt-0.5">
-                    {locale === "en" ? "Click any screenshot to zoom in full resolution" : "Klik gambar untuk memperbesar resolusi penuh"}
-                  </p>
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <div>
+                    <h4 className="text-sm sm:text-base font-extrabold text-gray-950 dark:text-white tracking-tight">
+                      {locale === "en" ? "Interface & Technical Gallery" : "Galeri Antarmuka & Alur Sistem"}
+                    </h4>
+                    <p className="text-[11px] sm:text-xs font-mono text-gray-400 mt-0.5">
+                      {locale === "en" ? "Click any screenshot to zoom in full resolution" : "Klik gambar untuk memperbesar resolusi penuh"}
+                    </p>
+                  </div>
+                  <span className="text-[10px] font-mono text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/40 px-2 py-0.5 rounded border border-cyan-200 dark:border-cyan-800/40 font-semibold">
+                    {project.galleryImages.length} {locale === "en" ? "Screenshots" : "Dokumentasi Alur"}
+                  </span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                   {project.galleryImages.map((imgItem, idx) => {
-                    const imgUrl = urlFor(imgItem).url();
+                    const imgUrl = getImageUrl(imgItem);
+                    const caption = locale === "en" && imgItem.captionEn ? imgItem.captionEn : imgItem.caption;
                     return (
                       <div
                         key={idx}
                         onClick={() =>
+                          imgUrl &&
                           setActiveImage({
                             url: imgUrl,
-                            title: imgItem.caption || `${title} Preview ${idx + 1}`,
+                            title: caption || `${title} Preview ${idx + 1}`,
                           })
                         }
-                        className="group/gal relative aspect-[16/10] rounded-xl overflow-hidden border border-gray-200 dark:border-white/10 bg-gray-100 dark:bg-[#0c0f17] cursor-zoom-in"
+                        className="group/gal relative aspect-[16/10] rounded-xl overflow-hidden border border-gray-200 dark:border-white/10 bg-gray-100 dark:bg-[#0c0f17] cursor-zoom-in shadow-xs hover:border-cyan-400/50 transition-all"
                       >
-                        <img
-                          src={imgUrl}
-                          alt={imgItem.caption || "Screenshot"}
-                          className="w-full h-full object-cover group-hover/gal:scale-105 transition-transform duration-300"
-                        />
-                        {imgItem.caption && (
-                          <div className="absolute inset-x-0 bottom-0 p-1.5 bg-black/70 backdrop-blur-md text-white text-[9px] font-mono truncate">
-                            {imgItem.caption}
+                        {imgUrl && (
+                          <img
+                            src={imgUrl}
+                            alt={caption || "Screenshot"}
+                            className="w-full h-full object-cover group-hover/gal:scale-105 transition-transform duration-300"
+                          />
+                        )}
+                        <div className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded bg-black/70 backdrop-blur-md border border-white/10 text-white text-[8px] font-mono">
+                          {String(idx + 1).padStart(2, "0")}
+                        </div>
+                        {caption && (
+                          <div className="absolute inset-x-0 bottom-0 p-1.5 bg-black/75 backdrop-blur-md text-white text-[8px] sm:text-[9px] font-mono line-clamp-1 group-hover/gal:line-clamp-2 transition-all">
+                            {caption}
                           </div>
                         )}
                       </div>
@@ -517,6 +630,34 @@ export default function ProjectModal({ project, onClose }) {
 
             {/* Action Links Footer Modal */}
             <div className="pt-3 border-t border-gray-100 dark:border-white/[0.06] flex flex-wrap items-center justify-end gap-2 sm:gap-3">
+              {project.ursUrl && (
+                <a
+                  href={project.ursUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold font-mono transition-all shadow-xs"
+                >
+                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <span>Buka URS Doc (PDF)</span>
+                </a>
+              )}
+
+              {project.manualBookUrl && (
+                <a
+                  href={project.manualBookUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-xs font-semibold font-mono transition-all shadow-xs"
+                >
+                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                  <span>Buka Manual Book (PDF)</span>
+                </a>
+              )}
+
               {project.demoUrl && (
                 <a
                   href={project.demoUrl}

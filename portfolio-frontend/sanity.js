@@ -13,3 +13,15 @@ const builder = createImageUrlBuilder(client);
 export function urlFor(source) {
   return builder.image(source);
 }
+
+export function getImageUrl(source) {
+  if (!source) return "";
+  if (typeof source === "string") return source;
+  if (source.url) return source.url;
+  if (source.asset?.url) return source.asset.url;
+  try {
+    return builder.image(source).url() || "";
+  } catch {
+    return "";
+  }
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { urlFor } from "@/sanity";
+import { getImageUrl, urlFor } from "@/sanity";
 import { useEffect, useMemo, useRef, useState } from "react";
 import ProjectModal from "./ProjectModal";
 
@@ -25,6 +25,8 @@ function ProjectCard({ project, isActive, onClick }) {
     return cat;
   };
 
+  const thumbUrl = getImageUrl(project.thumbnail);
+
   return (
     <div
       onClick={onClick}
@@ -44,10 +46,10 @@ function ProjectCard({ project, isActive, onClick }) {
     >
       {/* Thumbnail Header: Rasio Ergonomis di HP */}
       <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] overflow-hidden bg-gray-100/90 dark:bg-[#0c0f17] border-b border-gray-100 dark:border-white/[0.06] flex items-center justify-center p-1.5 sm:p-2.5 pointer-events-none">
-        {project.thumbnail ? (
+        {thumbUrl ? (
           <>
             <img
-              src={urlFor(project.thumbnail).url()}
+              src={thumbUrl}
               alt=""
               aria-hidden="true"
               className={`absolute inset-0 w-full h-full object-cover blur-xl scale-110 transition-opacity duration-300 ${
@@ -55,7 +57,7 @@ function ProjectCard({ project, isActive, onClick }) {
               }`}
             />
             <img
-              src={urlFor(project.thumbnail).url()}
+              src={thumbUrl}
               alt={title || "Project Preview"}
               className={`relative z-10 max-h-full max-w-full w-auto h-auto object-contain rounded-md sm:rounded-lg shadow-sm transition-transform duration-300 ${
                 isActive ? "scale-[1.02]" : "scale-95"
@@ -222,7 +224,16 @@ function ProjectCard({ project, isActive, onClick }) {
                   : "text-gray-400"
               }`}
             >
-              {isActive ? t.projects.viewCaseStudy : t.projects.projectDetail}
+              {isActive ? (
+                <>
+                  <span>{t.projects.viewCaseStudy}</span>
+                  <svg className="w-3 h-3 text-blue-600 dark:text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </>
+              ) : (
+                locale === "en" ? "Click to Center" : "Geser ke Tengah"
+              )}
             </span>
 
             {isCompany && (
@@ -380,7 +391,7 @@ export default function Projects({ projects = [] }) {
     };
   }, [filteredProjects, layoutMode]);
 
-  const scrollToCard = (index) => {
+  const scrollToCard = (index, smooth = true) => {
     if (index < 0 || index >= filteredProjects.length) return;
     const container = carouselRef.current;
     const card = cardRefs.current[index];
@@ -398,26 +409,39 @@ export default function Projects({ projects = [] }) {
 
     container.scrollTo({
       left: Math.max(0, Math.min(maxScroll, targetLeft)),
-      behavior: "smooth",
+      behavior: smooth ? "smooth" : "auto",
     });
   };
 
+  const isFirstRender = useRef(true);
+
+  // Pusatkan proyek di tengah secara seimbang sejak awal buka maupun saat ganti filter
+  useEffect(() => {
+    if (filteredProjects.length === 0) return;
+    const mid = Math.floor(filteredProjects.length / 2);
+    setActiveIndex(mid);
+
+    const timer = setTimeout(() => {
+      scrollToCard(mid, !isFirstRender.current);
+      isFirstRender.current = false;
+    }, isFirstRender.current ? 80 : 30);
+
+    return () => clearTimeout(timer);
+  }, [projectTypeFilter, selectedCompany, filter, searchQuery]);
+
   const handleCardClick = (project, index) => {
-    if (layoutMode === "carousel" && index !== activeIndex) {
-      // 1. Gulir kartu yang dipilih tepat ke tengah spotlight
-      scrollToCard(index);
-
-      // 2. Batalkan timer jika ada klik cepat
-      if (modalTimerRef.current) clearTimeout(modalTimerRef.current);
-
-      // 3. Beri waktu agar kartu meluncur mulus ke tengah (~350ms), lalu buka modal studi kasus
-      modalTimerRef.current = setTimeout(() => {
+    if (layoutMode === "carousel") {
+      if (index !== activeIndex) {
+        // Klik kartu samping (kiri / kanan): HANYA geser kartu ke posisi tengah
+        // Tidak membuka modal pada klik pertama
+        scrollToCard(index);
+      } else {
+        // Kartu yang diklik SUDAH berada di posisi tengah/aktif:
+        // Buka modal detail studi kasus
         setSelectedProject(project);
-      }, 350);
+      }
     } else {
-      // Jika kartu sudah berada di tengah (atau mode grid), langsung buka seketika
-      if (modalTimerRef.current) clearTimeout(modalTimerRef.current);
-      setActiveIndex(index);
+      // Mode grid: langsung buka modal
       setSelectedProject(project);
     }
   };
@@ -485,8 +509,6 @@ export default function Projects({ projects = [] }) {
               type="button"
               onClick={() => {
                 setProjectTypeFilter(tab.id);
-                setActiveIndex(0);
-                if (carouselRef.current) carouselRef.current.scrollTo({ left: 0 });
               }}
               className={`px-3.5 py-1.5 rounded-xl transition-all duration-200 cursor-pointer whitespace-nowrap active:scale-95 flex items-center gap-1.5 ${
                 projectTypeFilter === tab.id
@@ -534,8 +556,6 @@ export default function Projects({ projects = [] }) {
               type="button"
               onClick={() => {
                 setSelectedCompany("all");
-                setActiveIndex(0);
-                if (carouselRef.current) carouselRef.current.scrollTo({ left: 0 });
               }}
               className={`px-3 py-1 rounded-xl text-[11px] font-mono transition-all duration-200 shrink-0 cursor-pointer ${
                 selectedCompany === "all"
@@ -558,8 +578,6 @@ export default function Projects({ projects = [] }) {
                   type="button"
                   onClick={() => {
                     setSelectedCompany(comp);
-                    setActiveIndex(0);
-                    if (carouselRef.current) carouselRef.current.scrollTo({ left: 0 });
                   }}
                   className={`px-3 py-1 rounded-xl text-[11px] font-mono transition-all duration-200 shrink-0 cursor-pointer flex items-center gap-1.5 ${
                     selectedCompany.toLowerCase() === comp.toLowerCase()
@@ -596,11 +614,7 @@ export default function Projects({ projects = [] }) {
           <input
             type="text"
             value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              setActiveIndex(0);
-              if (carouselRef.current) carouselRef.current.scrollTo({ left: 0 });
-            }}
+            onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t.projects.searchPlaceholder}
             className="w-full pl-8.5 pr-8 py-1.5 sm:py-2 text-xs font-mono rounded-xl bg-white/90 dark:bg-[#121622]/90 border border-gray-200 dark:border-white/[0.08] focus:border-cyan-400 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 outline-none transition-all shadow-2xs"
           />
@@ -627,8 +641,6 @@ export default function Projects({ projects = [] }) {
                 type="button"
                 onClick={() => {
                   setFilter(tab.id);
-                  setActiveIndex(0);
-                  if (carouselRef.current) carouselRef.current.scrollTo({ left: 0 });
                 }}
                 className={`px-3 py-1.5 rounded-xl text-[11px] font-mono capitalize transition-all duration-200 cursor-pointer shrink-0 whitespace-nowrap active:scale-95 ${
                   filter === tab.id
@@ -680,7 +692,7 @@ export default function Projects({ projects = [] }) {
 
           <div
             ref={carouselRef}
-            className="flex items-stretch gap-3.5 sm:gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory sm:snap-none pt-1 pb-3.5 sm:pt-2 sm:pb-5 px-[8vw] sm:px-[calc(50%-175px)] md:px-[calc(50%-185px)] no-scrollbar [&::-webkit-scrollbar]:hidden"
+            className="flex items-stretch gap-3.5 sm:gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory sm:snap-none pt-1 pb-3.5 sm:pt-2 sm:pb-5 px-[8vw] sm:px-[calc(50%_-_175px)] md:px-[calc(50%_-_185px)] no-scrollbar [&::-webkit-scrollbar]:hidden"
           >
             {filteredProjects.map((project, idx) => {
               const isActive = idx === activeIndex;
