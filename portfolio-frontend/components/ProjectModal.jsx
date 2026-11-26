@@ -43,11 +43,11 @@ export default function ProjectModal({ project, onClose }) {
 
     if (id.includes("ppic") || pTitle.includes("ppic")) {
       return {
-        badge: "ENTERPRISE SYSTEM ARCHITECTURE",
+        badge: "LMS WORKFLOW & MANUAL BOOK SOP",
         steps: [
-          { node: "Jadwal Shift Pabrik", sub: "Production Personnel" },
-          { node: "PPIC Core Engine", sub: "Laravel dan MySQL Relational" },
-          { node: "Work Orders Otomatis", sub: "< 5 Mnt / Zero Overlap" },
+          { node: "Alur Kursus & Modul", sub: "Role PIC / Administrator" },
+          { node: "Manual Book Terstandar", sub: "Panduan SOP PIC & Karyawan" },
+          { node: "Adopsi Digital Pabrik", sub: "Evaluasi & Sertifikasi E-Course" },
         ],
       };
     }
@@ -340,7 +340,7 @@ export default function ProjectModal({ project, onClose }) {
                 )}
 
                 {/* Official System Documentation Card */}
-                {(project.ursUrl || project.manualBookUrl) && (
+                {(project.documents?.length > 0 || project.ursUrl || project.manualBookUrl) && (
                   <div className="p-3 sm:p-3.5 rounded-2xl bg-amber-500/[0.06] dark:bg-amber-950/20 border border-amber-500/25 space-y-2">
                     <div className="flex items-center justify-between flex-wrap gap-2">
                       <span className="text-[10px] sm:text-[11px] font-mono text-amber-600 dark:text-amber-400 uppercase tracking-wider font-bold inline-flex items-center gap-1.5">
@@ -362,32 +362,51 @@ export default function ProjectModal({ project, onClose }) {
                     </p>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-0.5">
-                      {project.ursUrl && (
-                        <a
-                          href={project.ursUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 dark:bg-amber-950/40 dark:hover:bg-amber-900/40 border border-amber-300 dark:border-amber-800/60 text-amber-900 dark:text-amber-200 transition-all font-mono font-bold text-xs sm:text-sm active:scale-95 shadow-2xs cursor-pointer"
-                        >
-                          <svg className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                          </svg>
-                          <span>URS</span>
-                        </a>
-                      )}
+                      {project.documents?.length > 0 ? (
+                        project.documents.map((doc, idx) => (
+                          <a
+                            key={idx}
+                            href={doc.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 dark:bg-amber-950/40 dark:hover:bg-amber-900/40 border border-amber-300 dark:border-amber-800/60 text-amber-900 dark:text-amber-200 transition-all font-mono font-bold text-xs sm:text-sm active:scale-95 shadow-2xs cursor-pointer"
+                          >
+                            <svg className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                            <span>{locale === "en" && doc.labelEn ? doc.labelEn : doc.label}</span>
+                          </a>
+                        ))
+                      ) : (
+                        <>
+                          {project.ursUrl && (
+                            <a
+                              href={project.ursUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 dark:bg-amber-950/40 dark:hover:bg-amber-900/40 border border-amber-300 dark:border-amber-800/60 text-amber-900 dark:text-amber-200 transition-all font-mono font-bold text-xs sm:text-sm active:scale-95 shadow-2xs cursor-pointer"
+                            >
+                              <svg className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                              </svg>
+                              <span>URS</span>
+                            </a>
+                          )}
 
-                      {project.manualBookUrl && (
-                        <a
-                          href={project.manualBookUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 dark:bg-amber-950/40 dark:hover:bg-amber-900/40 border border-amber-300 dark:border-amber-800/60 text-amber-900 dark:text-amber-200 transition-all font-mono font-bold text-xs sm:text-sm active:scale-95 shadow-2xs cursor-pointer"
-                        >
-                          <svg className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                          </svg>
-                          <span>Manual Book</span>
-                        </a>
+                          {project.manualBookUrl && (
+                            <a
+                              href={project.manualBookUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 dark:bg-amber-950/40 dark:hover:bg-amber-900/40 border border-amber-300 dark:border-amber-800/60 text-amber-900 dark:text-amber-200 transition-all font-mono font-bold text-xs sm:text-sm active:scale-95 shadow-2xs cursor-pointer"
+                            >
+                              <svg className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                              </svg>
+                              <span>Manual Book</span>
+                            </a>
+                          )}
+                        </>
                       )}
                     </div>
                   </div>
