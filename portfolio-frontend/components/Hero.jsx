@@ -76,16 +76,19 @@ export default function Hero({ profile }) {
               }}
               className="relative z-20 flex flex-col items-center cursor-pointer transition-all duration-300 mx-auto"
             >
-              {/* Cutout Photo with Cyber Colored Rim Dropshadow (Ukuran pas di HP & terpusat) */}
-              <img
-                src="/images/hafis-cutout.png"
-                alt={fullName || "Muhamad Hafis Ali"}
-                className="w-36 sm:w-56 md:w-64 lg:w-[300px] max-h-[210px] sm:max-h-[380px] lg:max-h-[440px] object-contain select-none transition-all duration-500 filter drop-shadow-[0_0_18px_rgba(6,182,212,0.5)] group-hover/card:drop-shadow-[0_0_28px_rgba(6,182,212,0.8)] mx-auto transform-gpu"
-                draggable={false}
-              />
+              {/* Holographic Cyber Portrait with Glowing Rim & Border */}
+              <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-cyan-500/30 dark:border-cyan-400/35 shadow-[0_0_25px_rgba(6,182,212,0.3)] group-hover/card:shadow-[0_0_40px_rgba(6,182,212,0.55)] transition-all duration-500 bg-black/40">
+                <img
+                  src="/images/hafis-hologram-cyan.jpg"
+                  alt={fullName || "Muhamad Hafis Ali"}
+                  className="w-44 sm:w-60 md:w-68 lg:w-[310px] aspect-square object-cover select-none transition-all duration-500 transform-gpu group-hover/card:scale-105"
+                  draggable={false}
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+              </div>
 
               {/* Floating Verified HUD Pill at Bottom */}
-              <div className="relative -mt-3.5 sm:-mt-6 z-30 px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-slate-950/85 backdrop-blur-md border border-cyan-500/30 flex items-center gap-1.5 sm:gap-2 text-white shadow-xl shadow-cyan-950/50">
+              <div className="relative -mt-3.5 sm:-mt-5 z-30 px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-slate-950/85 backdrop-blur-md border border-cyan-500/30 flex items-center gap-1.5 sm:gap-2 text-white shadow-xl shadow-cyan-950/50">
                 <div className="flex items-center gap-1 sm:gap-1.5">
                   <span className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-emerald-400 animate-pulse" />
                   <span className="text-[8px] sm:text-[11px] font-mono font-semibold tracking-wider text-emerald-300 uppercase">
