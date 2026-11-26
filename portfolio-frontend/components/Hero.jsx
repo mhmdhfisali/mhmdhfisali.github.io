@@ -240,10 +240,10 @@ export default function Hero({ profile }) {
 
         {/* Teks Identitas di Atas (Pas di bawah navbar) */}
         <div className="relative z-10 space-y-0.5 animate-entrance-3d-left pt-0">
-          <p className="text-sm sm:text-base font-bold font-mono tracking-tight text-cyan-500 dark:text-cyan-400">
+          <p className="text-xs sm:text-sm font-bold font-mono tracking-tight text-cyan-500 dark:text-cyan-400">
             {t.hero.greeting || (locale === "en" ? "Hello, I'm" : "Halo, Saya")}
           </p>
-          <h1 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight text-gray-950 dark:text-white drop-shadow-[0_2px_12px_rgba(6,182,212,0.25)]">
+          <h1 className="text-3xl sm:text-4xl font-black tracking-tight leading-tight text-gray-950 dark:text-white drop-shadow-[0_2px_12px_rgba(6,182,212,0.25)]">
             Muhamad Hafis Ali
           </h1>
           <p className="text-xs sm:text-sm font-mono text-gray-600 dark:text-gray-300">
@@ -251,23 +251,23 @@ export default function Hero({ profile }) {
           </p>
         </div>
 
-        {/* Foto Cutout Raksasa di HP dengan Vibrant Cyan Aura (Super HD, Diperbesar Penuh) */}
-        <div className="relative w-full flex-1 flex flex-col items-center justify-center my-0 select-none animate-entrance-3d-center">
+        {/* Foto Cutout Raksasa di HP dengan Vibrant Cyan Aura & Bottom Fadeout (Persis Gambar 5) */}
+        <div className="relative w-full flex flex-col items-center justify-center my-0 select-none animate-entrance-3d-center">
           {/* Ambient Cyan Aura Halo di Belakang Figur HP (Versi Asli yang Disukai) */}
-          <div className="pointer-events-none absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-1/2 w-[320px] sm:w-[420px] h-[320px] sm:h-[420px] bg-gradient-to-t from-cyan-500/35 via-blue-600/30 to-transparent rounded-full blur-[65px] opacity-90 animate-pulse" />
+          <div className="pointer-events-none absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] bg-gradient-to-t from-cyan-500/35 via-blue-600/30 to-transparent rounded-full blur-[65px] opacity-90 animate-pulse" />
 
-          {/* Figur Cutout Frameless Super HD di HP (Bebas Potongan Kotak & Bebas Bebayang Hitam) */}
+          {/* Figur Cutout Frameless Besar di HP (Bebas Potongan Kotak) */}
           <div
             style={{
-              maskImage: "linear-gradient(to bottom, black 84%, rgba(0,0,0,0.5) 94%, transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to bottom, black 84%, rgba(0,0,0,0.5) 94%, transparent 100%)",
+              maskImage: "linear-gradient(to bottom, black 82%, rgba(0,0,0,0.5) 92%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to bottom, black 82%, rgba(0,0,0,0.5) 92%, transparent 100%)",
             }}
             className="w-full flex justify-center relative z-20"
           >
             <img
               src="/images/hafis-hero-portrait.png"
               alt={fullName || "Muhamad Hafis Ali"}
-              className="w-auto h-[44vh] max-h-[420px] max-w-[92vw] object-contain select-none filter drop-shadow-[0_12px_40px_rgba(6,182,212,0.5)]"
+              className="w-[88vw] max-w-[360px] sm:max-w-[420px] h-auto object-contain select-none filter drop-shadow-[0_10px_35px_rgba(6,182,212,0.45)]"
               draggable={false}
             />
           </div>
