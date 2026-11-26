@@ -230,10 +230,10 @@ export default function Hero({ profile }) {
       {/* MOBILE & TABLET VIEW (lg:hidden): Heroic 3D Visual Layout       */}
       {/* Figur Raksasa, Aura Vibrant, Rapi, Bebas Kotak                 */}
       {/* ============================================================== */}
-      <div className="lg:hidden flex flex-col items-center text-center space-y-4 pt-1 pb-6 relative overflow-visible">
+      <div className="lg:hidden flex flex-col items-center text-center space-y-3 sm:space-y-4 pt-0 pb-6 relative overflow-visible w-full">
         {/* Mobile 3D Watermark Text */}
         <div className="pointer-events-none absolute left-1/2 top-28 -translate-x-1/2 -translate-y-1/2 select-none justify-center items-center z-0 w-full overflow-hidden">
-          <span className="text-[68px] sm:text-[90px] font-black tracking-widest text-transparent stroke-text opacity-15 dark:opacity-20 font-mono select-none">
+          <span className="text-[64px] sm:text-[84px] font-black tracking-widest text-transparent stroke-text opacity-15 dark:opacity-20 font-mono select-none">
             HAFIS ALI
           </span>
         </div>
@@ -254,7 +254,7 @@ export default function Hero({ profile }) {
         {/* Foto Cutout Raksasa di HP dengan Vibrant Cyan Aura & Bottom Fadeout */}
         <div className="relative w-full flex flex-col items-center justify-center my-0 select-none animate-entrance-3d-center">
           {/* Ambient Cyan Aura Halo di Belakang Figur HP (Versi Asli) */}
-          <div className="pointer-events-none absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] bg-gradient-to-t from-cyan-500/35 via-blue-600/30 to-transparent rounded-full blur-[65px] opacity-90 animate-pulse" />
+          <div className="pointer-events-none absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[360px] h-[280px] sm:h-[360px] bg-gradient-to-t from-cyan-500/35 via-blue-600/30 to-transparent rounded-full blur-[60px] opacity-90 animate-pulse" />
 
           {/* Figur Cutout Frameless Besar di HP (Bebas Potongan Kotak) */}
           <div
@@ -267,7 +267,7 @@ export default function Hero({ profile }) {
             <img
               src="/images/hafis-hero-portrait.png"
               alt={fullName || "Muhamad Hafis Ali"}
-              className="w-[88vw] max-w-[360px] sm:max-w-[420px] h-auto object-contain select-none filter drop-shadow-[0_10px_35px_rgba(6,182,212,0.45)]"
+              className="w-auto h-[38vh] max-h-[330px] sm:max-h-[380px] max-w-[85vw] object-contain select-none filter drop-shadow-[0_10px_35px_rgba(6,182,212,0.45)]"
               draggable={false}
             />
           </div>
