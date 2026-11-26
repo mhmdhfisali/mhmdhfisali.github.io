@@ -102,18 +102,10 @@ export default function GitHubActivity({ username = "mhmdhfisali" }) {
     fetchRepos();
   }, [username]);
 
-  // Auto-scroll track ke sisi kanan saat pertama kali dimuat di mobile agar langsung melihat bulan terbaru
+  // Posisi track langsung ke sisi kanan saat data tersedia di mobile agar langsung melihat bulan terbaru
   useEffect(() => {
     if (scrollRef.current) {
-      const timer = setTimeout(() => {
-        if (scrollRef.current) {
-          scrollRef.current.scrollTo({
-            left: scrollRef.current.scrollWidth,
-            behavior: "smooth",
-          });
-        }
-      }, 350);
-      return () => clearTimeout(timer);
+      scrollRef.current.scrollLeft = scrollRef.current.scrollWidth;
     }
   }, [data]);
 

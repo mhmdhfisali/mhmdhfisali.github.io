@@ -208,7 +208,7 @@ export default async function Home() {
 
         {/* 2. SEKSI KEAHLIAN / SKILLS */}
         <section id="skills" className={contentSectionClass}>
-          <ScrollReveal direction="up" delay={50} className="w-full">
+          <ScrollReveal direction="up" delay={0} className="w-full">
             <Skills skills={skills} />
           </ScrollReveal>
         </section>
@@ -216,21 +216,21 @@ export default async function Home() {
         {/* 2.5 SEKSI AKTIVITAS / ACTIVITY */}
         <section id="activity" className={contentSectionClass}>
           <span id="github" className="sr-only" />
-          <ScrollReveal direction="up" delay={60} className="w-full">
+          <ScrollReveal direction="up" delay={0} className="w-full">
             <GitHubActivity username={githubUsername} />
           </ScrollReveal>
         </section>
 
         {/* 3. SEKSI PROYEK / PROJECTS */}
         <section id="projects" className={contentSectionClass}>
-          <ScrollReveal direction="converge" delay={80} className="w-full">
+          <ScrollReveal direction="up" delay={0} className="w-full">
             <Projects projects={mergedProjects} />
           </ScrollReveal>
         </section>
 
         {/* 4. SEKSI PENGALAMAN & PENDIDIKAN / EXPERIENCE */}
         <section id="experience" className={contentSectionClass}>
-          <ScrollReveal direction="up" delay={80} className="w-full">
+          <ScrollReveal direction="up" delay={0} className="w-full">
             <ExperienceEducation
               experiences={experiences}
               educations={educations}
@@ -240,7 +240,7 @@ export default async function Home() {
 
         {/* 5. SEKSI SERTIFIKASI / CERTIFICATIONS */}
         <section id="certifications" className={contentSectionClass}>
-          <ScrollReveal direction="converge" delay={80} className="w-full">
+          <ScrollReveal direction="up" delay={0} className="w-full">
             <Certifications certifications={certifications} />
           </ScrollReveal>
         </section>
@@ -248,7 +248,7 @@ export default async function Home() {
         {/* 6. SEKSI ARTIKEL / ARTICLES */}
         <section id="articles" className={contentSectionClass}>
           <span id="posts" className="sr-only" />
-          <ScrollReveal direction="scale" delay={80} className="w-full">
+          <ScrollReveal direction="up" delay={0} className="w-full">
             <Posts posts={posts} />
           </ScrollReveal>
         </section>
@@ -256,7 +256,7 @@ export default async function Home() {
         {/* 7. SEKSI KONTAK / CONTACT */}
         <section id="contact" className={contentSectionClass}>
           <span id="kontak" className="sr-only" />
-          <ScrollReveal direction="up" delay={50} className="w-full">
+          <ScrollReveal direction="up" delay={0} className="w-full">
             <ContactDrawer profile={profile} />
           </ScrollReveal>
         </section>
