@@ -184,9 +184,9 @@ export default async function Home() {
       (CANONICAL_ORDER[b._id] || b.featuredOrder || 99),
   );
 
-  // CLASS RESPONSIVE: Hero 1 layar penuh (100dvh di mobile & desktop), seksi konten lapang & rapi
+  // CLASS RESPONSIVE: Hero 1 layar penuh (100dvh di mobile & desktop), lapang, grounded to baseline
   const heroSectionClass =
-    "w-full flex flex-col justify-center items-center min-h-screen min-h-[100dvh] pt-20 pb-8 sm:pt-32 sm:pb-16 scroll-mt-20";
+    "w-full flex flex-col justify-end lg:justify-center items-center min-h-screen min-h-[100dvh] pt-16 sm:pt-20 pb-0 scroll-mt-20 relative";
   const contentSectionClass =
     "w-full block py-8 sm:py-20 sm:pb-24 scroll-mt-20";
 
@@ -199,7 +199,7 @@ export default async function Home() {
 
       <Navbar profile={profile} />
 
-      <main className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8 space-y-2 sm:space-y-0">
+      <main className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 space-y-2 sm:space-y-0">
         {/* 1. SEKSI BERANDA / HOME (Langsung Aktif di Above The Fold) */}
         <section id="home" className={heroSectionClass}>
           <span id="beranda" className="sr-only" />

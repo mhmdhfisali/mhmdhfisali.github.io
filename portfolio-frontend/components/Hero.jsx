@@ -122,17 +122,17 @@ export default function Hero({ profile }) {
       {/* ============================================================== */}
       {/* DESKTOP VIEW (lg:flex): GAYA ASYUKGO ASLI                    */}
       {/* Kiri: "Halo, Saya" + Nama                                      */}
-      {/* Tengah: Foto Cutout Frameless Asli (Bebas Kotak/Border)        */}
+      {/* Tengah: Foto Cutout Frameless Besar Menempel ke Baseline       */}
       {/* Kanan: "Mahasiswa" + "Teknik & Informatika"                   */}
       {/* ============================================================== */}
-      <div className="relative z-10 hidden lg:flex items-center justify-between w-full min-h-[520px]">
+      <div className="relative z-10 hidden lg:flex items-center justify-between w-full min-h-[80vh] xl:min-h-[85vh] overflow-visible pb-0">
         {/* SISI KIRI: "Halo, Saya" + Nama Besar + 2 Tombol Aksi */}
-        <div className="w-[31%] xl:w-[32%] text-left space-y-4 animate-entrance-3d-left z-20">
+        <div className="w-[32%] text-left space-y-3 xl:space-y-4 animate-entrance-3d-left z-20">
           <p className="text-xl xl:text-2xl font-bold font-mono tracking-tight text-cyan-500 dark:text-cyan-400">
             Halo, Saya
           </p>
 
-          <h1 className="text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-black text-gray-950 dark:text-white tracking-tighter leading-[1.04]">
+          <h1 className="text-5xl xl:text-6xl 2xl:text-7xl font-black text-gray-950 dark:text-white tracking-tighter leading-[0.98]">
             Muhamad Hafis <br />
             Ali
           </h1>
@@ -144,7 +144,7 @@ export default function Hero({ profile }) {
                 href={profile.resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-xs font-bold font-mono tracking-tight shadow-lg shadow-cyan-500/25 active:scale-95 transition-all"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-xs sm:text-sm font-bold font-mono tracking-tight shadow-lg shadow-cyan-500/25 active:scale-95 transition-all"
               >
                 <span>{t.hero.downloadCv}</span>
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
@@ -158,7 +158,7 @@ export default function Hero({ profile }) {
                 href={profile.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/90 hover:bg-gray-100 dark:bg-white/[0.08] dark:hover:bg-white/[0.14] text-gray-900 dark:text-white text-xs font-semibold font-mono tracking-tight border border-gray-200 dark:border-white/10 active:scale-95 transition-all shadow-2xs"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/90 hover:bg-gray-100 dark:bg-white/[0.08] dark:hover:bg-white/[0.14] text-gray-900 dark:text-white text-xs sm:text-sm font-semibold font-mono tracking-tight border border-gray-200 dark:border-white/10 active:scale-95 transition-all shadow-2xs"
               >
                 <span>{t.hero.github}</span>
                 <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -169,46 +169,42 @@ export default function Hero({ profile }) {
           </div>
         </div>
 
-        {/* TENGAH: FOTO CUTOUT FRAMELESS ASLI (Bebas Bingkai Kotak, Seamless) */}
-        <div className="w-[38%] xl:w-[36%] flex justify-center items-center relative animate-entrance-3d-center z-10">
-          <div className="relative group/card select-none flex flex-col items-center justify-center">
-            {/* Ambient Cyan Aura Halo di Belakang Figur */}
-            <div className="pointer-events-none absolute -inset-10 bg-gradient-to-t from-cyan-500/30 via-blue-600/30 to-transparent rounded-full blur-3xl opacity-80 group-hover/card:opacity-100 transition-opacity duration-700 animate-pulse" />
+        {/* TENGAH: FOTO CUTOUT BESAR TERPUSAT, MENEMPEL KE BAWAH BASELINE */}
+        <div className="absolute left-1/2 bottom-0 -translate-x-1/2 flex flex-col justify-end items-center h-full z-10 pointer-events-none select-none">
+          {/* Ambient Cyan Aura Halo di Belakang Figur (Tanpa orbit rings yang membatasi) */}
+          <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] xl:w-[620px] h-[480px] xl:h-[620px] bg-gradient-to-t from-cyan-500/35 via-blue-600/30 to-transparent rounded-full blur-[110px] opacity-90 animate-pulse" />
 
-            {/* Orbit Tech Rings Halus */}
-            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] xl:w-[420px] h-[340px] xl:h-[420px] rounded-full border border-cyan-400/20 dark:border-cyan-400/30 border-dashed animate-[spin_35s_linear_infinite]" />
-            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] xl:w-[350px] h-[280px] xl:h-[350px] rounded-full border border-blue-500/15 dark:border-blue-400/25 animate-[spin_25s_linear_infinite_reverse]" />
-
-            {/* Figur Cutout 3D Tilt Interaktif Tanpa Box/Border */}
-            <div
-              onMouseMove={handleMouseMove}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              style={{
-                transform: isHovered
-                  ? `perspective(1000px) rotateX(${mousePos.y * 0.7}deg) rotateY(${mousePos.x * 0.7}deg) scale(1.03)`
-                  : "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)",
-                transition: "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-              }}
-              className="relative z-20 flex flex-col items-center cursor-pointer transition-all duration-300"
-            >
-              <img
-                src="/images/hafis-cutout-var1-soft-rim.png"
-                alt={fullName || "Muhamad Hafis Ali"}
-                className="w-[340px] xl:w-[420px] 2xl:w-[480px] h-auto object-contain select-none transition-all duration-500 transform-gpu group-hover/card:scale-105 filter drop-shadow-[0_0_35px_rgba(6,182,212,0.5)]"
-                draggable={false}
-              />
-            </div>
+          {/* Figur Cutout 3D Tilt Interaktif Tanpa Box/Border, Tinggi Penuh */}
+          <div
+            onMouseMove={handleMouseMove}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            style={{
+              transform: isHovered
+                ? `perspective(1000px) rotateX(${mousePos.y * 0.5}deg) rotateY(${mousePos.x * 0.5}deg) scale(1.02)`
+                : "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)",
+              transition: "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
+              maskImage: "linear-gradient(to bottom, black 65%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to bottom, black 65%, transparent 100%)",
+            }}
+            className="pointer-events-auto relative z-20 flex flex-col items-center justify-end cursor-pointer"
+          >
+            <img
+              src="/images/hafis-cutout-var1-soft-rim.png"
+              alt={fullName || "Muhamad Hafis Ali"}
+              className="h-[62vh] sm:h-[72vh] lg:h-[80vh] xl:h-[86vh] max-h-[780px] w-auto object-contain object-bottom select-none transform-gpu filter drop-shadow-[0_0_40px_rgba(6,182,212,0.55)]"
+              draggable={false}
+            />
           </div>
         </div>
 
         {/* SISI KANAN: "Mahasiswa" + "Teknik & Informatika" + Metrik */}
-        <div className="w-[31%] xl:w-[32%] text-left space-y-4 animate-entrance-3d-right z-20">
+        <div className="w-[32%] text-left space-y-3 xl:space-y-4 animate-entrance-3d-right z-20">
           <p className="text-xl xl:text-2xl font-bold font-mono tracking-tight text-cyan-500 dark:text-cyan-400">
             Mahasiswa
           </p>
 
-          <h2 className="text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-black text-gray-950 dark:text-white tracking-tighter leading-[1.04]">
+          <h2 className="text-5xl xl:text-6xl 2xl:text-7xl font-black text-gray-950 dark:text-white tracking-tighter leading-[0.98]">
             Teknik <br />
             & Informatika
           </h2>
@@ -236,6 +232,9 @@ export default function Hero({ profile }) {
             </span>
           </div>
         </div>
+
+        {/* Floating Glowing Cyan Orb di Kanan (Persis Gaya Asyukgo) */}
+        <div className="hidden lg:block pointer-events-none absolute -right-4 xl:right-2 top-1/2 -translate-y-1/2 w-12 xl:w-16 h-12 xl:h-16 rounded-full bg-cyan-400/35 blur-md shadow-[0_0_35px_rgba(34,211,238,0.7)] animate-pulse" />
       </div>
 
       {/* ============================================================== */}
@@ -243,15 +242,18 @@ export default function Hero({ profile }) {
       {/* Bebas Box/Border, Rapi, Simetris, Tidak Rame                   */}
       {/* ============================================================== */}
       <div className="lg:hidden flex flex-col items-center text-center space-y-4 pt-1 pb-4">
-        {/* Foto Cutout Frameless Asli */}
+        {/* Foto Cutout Frameless Asli dengan Bottom Fadeout */}
         <div className="relative group/card select-none flex flex-col items-center justify-center animate-entrance-3d-center">
           <div className="pointer-events-none absolute -inset-6 bg-gradient-to-t from-cyan-500/25 via-blue-600/30 to-transparent rounded-full blur-2xl opacity-80 animate-pulse" />
-          <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[220px] sm:w-[280px] h-[220px] sm:h-[280px] rounded-full border border-cyan-400/25 border-dashed animate-[spin_30s_linear_infinite]" />
 
           <img
             src="/images/hafis-cutout-var1-soft-rim.png"
             alt={fullName || "Muhamad Hafis Ali"}
-            className="w-56 sm:w-64 h-auto object-contain select-none relative z-20 filter drop-shadow-[0_0_25px_rgba(6,182,212,0.6)]"
+            style={{
+              maskImage: "linear-gradient(to bottom, black 70%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to bottom, black 70%, transparent 100%)",
+            }}
+            className="w-64 sm:w-80 h-auto object-contain select-none relative z-20 filter drop-shadow-[0_0_30px_rgba(6,182,212,0.6)]"
             draggable={false}
           />
         </div>
