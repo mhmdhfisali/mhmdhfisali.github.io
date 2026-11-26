@@ -186,7 +186,7 @@ export default async function Home() {
 
   // CLASS RESPONSIVE: Hero 1 layar penuh (100dvh di desktop), fleksibel aman di mobile
   const heroSectionClass =
-    "w-full flex flex-col justify-start lg:justify-end items-center min-h-[100dvh] h-auto lg:h-[100dvh] pt-24 sm:pt-28 lg:pt-16 pb-4 lg:pb-0 scroll-mt-20 relative overflow-visible";
+    "w-full flex flex-col justify-start lg:justify-end items-center min-h-[100dvh] h-auto lg:h-[100dvh] pt-[68px] sm:pt-20 lg:pt-16 pb-2 lg:pb-0 scroll-mt-20 relative overflow-visible";
   const contentSectionClass =
     "w-full block py-8 sm:py-20 sm:pb-24 scroll-mt-20";
 
