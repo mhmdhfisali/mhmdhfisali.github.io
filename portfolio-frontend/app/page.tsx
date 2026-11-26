@@ -184,11 +184,11 @@ export default async function Home() {
       (CANONICAL_ORDER[b._id] || b.featuredOrder || 99),
   );
 
-  // CLASS RESPONSIVE: Padding proporsional & rapat di mobile (tanpa gap kosong raksasa), lapang di desktop
+  // CLASS RESPONSIVE: Hero 1 layar penuh (100dvh di mobile & desktop), seksi konten lapang & rapi
   const heroSectionClass =
-    "w-full flex items-center justify-center pt-20 sm:pt-32 pb-6 sm:pb-16 sm:min-h-screen scroll-mt-20";
+    "w-full flex flex-col justify-center items-center min-h-screen min-h-[100dvh] pt-20 pb-8 sm:pt-32 sm:pb-16 scroll-mt-20";
   const contentSectionClass =
-    "w-full block py-5 sm:pt-20 sm:pb-24 scroll-mt-20";
+    "w-full block py-8 sm:py-20 sm:pb-24 scroll-mt-20";
 
   return (
     <div className="relative min-h-screen bg-background text-foreground selection:bg-blue-600 selection:text-white font-sans antialiased overflow-x-hidden transition-colors duration-300">

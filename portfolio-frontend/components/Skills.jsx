@@ -305,10 +305,10 @@ export default function Skills({ skills = [] }) {
           {t.skills.noSkills}
         </div>
       ) : (
-        <div className="marquee-container relative w-full overflow-hidden space-y-2.5 sm:space-y-5 py-1 sm:py-2">
+        <div className="marquee-container relative -mx-4 sm:mx-0 overflow-hidden space-y-2.5 sm:space-y-5 py-1 sm:py-2">
           {/* Fade Masking Kiri & Kanan */}
-          <div className="pointer-events-none absolute left-0 inset-y-0 w-6 sm:w-28 bg-gradient-to-r from-background to-transparent z-10" />
-          <div className="pointer-events-none absolute right-0 inset-y-0 w-6 sm:w-28 bg-gradient-to-l from-background to-transparent z-10" />
+          <div className="pointer-events-none absolute left-0 inset-y-0 w-8 sm:w-28 bg-gradient-to-r from-background to-transparent z-10" />
+          <div className="pointer-events-none absolute right-0 inset-y-0 w-8 sm:w-28 bg-gradient-to-l from-background to-transparent z-10" />
 
           {/* Baris 1: Aliran ke Kiri (Smooth Running Loop) */}
           <div className="overflow-hidden w-full">
