@@ -6,13 +6,13 @@ import { useEffect, useRef, useState } from "react";
 export default function Navbar({ profile = {} }) {
   const { locale, toggleLocale, t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState("#home");
   const [isDark, setIsDark] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navRef = useRef(null);
+  const readingBarRef = useRef(null);
 
   const rawName = profile?.name || "Muhamad Hafis Ali";
 
@@ -132,39 +132,50 @@ export default function Navbar({ profile = {} }) {
       "contact",
     ];
 
+    let ticking = false;
+    let lastScrolled = false;
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-
-      const totalHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const progress =
-        totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
-      setScrollProgress(Math.min(Math.max(progress, 0), 100));
-
-      const scrollPos = window.scrollY + 220;
-      const isAtBottom =
-        window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 60;
-
-      if (isAtBottom) {
-        setActiveSection("#contact");
-        return;
+      const isOver = window.scrollY > 20;
+      if (isOver !== lastScrolled) {
+        lastScrolled = isOver;
+        setScrolled(isOver);
       }
 
-      let current = "#home";
-      for (const id of sectionIds) {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          const top = rect.top + window.scrollY;
-          const height = el.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
-            current = `#${id}`;
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          if (readingBarRef.current) {
+            const totalHeight =
+              document.documentElement.scrollHeight - window.innerHeight;
+            const progress =
+              totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
+            readingBarRef.current.style.width = `${Math.min(Math.max(progress, 0), 100)}%`;
           }
-        }
+          ticking = false;
+        });
+        ticking = true;
       }
-      setActiveSection(current);
     };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            setActiveSection(id === "home" ? "#home" : `#${id}`);
+          }
+        });
+      },
+      {
+        rootMargin: "-20% 0px -60% 0px",
+        threshold: 0,
+      }
+    );
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
 
     const handleClickOutside = (e) => {
       if (navRef.current && !navRef.current.contains(e.target)) {
@@ -177,6 +188,7 @@ export default function Navbar({ profile = {} }) {
     handleScroll();
 
     return () => {
+      observer.disconnect();
       window.removeEventListener("scroll", handleScroll);
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -420,8 +432,9 @@ export default function Navbar({ profile = {} }) {
         {/* Real-time Reading / Scroll Progress Bar */}
         <div className="absolute inset-x-6 bottom-0 h-[2px] bg-transparent overflow-hidden rounded-full pointer-events-none">
           <div
-            className="h-full bg-gradient-to-r from-blue-600 via-cyan-400 to-emerald-400 transition-all duration-75 ease-out shadow-[0_0_8px_rgba(6,182,212,0.8)]"
-            style={{ width: `${scrollProgress}%` }}
+            ref={readingBarRef}
+            className="h-full bg-gradient-to-r from-blue-600 via-cyan-400 to-emerald-400 shadow-[0_0_8px_rgba(6,182,212,0.8)] will-change-[width]"
+            style={{ width: "0%" }}
           />
         </div>
       </header>

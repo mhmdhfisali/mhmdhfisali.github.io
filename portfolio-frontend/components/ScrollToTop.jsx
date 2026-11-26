@@ -6,11 +6,17 @@ export default function ScrollToTop() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    let lastVisible = false;
+
     const toggleVisible = () => {
-      setVisible(window.scrollY > 400);
+      const isOver = window.scrollY > 400;
+      if (isOver !== lastVisible) {
+        lastVisible = isOver;
+        setVisible(isOver);
+      }
     };
 
-    window.addEventListener("scroll", toggleVisible);
+    window.addEventListener("scroll", toggleVisible, { passive: true });
     return () => window.removeEventListener("scroll", toggleVisible);
   }, []);
 

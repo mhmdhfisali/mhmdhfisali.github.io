@@ -187,7 +187,7 @@ function SkillCard({ skill }) {
   const tagline = getSkillTagline(skill.title);
 
   return (
-    <div className="group relative w-[130px] sm:w-[200px] h-[95px] sm:h-[140px] p-2 sm:p-3.5 rounded-2xl sm:rounded-3xl bg-white/85 dark:bg-[#151923]/75 border border-gray-200/90 dark:border-white/[0.08] backdrop-blur-md hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1 active:scale-95 transition-all duration-300 select-none shrink-0 flex flex-col justify-between overflow-hidden cursor-pointer shadow-2xs">
+    <div className="group relative w-[130px] sm:w-[200px] h-[95px] sm:h-[140px] p-2 sm:p-3.5 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#151923] border border-gray-200/90 dark:border-white/[0.08] hover:border-blue-500/50 hover:shadow-lg hover:-translate-y-1 active:scale-95 transition-all duration-300 select-none shrink-0 flex flex-col justify-between overflow-hidden cursor-pointer shadow-2xs transform-gpu will-change-transform">
       {/* Bagian Atas: Logo & Badge */}
       <div className="flex items-start justify-between gap-1 sm:gap-1.5">
         <div className="w-7 h-7 sm:w-12 sm:h-12 rounded-lg sm:rounded-2xl bg-gray-100/90 dark:bg-white/[0.04] border border-gray-200/70 dark:border-white/[0.06] flex items-center justify-center p-1 sm:p-1.5 shadow-2xs shrink-0 group-hover:scale-105 transition-transform">
@@ -263,9 +263,9 @@ export default function Skills({ skills = [] }) {
   const row1 = skills.filter((_, i) => i % 2 === 0);
   const row2 = skills.filter((_, i) => i % 2 !== 0);
 
-  // Struktur duplikasi untuk loop marquee tanpa patah (-50%)
-  const doubleRow1 = [...row1, ...row1];
-  const doubleRow2 = row2.length > 0 ? [...row2, ...row2] : [...row1, ...row1];
+  // Loop marquee dengan 2 set data identik untuk transisi -50% mulus (60 FPS tanpa beban DOM berlebih)
+  const safeRow1 = row1.length > 0 ? row1 : skills;
+  const safeRow2 = row2.length > 0 ? row2 : skills;
 
   return (
     <div className="w-full space-y-4 sm:space-y-7 text-left py-1 sm:py-2">
@@ -306,7 +306,7 @@ export default function Skills({ skills = [] }) {
         </div>
       ) : (
         <div className="marquee-container relative w-full overflow-hidden space-y-2.5 sm:space-y-5 py-1 sm:py-2">
-          {/* Fade Masking Kiri & Kanan (Halus di HP agar tidak menutup kartu) */}
+          {/* Fade Masking Kiri & Kanan */}
           <div className="pointer-events-none absolute left-0 inset-y-0 w-6 sm:w-28 bg-gradient-to-r from-background to-transparent z-10" />
           <div className="pointer-events-none absolute right-0 inset-y-0 w-6 sm:w-28 bg-gradient-to-l from-background to-transparent z-10" />
 
@@ -314,12 +314,12 @@ export default function Skills({ skills = [] }) {
           <div className="overflow-hidden w-full">
             <div className="animate-marquee-left flex">
               <div className="flex gap-2.5 sm:gap-5 pr-2.5 sm:pr-5 shrink-0">
-                {doubleRow1.map((skill, idx) => (
+                {safeRow1.map((skill, idx) => (
                   <SkillCard key={`row1-a-${idx}`} skill={skill} />
                 ))}
               </div>
               <div className="flex gap-2.5 sm:gap-5 pr-2.5 sm:pr-5 shrink-0">
-                {doubleRow1.map((skill, idx) => (
+                {safeRow1.map((skill, idx) => (
                   <SkillCard key={`row1-b-${idx}`} skill={skill} />
                 ))}
               </div>
@@ -330,12 +330,12 @@ export default function Skills({ skills = [] }) {
           <div className="overflow-hidden w-full">
             <div className="animate-marquee-right flex">
               <div className="flex gap-2.5 sm:gap-5 pr-2.5 sm:pr-5 shrink-0">
-                {doubleRow2.map((skill, idx) => (
+                {safeRow2.map((skill, idx) => (
                   <SkillCard key={`row2-a-${idx}`} skill={skill} />
                 ))}
               </div>
               <div className="flex gap-2.5 sm:gap-5 pr-2.5 sm:pr-5 shrink-0">
-                {doubleRow2.map((skill, idx) => (
+                {safeRow2.map((skill, idx) => (
                   <SkillCard key={`row2-b-${idx}`} skill={skill} />
                 ))}
               </div>

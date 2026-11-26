@@ -192,9 +192,9 @@ export default async function Home() {
 
   return (
     <div className="relative min-h-screen bg-background text-foreground selection:bg-blue-600 selection:text-white font-sans antialiased overflow-x-hidden transition-colors duration-300">
-      {/* Background Glow */}
-      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] sm:w-[900px] h-[450px] bg-gradient-to-b from-blue-600/15 via-cyan-500/10 to-transparent blur-[120px] dark:opacity-70 opacity-30 rounded-full" />
+      {/* Background Glow (Hardware Accelerated) */}
+      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden transform-gpu will-change-transform">
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] sm:w-[900px] h-[450px] bg-gradient-to-b from-blue-600/15 via-cyan-500/10 to-transparent blur-[100px] dark:opacity-70 opacity-30 rounded-full transform-gpu" />
       </div>
 
       <Navbar profile={profile} />

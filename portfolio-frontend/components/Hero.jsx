@@ -60,8 +60,8 @@ export default function Hero({ profile }) {
             <div className="pointer-events-none absolute -inset-6 sm:-inset-10 bg-gradient-to-tr from-cyan-500/25 via-blue-600/30 to-indigo-500/25 rounded-full blur-3xl opacity-75 group-hover/card:opacity-100 transition-opacity duration-700 animate-pulse" />
 
             {/* Futuristic Orbit Tech Rings - Terpusat Presisi di Balik Foto */}
-            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[180px] sm:w-[300px] lg:w-[340px] h-[180px] sm:h-[300px] lg:h-[340px] rounded-full border border-cyan-400/20 dark:border-cyan-400/30 border-dashed animate-[spin_30s_linear_infinite]" />
-            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[145px] sm:w-[250px] lg:w-[290px] h-[145px] sm:h-[250px] lg:h-[290px] rounded-full border border-blue-500/20 dark:border-blue-400/30 animate-[spin_20s_linear_infinite_reverse]" />
+            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[180px] sm:w-[300px] lg:w-[340px] h-[180px] sm:h-[300px] lg:h-[340px] rounded-full border border-cyan-400/20 dark:border-cyan-400/30 border-dashed animate-[spin_30s_linear_infinite] transform-gpu will-change-transform" />
+            <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[145px] sm:w-[250px] lg:w-[290px] h-[145px] sm:h-[250px] lg:h-[290px] rounded-full border border-blue-500/20 dark:border-blue-400/30 animate-[spin_20s_linear_infinite_reverse] transform-gpu will-change-transform" />
 
             {/* Main Interactive Frameless Cutout Image with Glowing Colored Rim */}
             <div
@@ -80,7 +80,7 @@ export default function Hero({ profile }) {
               <img
                 src="/images/hafis-cutout.png"
                 alt={fullName || "Muhamad Hafis Ali"}
-                className="w-36 sm:w-56 md:w-64 lg:w-[300px] max-h-[210px] sm:max-h-[380px] lg:max-h-[440px] object-contain select-none transition-all duration-500 filter drop-shadow-[0_0_2px_rgba(6,182,212,0.95)] drop-shadow-[0_0_12px_rgba(6,182,212,0.6)] drop-shadow-[0_0_28px_rgba(59,130,246,0.35)] group-hover/card:drop-shadow-[0_0_3px_rgba(6,182,212,1)] group-hover/card:drop-shadow-[0_0_20px_rgba(6,182,212,0.85)] group-hover/card:drop-shadow-[0_0_40px_rgba(59,130,246,0.55)] mx-auto"
+                className="w-36 sm:w-56 md:w-64 lg:w-[300px] max-h-[210px] sm:max-h-[380px] lg:max-h-[440px] object-contain select-none transition-all duration-500 filter drop-shadow-[0_0_18px_rgba(6,182,212,0.5)] group-hover/card:drop-shadow-[0_0_28px_rgba(6,182,212,0.8)] mx-auto transform-gpu"
                 draggable={false}
               />
 

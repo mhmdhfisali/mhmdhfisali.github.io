@@ -21,17 +21,28 @@ export default function ExperienceEducation({
 }) {
   const { t, locale } = useLanguage();
   const containerRef = useRef(null);
-  const [scrollRatio, setScrollRatio] = useState(0);
+  const expBarRef = useRef(null);
+  const eduBarRef = useRef(null);
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const totalDist = rect.height + windowHeight * 0.4;
-      const currentDist = windowHeight - rect.top;
-      const ratio = Math.min(Math.max(currentDist / totalDist, 0), 1);
-      setScrollRatio(ratio);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          if (containerRef.current) {
+            const rect = containerRef.current.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            const totalDist = rect.height + windowHeight * 0.4;
+            const currentDist = windowHeight - rect.top;
+            const ratio = Math.min(Math.max(currentDist / totalDist, 0), 1);
+            const heightPercent = `${ratio * 100}%`;
+            if (expBarRef.current) expBarRef.current.style.height = heightPercent;
+            if (eduBarRef.current) eduBarRef.current.style.height = heightPercent;
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -90,8 +101,9 @@ export default function ExperienceEducation({
           <div className="relative pl-5 sm:pl-7 space-y-4 sm:space-y-6">
             <div className="absolute left-[7px] sm:left-[11px] top-3 bottom-3 w-[2px] bg-gray-200/90 dark:bg-white/[0.08]" />
             <div
-              style={{ height: `${scrollRatio * 100}%` }}
-              className="absolute left-[7px] sm:left-[11px] top-3 w-[2px] bg-gradient-to-b from-blue-600 via-cyan-400 to-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.8)] transition-all duration-150 ease-out"
+              ref={expBarRef}
+              style={{ height: "0%" }}
+              className="absolute left-[7px] sm:left-[11px] top-3 w-[2px] bg-gradient-to-b from-blue-600 via-cyan-400 to-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.8)] will-change-[height]"
             />
 
             {experiences.length === 0 ? (
@@ -113,7 +125,7 @@ export default function ExperienceEducation({
                   <div key={exp._id || idx} className="group relative">
                     <div className="absolute -left-[24px] sm:-left-[32px] top-2.5 w-3.5 h-3.5 rounded-full bg-white dark:bg-[#12161f] border-2 border-blue-600 group-hover:scale-125 transition-all" />
 
-                    <div className="bg-white/85 dark:bg-[#151923]/70 hover:bg-white dark:hover:bg-[#151923] backdrop-blur-md border border-gray-200/90 dark:border-white/[0.08] hover:border-blue-500/40 p-4 sm:p-5 rounded-2xl shadow-2xs transition-all">
+                    <div className="bg-white/95 dark:bg-[#151923] hover:bg-white dark:hover:bg-[#1a202c] border border-gray-200/90 dark:border-white/[0.08] hover:border-blue-500/40 p-4 sm:p-5 rounded-2xl shadow-2xs transition-all">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-3 mb-1">
                         <h4 className="text-sm sm:text-base font-bold text-gray-950 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors">
                           {jobTitle}
@@ -157,8 +169,9 @@ export default function ExperienceEducation({
           <div className="relative pl-5 sm:pl-7 space-y-4 sm:space-y-6">
             <div className="absolute left-[7px] sm:left-[11px] top-3 bottom-3 w-[2px] bg-gray-200/90 dark:bg-white/[0.08]" />
             <div
-              style={{ height: `${scrollRatio * 100}%` }}
-              className="absolute left-[7px] sm:left-[11px] top-3 w-[2px] bg-gradient-to-b from-cyan-500 via-blue-400 to-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.8)] transition-all duration-150 ease-out"
+              ref={eduBarRef}
+              style={{ height: "0%" }}
+              className="absolute left-[7px] sm:left-[11px] top-3 w-[2px] bg-gradient-to-b from-cyan-500 via-blue-400 to-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.8)] will-change-[height]"
             />
 
             {educations.length === 0 ? (
@@ -177,7 +190,7 @@ export default function ExperienceEducation({
                   <div key={edu._id || idx} className="group relative">
                     <div className="absolute -left-[24px] sm:-left-[32px] top-2.5 w-3.5 h-3.5 rounded-full bg-white dark:bg-[#12161f] border-2 border-cyan-500 group-hover:scale-125 transition-all" />
 
-                    <div className="bg-white/85 dark:bg-[#151923]/70 hover:bg-white dark:hover:bg-[#151923] backdrop-blur-md border border-gray-200/90 dark:border-white/[0.08] hover:border-cyan-500/40 p-4 sm:p-5 rounded-2xl shadow-2xs transition-all">
+                    <div className="bg-white/95 dark:bg-[#151923] hover:bg-white dark:hover:bg-[#1a202c] border border-gray-200/90 dark:border-white/[0.08] hover:border-cyan-500/40 p-4 sm:p-5 rounded-2xl shadow-2xs transition-all">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-3 mb-1">
                         <h4 className="text-sm sm:text-base font-bold text-gray-950 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
                           {degree}
