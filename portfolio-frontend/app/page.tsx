@@ -200,12 +200,10 @@ export default async function Home() {
       <Navbar profile={profile} />
 
       <main className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8 space-y-2 sm:space-y-0">
-        {/* 1. SEKSI BERANDA / HOME */}
+        {/* 1. SEKSI BERANDA / HOME (Langsung Aktif di Above The Fold) */}
         <section id="home" className={heroSectionClass}>
           <span id="beranda" className="sr-only" />
-          <ScrollReveal direction="converge" delay={100} className="w-full">
-            <Hero profile={profile} />
-          </ScrollReveal>
+          <Hero profile={profile} />
         </section>
 
         {/* 2. SEKSI KEAHLIAN / SKILLS */}

@@ -1,6 +1,5 @@
 import CommandPalette from "@/components/CommandPalette";
 import CursorSpotlight from "@/components/CursorSpotlight";
-import ScrollProgress from "@/components/ScrollProgress";
 import ScrollToTop from "@/components/ScrollToTop";
 import SoundFeedback from "@/components/SoundFeedback";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -202,7 +201,7 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
@@ -219,9 +218,6 @@ export default function RootLayout({
           disableTransitionOnChange={false}
         >
           <LanguageProvider>
-            {/* Laser Progress Bar di Atas Layar */}
-            <ScrollProgress />
-
             {/* Navigasi Cepat Keyboard (Cmd + K / Ctrl + K) */}
             <CommandPalette />
 

@@ -23,8 +23,8 @@ export default function ScrollReveal({
         }
       },
       {
-        threshold: 0.1,
-        rootMargin: "0px 0px -40px 0px",
+        threshold: 0.02,
+        rootMargin: "0px 0px 60px 0px",
       },
     );
 
@@ -39,10 +39,10 @@ export default function ScrollReveal({
   const getTransitionStyle = () => {
     const base = {
       transitionProperty: "opacity, transform",
-      transitionDuration: "400ms",
-      transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-      transitionDelay: `${delay}ms`,
-      willChange: "opacity, transform",
+      transitionDuration: "350ms",
+      transitionTimingFunction: "cubic-bezier(0.2, 0.8, 0.2, 1)",
+      transitionDelay: `${Math.min(delay, 50)}ms`,
+      willChange: isVisible ? "auto" : "opacity, transform",
     };
 
     if (!isVisible) {
@@ -51,27 +51,27 @@ export default function ScrollReveal({
           return {
             ...base,
             opacity: 0,
-            transform: "translate3d(-20px, 0, 0)",
+            transform: "translate3d(-12px, 0, 0)",
           };
         case "right":
           return {
             ...base,
             opacity: 0,
-            transform: "translate3d(20px, 0, 0)",
+            transform: "translate3d(12px, 0, 0)",
           };
         case "converge":
         case "scale":
           return {
             ...base,
             opacity: 0,
-            transform: "scale(0.98) translate3d(0, 14px, 0)",
+            transform: "scale(0.99) translate3d(0, 10px, 0)",
           };
         case "up":
         default:
           return {
             ...base,
             opacity: 0,
-            transform: "translate3d(0, 16px, 0)",
+            transform: "translate3d(0, 10px, 0)",
           };
       }
     }
