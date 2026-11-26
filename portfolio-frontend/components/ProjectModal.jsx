@@ -165,36 +165,6 @@ export default function ProjectModal({ project, onClose }) {
             </div>
 
             <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-              {project.ursUrl && (
-                <a
-                  href={project.ursUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hidden sm:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 text-[10px] sm:text-xs font-mono font-semibold border border-amber-200/80 dark:border-amber-800/50 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors"
-                  title={locale === "en" ? "URS Document (Access Permission Required)" : "Dokumen URS (Akses Terbatas / Perlu Izin)"}
-                >
-                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                  <span>{locale === "en" ? "URS (Request Access)" : "URS (Izin Akses)"}</span>
-                </a>
-              )}
-
-              {project.manualBookUrl && (
-                <a
-                  href={project.manualBookUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hidden sm:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 text-[10px] sm:text-xs font-mono font-semibold border border-amber-200/80 dark:border-amber-800/50 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors"
-                  title={locale === "en" ? "Manual Book (Access Permission Required)" : "Manual Book (Akses Terbatas / Perlu Izin)"}
-                >
-                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                  <span>{locale === "en" ? "Manual Book (Request Access)" : "Manual Book (Izin Akses)"}</span>
-                </a>
-              )}
-
               {project.demoUrl && (
                 <a
                   href={project.demoUrl}
@@ -371,48 +341,38 @@ export default function ProjectModal({ project, onClose }) {
 
                 {/* Official System Documentation Card */}
                 {(project.ursUrl || project.manualBookUrl) && (
-                  <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-amber-500/10 via-orange-500/5 to-transparent border border-amber-500/25 space-y-2.5">
+                  <div className="p-3 sm:p-3.5 rounded-2xl bg-amber-500/[0.06] dark:bg-amber-950/20 border border-amber-500/25 space-y-2">
                     <div className="flex items-center justify-between flex-wrap gap-2">
                       <span className="text-[10px] sm:text-[11px] font-mono text-amber-600 dark:text-amber-400 uppercase tracking-wider font-bold inline-flex items-center gap-1.5">
                         <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                         </svg>
-                        <span>{locale === "en" ? "Enterprise System Documentation" : "Dokumen Resmi Sistem"}</span>
+                        <span>{locale === "en" ? "Official System Documents" : "Dokumen Resmi Sistem"}</span>
                       </span>
                       <span className="text-[9px] font-mono font-bold text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/60 px-2 py-0.5 rounded-md border border-amber-300 dark:border-amber-800/60 inline-flex items-center gap-1">
                         <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-                        <span>{locale === "en" ? "NDA Protected (Restricted)" : "Akses Terbatas (Kepatuhan NDA)"}</span>
+                        <span>{locale === "en" ? "NDA Protected" : "Akses Terbatas (Kepatuhan NDA)"}</span>
                       </span>
                     </div>
 
-                    <p className="text-[11px] sm:text-xs text-gray-700 dark:text-gray-300 font-sans leading-relaxed">
+                    <p className="text-[10px] sm:text-[11px] text-gray-600 dark:text-gray-300 font-sans leading-relaxed">
                       {locale === "en"
-                        ? "Detailed technical specifications and manufacturing SOPs are stored in a restricted environment to safeguard corporate confidentiality. Access can be requested via Google Drive or formally for recruitment review."
-                        : "Dokumen spesifikasi teknis dan SOP manufaktur dilindungi klausul kerahasiaan operasional perusahaan (NDA). Tautan dokumen memerlukan permohonan izin (Request Access via Google Drive) atau dapat diminta untuk verifikasi kualifikasi profesional."}
+                        ? "Detailed technical specifications and manufacturing SOPs are protected under corporate NDA for professional qualification verification."
+                        : "Dokumen spesifikasi teknis dan SOP manufaktur dilindungi kerahasiaan operasional perusahaan (NDA) untuk verifikasi kualifikasi profesional."}
                     </p>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-0.5">
                       {project.ursUrl && (
                         <a
                           href={project.ursUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center justify-between p-2.5 rounded-xl bg-white/95 dark:bg-[#121622] border border-amber-300/80 dark:border-amber-500/30 hover:border-amber-500 dark:hover:border-amber-400 text-gray-900 dark:text-gray-100 transition-all group shadow-2xs"
+                          className="flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 dark:bg-amber-950/40 dark:hover:bg-amber-900/40 border border-amber-300 dark:border-amber-800/60 text-amber-900 dark:text-amber-200 transition-all font-mono font-bold text-xs sm:text-sm active:scale-95 shadow-2xs cursor-pointer"
                         >
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            <div className="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
-                              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                              </svg>
-                            </div>
-                            <div className="min-w-0 text-left">
-                              <p className="text-[11px] sm:text-xs font-bold font-mono truncate text-gray-950 dark:text-white">Dokumen URS (12 Halaman)</p>
-                              <p className="text-[9px] text-amber-700 dark:text-amber-400/90 font-mono truncate">Minta Izin Akses (Drive)</p>
-                            </div>
-                          </div>
-                          <span className="text-[9px] font-mono font-semibold px-1.5 py-0.5 rounded bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/40 shrink-0 ml-1 group-hover:translate-x-0.5 transition-transform">
-                            Izin Akses →
-                          </span>
+                          <svg className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                          </svg>
+                          <span>URS</span>
                         </a>
                       )}
 
@@ -421,22 +381,12 @@ export default function ProjectModal({ project, onClose }) {
                           href={project.manualBookUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center justify-between p-2.5 rounded-xl bg-white/95 dark:bg-[#121622] border border-orange-300/80 dark:border-orange-500/30 hover:border-orange-500 dark:hover:border-orange-400 text-gray-900 dark:text-gray-100 transition-all group shadow-2xs"
+                          className="flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 dark:bg-amber-950/40 dark:hover:bg-amber-900/40 border border-amber-300 dark:border-amber-800/60 text-amber-900 dark:text-amber-200 transition-all font-mono font-bold text-xs sm:text-sm active:scale-95 shadow-2xs cursor-pointer"
                         >
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            <div className="w-7 h-7 rounded-lg bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center shrink-0">
-                              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                              </svg>
-                            </div>
-                            <div className="min-w-0 text-left">
-                              <p className="text-[11px] sm:text-xs font-bold font-mono truncate text-gray-950 dark:text-white">Manual Book (SOP Mutu)</p>
-                              <p className="text-[9px] text-orange-700 dark:text-orange-400/90 font-mono truncate">Minta Izin Akses (Drive)</p>
-                            </div>
-                          </div>
-                          <span className="text-[9px] font-mono font-semibold px-1.5 py-0.5 rounded bg-orange-50 dark:bg-orange-950/40 text-orange-700 dark:text-orange-300 border border-orange-200 dark:border-orange-800/40 shrink-0 ml-1 group-hover:translate-x-0.5 transition-transform">
-                            Izin Akses →
-                          </span>
+                          <svg className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                          </svg>
+                          <span>Manual Book</span>
                         </a>
                       )}
                     </div>
@@ -637,34 +587,6 @@ export default function ProjectModal({ project, onClose }) {
 
             {/* Action Links Footer Modal */}
             <div className="pt-3 border-t border-gray-100 dark:border-white/[0.06] flex flex-wrap items-center justify-end gap-2 sm:gap-3">
-              {project.ursUrl && (
-                <a
-                  href={project.ursUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold font-mono transition-all shadow-xs"
-                >
-                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                  <span>{locale === "en" ? "Request URS Access (Drive)" : "Minta Izin Akses URS (Drive)"}</span>
-                </a>
-              )}
-
-              {project.manualBookUrl && (
-                <a
-                  href={project.manualBookUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white text-xs font-semibold font-mono transition-all shadow-xs"
-                >
-                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                  <span>{locale === "en" ? "Request Manual Book (Drive)" : "Minta Izin Akses Manual Book"}</span>
-                </a>
-              )}
-
               {project.demoUrl && (
                 <a
                   href={project.demoUrl}
