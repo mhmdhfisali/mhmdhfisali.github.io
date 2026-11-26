@@ -495,7 +495,7 @@ export default function Projects({ projects = [] }) {
           </div>
         </div>
 
-        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
+        <p className="hidden sm:block text-xs sm:text-sm text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
           {t.projects.subtitle}
         </p>
       </div>
@@ -536,7 +536,7 @@ export default function Projects({ projects = [] }) {
           ))}
         </div>
 
-        <span className="text-[11px] font-mono text-gray-400 pl-1">
+        <span className="hidden sm:inline text-[11px] font-mono text-gray-400 pl-1">
           ({filteredProjects.length} {t.hero.projectMetric})
         </span>
       </div>
@@ -544,7 +544,7 @@ export default function Projects({ projects = [] }) {
       {/* SUB-FILTER PERUSAHAAN (DINAMIS UNTUK MULTI-COMPANY / JANGKA PANJANG) */}
       {projectTypeFilter === "company" && availableCompanies.length > 0 && (
         <div className="flex flex-wrap items-center gap-2 pt-0.5 animate-in fade-in duration-200">
-          <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 pl-1 shrink-0">
+          <div className="hidden sm:flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 pl-1 shrink-0">
             <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
             </svg>

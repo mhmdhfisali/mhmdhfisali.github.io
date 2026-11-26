@@ -130,7 +130,7 @@ export default function ContactDrawer({ profile = {} }) {
           </span>
         </div>
 
-        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
+        <p className="hidden sm:block text-xs sm:text-sm text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
           {t.contact.subtitle}
         </p>
       </div>

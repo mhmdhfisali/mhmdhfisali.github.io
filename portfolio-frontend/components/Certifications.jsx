@@ -78,7 +78,7 @@ export default function Certifications({ certifications = [] }) {
           </span>
         </div>
 
-        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed line-clamp-2 sm:line-clamp-none">
+        <p className="hidden sm:block text-xs sm:text-sm text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
           {t.certifications.subtitle}
         </p>
       </div>
