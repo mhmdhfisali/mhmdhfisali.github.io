@@ -21,6 +21,11 @@ export const translations = {
       languageName: "Bahasa",
     },
     hero: {
+      greeting: "Halo, Saya",
+      roleLabel: "Mahasiswa",
+      fieldLine1: "Teknik",
+      fieldLine2: "& Informatika",
+      mobileRole: "Mahasiswa Teknik & Informatika",
       availableBadge: "AVAILABLE FOR WORK",
       committedBadge: "CURRENTLY COMMITTED",
       researchMetric: "Paper Riset",
@@ -258,6 +263,11 @@ export const translations = {
       languageName: "Language",
     },
     hero: {
+      greeting: "Hello, I'm",
+      roleLabel: "Student of",
+      fieldLine1: "Informatics",
+      fieldLine2: "& Engineering",
+      mobileRole: "Informatics & Engineering Student",
       availableBadge: "AVAILABLE FOR WORK",
       committedBadge: "CURRENTLY COMMITTED",
       researchMetric: "Research Papers",

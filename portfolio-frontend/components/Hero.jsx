@@ -7,22 +7,7 @@ import { useState } from "react";
 
 export default function Hero({ profile }) {
   const { t, locale } = useLanguage();
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
   const [copied, setCopied] = useState(false);
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 12;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -12;
-    setMousePos({ x, y });
-  };
-
-  const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    setMousePos({ x: 0, y: 0 });
-  };
 
   const handleCopyEmail = () => {
     if (!profile?.email) return;
@@ -47,7 +32,7 @@ export default function Hero({ profile }) {
       : (profile?.bio || fallbackProfile.bio);
 
   return (
-    <div className="relative w-full py-4 sm:py-8 lg:py-12 overflow-visible">
+    <div className="relative w-full py-2 sm:py-4 lg:py-0 overflow-visible">
       {/* Background Ambient Glows */}
       <div className="pointer-events-none absolute -top-24 left-1/4 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-gradient-to-tr from-cyan-500/15 via-blue-600/15 to-transparent blur-[140px] rounded-full" />
       <div className="pointer-events-none absolute top-1/3 -right-20 w-72 sm:w-96 h-72 sm:h-96 bg-cyan-400/10 blur-[130px] rounded-full" />
@@ -119,160 +104,177 @@ export default function Hero({ profile }) {
         )}
       </div>
 
+      {/* 3D Typographic Watermark (Deep Background Layer z-0) */}
+      <div className="hidden lg:flex pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none justify-center items-center z-0 w-full overflow-hidden">
+        <span className="text-[140px] xl:text-[180px] font-black tracking-widest text-transparent stroke-text opacity-15 dark:opacity-20 font-mono select-none">
+          HAFIS ALI
+        </span>
+      </div>
+
       {/* ============================================================== */}
-      {/* DESKTOP VIEW (lg:flex): GAYA ASYUKGO ASLI                    */}
-      {/* Kiri: "Halo, Saya" + Nama                                      */}
-      {/* Tengah: Foto Cutout Frameless Besar Menempel ke Baseline       */}
-      {/* Kanan: "Mahasiswa" + "Teknik & Informatika"                   */}
+      {/* DESKTOP VIEW (lg:flex): 3D LAYERED EDITORIAL LAYOUT           */}
+      {/* Layer 1 (z-10): Teks Nama & Bidang Proporsional di Belakang Figur */}
+      {/* Layer 2 (z-20): Figur Raksasa Menjulang Gagah di Depan Teks   */}
+      {/* Layer 3 (z-30): Tombol Aksi & Kontrol Interaktif di Depan      */}
       {/* ============================================================== */}
-      <div className="relative z-10 hidden lg:flex items-center justify-between w-full min-h-[80vh] xl:min-h-[85vh] overflow-visible pb-0">
-        {/* SISI KIRI: "Halo, Saya" + Nama Besar + 2 Tombol Aksi */}
-        <div className="w-[32%] text-left space-y-3 xl:space-y-4 animate-entrance-3d-left z-20">
-          <p className="text-xl xl:text-2xl font-bold font-mono tracking-tight text-cyan-500 dark:text-cyan-400">
-            Halo, Saya
-          </p>
+      <div className="relative hidden lg:flex items-start justify-between w-full h-[calc(100dvh-5rem)] overflow-visible pb-0">
+        {/* LAYER 1 (z-10): TEKS PROPORSI BESAR & ELEGAN DI BELAKANG FIGUR */}
+        <div className="relative z-10 w-full flex items-start justify-between pointer-events-none pt-14 xl:pt-18 2xl:pt-22">
+          {/* SISI KIRI: "Halo, Saya" + "Muhamad Hafis Ali" */}
+          <div className="w-[46%] xl:w-[44%] text-left select-none pr-4 xl:pr-10 animate-entrance-3d-left flex flex-col justify-start">
+            <p className="text-lg sm:text-xl xl:text-2xl font-bold font-mono tracking-tight text-cyan-500 dark:text-cyan-400 mb-2">
+              {t.hero.greeting || (locale === "en" ? "Hello, I'm" : "Halo, Saya")}
+            </p>
 
-          <h1 className="text-5xl xl:text-6xl 2xl:text-7xl font-black text-gray-950 dark:text-white tracking-tighter leading-[0.98]">
-            Muhamad Hafis <br />
-            Ali
-          </h1>
+            <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-black text-gray-950 dark:text-white tracking-tight leading-[1.05] drop-shadow-[0_4px_30px_rgba(0,0,0,0.6)]">
+              Muhamad Hafis <br />
+              Ali
+            </h1>
 
-          {/* Tombol Aksi: Hanya Unduh CV & GitHub */}
-          <div className="pt-4 flex flex-wrap items-center gap-3">
-            {profile?.resumeUrl && (
-              <a
-                href={profile.resumeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-xs sm:text-sm font-bold font-mono tracking-tight shadow-lg shadow-cyan-500/25 active:scale-95 transition-all"
-              >
-                <span>{t.hero.downloadCv}</span>
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m0 0l-6-6m6 6l6-6" />
-                </svg>
-              </a>
-            )}
+            {/* Tombol Aksi di Layer Depan (z-30) */}
+            <div className="pt-6 sm:pt-8 flex flex-wrap items-center gap-3.5 relative z-30 pointer-events-auto">
+              {profile?.resumeUrl && (
+                <a
+                  href={profile.resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-xs sm:text-sm font-bold font-mono tracking-tight shadow-xl shadow-cyan-500/25 active:scale-95 transition-all"
+                >
+                  <span>{t.hero.downloadCv}</span>
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m0 0l-6-6m6 6l6-6" />
+                  </svg>
+                </a>
+              )}
 
-            {profile?.githubUrl && (
-              <a
-                href={profile.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/90 hover:bg-gray-100 dark:bg-white/[0.08] dark:hover:bg-white/[0.14] text-gray-900 dark:text-white text-xs sm:text-sm font-semibold font-mono tracking-tight border border-gray-200 dark:border-white/10 active:scale-95 transition-all shadow-2xs"
-              >
-                <span>{t.hero.github}</span>
-                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                </svg>
-              </a>
-            )}
+              {profile?.githubUrl && (
+                <a
+                  href={profile.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white/90 hover:bg-gray-100 dark:bg-white/[0.08] dark:hover:bg-white/[0.14] text-gray-900 dark:text-white text-xs sm:text-sm font-semibold font-mono tracking-tight border border-gray-200 dark:border-white/10 active:scale-95 transition-all shadow-2xs backdrop-blur-md"
+                >
+                  <span>{t.hero.github}</span>
+                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                  </svg>
+                </a>
+              )}
+            </div>
+          </div>
+
+          {/* SISI KANAN: "Mahasiswa" + "Teknik & Informatika" */}
+          <div className="w-[46%] xl:w-[44%] text-left select-none pl-12 sm:pl-16 lg:pl-20 xl:pl-28 animate-entrance-3d-right flex flex-col justify-start">
+            <p className="text-lg sm:text-xl xl:text-2xl font-bold font-mono tracking-tight text-cyan-500 dark:text-cyan-400 mb-2">
+              {t.hero.roleLabel || (locale === "en" ? "Student of" : "Mahasiswa")}
+            </p>
+
+            <h2 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-black text-gray-950 dark:text-white tracking-tight leading-[1.05] drop-shadow-[0_4px_30px_rgba(0,0,0,0.6)]">
+              {t.hero.fieldLine1 || (locale === "en" ? "Informatics" : "Teknik")} <br />
+              {t.hero.fieldLine2 || (locale === "en" ? "& Engineering" : "& Informatika")}
+            </h2>
+
+            {/* Telemetry Ringkas di Layer Depan (z-30) */}
+            <div className="pt-6 sm:pt-8 flex items-center gap-4 text-xs xl:text-sm font-mono text-gray-400 dark:text-gray-400 relative z-30 pointer-events-auto">
+              <span>
+                <strong className="text-gray-900 dark:text-white font-black text-sm xl:text-base">
+                  {profile?.researchPaperCount ?? "1"}
+                </strong>{" "}
+                {t.hero.researchMetric}
+              </span>
+              <span>•</span>
+              <span>
+                <strong className="text-cyan-500 dark:text-cyan-400 font-black text-sm xl:text-base">
+                  {profile?.completedProjectCount ?? "10+"}
+                </strong>{" "}
+                {t.hero.projectMetric}
+              </span>
+              <span>•</span>
+              <span>
+                <strong className="text-gray-900 dark:text-white font-black text-sm xl:text-base">
+                  {profile?.environmentMetric ?? "Linux"}
+                </strong>
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* TENGAH: FOTO CUTOUT BESAR TERPUSAT, MENEMPEL KE BAWAH BASELINE */}
-        <div className="absolute left-1/2 bottom-0 -translate-x-1/2 flex flex-col justify-end items-center h-full z-10 pointer-events-none select-none">
-          {/* Ambient Cyan Aura Halo di Belakang Figur (Tanpa orbit rings yang membatasi) */}
-          <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] xl:w-[620px] h-[480px] xl:h-[620px] bg-gradient-to-t from-cyan-500/35 via-blue-600/30 to-transparent rounded-full blur-[110px] opacity-90 animate-pulse" />
+        {/* LAYER 2 (z-20): FOTO CUTOUT RAKSASA MENJULANG TINGGI (OVERLAPPING 3D) */}
+        <div className="absolute inset-x-0 bottom-0 top-0 flex flex-col justify-start items-center z-20 pointer-events-none select-none overflow-visible">
+          {/* Ambient Cyan Aura Halo di Belakang Figur (Versi Asli yang Disukai) */}
+          <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] xl:w-[950px] h-[700px] xl:h-[950px] bg-gradient-to-t from-cyan-500/35 via-blue-600/30 to-transparent rounded-full blur-[140px] opacity-90 animate-pulse" />
 
-          {/* Figur Cutout 3D Tilt Interaktif Tanpa Box/Border, Tinggi Penuh */}
+
+          {/* Figur Cutout Frameless Asli Raksasa (Static, Solid, Batas Bawah Sejajar Bawah Tangan, Bebas Box) */}
           <div
-            onMouseMove={handleMouseMove}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
             style={{
-              transform: isHovered
-                ? `perspective(1000px) rotateX(${mousePos.y * 0.5}deg) rotateY(${mousePos.x * 0.5}deg) scale(1.02)`
-                : "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)",
-              transition: "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-              maskImage: "linear-gradient(to bottom, black 65%, transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to bottom, black 65%, transparent 100%)",
+              maskImage: "linear-gradient(to bottom, black 82%, rgba(0,0,0,0.5) 92%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to bottom, black 82%, rgba(0,0,0,0.5) 92%, transparent 100%)",
             }}
-            className="pointer-events-auto relative z-20 flex flex-col items-center justify-end cursor-pointer"
+            className="pointer-events-auto relative z-20 flex flex-col items-center justify-start h-full w-full origin-top transform-gpu scale-[1.14] xl:scale-[1.16] 2xl:scale-[1.18]"
           >
             <img
-              src="/images/hafis-cutout-var1-soft-rim.png"
+              src="/images/hafis-hero-portrait.png"
               alt={fullName || "Muhamad Hafis Ali"}
-              className="h-[62vh] sm:h-[72vh] lg:h-[80vh] xl:h-[86vh] max-h-[780px] w-auto object-contain object-bottom select-none transform-gpu filter drop-shadow-[0_0_40px_rgba(6,182,212,0.55)]"
+              className="h-full w-auto max-h-[calc(100dvh-5.5rem)] object-contain object-top select-none filter drop-shadow-[0_15px_40px_rgba(6,182,212,0.45)]"
               draggable={false}
             />
           </div>
         </div>
 
-        {/* SISI KANAN: "Mahasiswa" + "Teknik & Informatika" + Metrik */}
-        <div className="w-[32%] text-left space-y-3 xl:space-y-4 animate-entrance-3d-right z-20">
-          <p className="text-xl xl:text-2xl font-bold font-mono tracking-tight text-cyan-500 dark:text-cyan-400">
-            Mahasiswa
-          </p>
-
-          <h2 className="text-5xl xl:text-6xl 2xl:text-7xl font-black text-gray-950 dark:text-white tracking-tighter leading-[0.98]">
-            Teknik <br />
-            & Informatika
-          </h2>
-
-          {/* Telemetry Ringkas di Bawah "Teknik & Informatika" */}
-          <div className="pt-4 flex items-center gap-4 text-xs xl:text-sm font-mono text-gray-500 dark:text-gray-400">
-            <span>
-              <strong className="text-gray-900 dark:text-white font-black text-sm xl:text-base">
-                {profile?.researchPaperCount ?? "1"}
-              </strong>{" "}
-              {t.hero.researchMetric}
-            </span>
-            <span>•</span>
-            <span>
-              <strong className="text-cyan-500 dark:text-cyan-400 font-black text-sm xl:text-base">
-                {profile?.completedProjectCount ?? "10+"}
-              </strong>{" "}
-              {t.hero.projectMetric}
-            </span>
-            <span>•</span>
-            <span>
-              <strong className="text-gray-900 dark:text-white font-black text-sm xl:text-base">
-                {profile?.environmentMetric ?? "Linux"}
-              </strong>
-            </span>
-          </div>
-        </div>
-
-        {/* Floating Glowing Cyan Orb di Kanan (Persis Gaya Asyukgo) */}
-        <div className="hidden lg:block pointer-events-none absolute -right-4 xl:right-2 top-1/2 -translate-y-1/2 w-12 xl:w-16 h-12 xl:h-16 rounded-full bg-cyan-400/35 blur-md shadow-[0_0_35px_rgba(34,211,238,0.7)] animate-pulse" />
+        {/* Floating Glowing Cyan Orb di Kanan (Gaya Asyukgo) */}
+        <div className="hidden lg:block pointer-events-none absolute -right-4 xl:right-2 top-1/2 -translate-y-1/2 w-14 xl:w-20 h-14 xl:h-20 rounded-full bg-cyan-400/40 blur-md shadow-[0_0_45px_rgba(34,211,238,0.8)] animate-pulse z-10" />
       </div>
 
       {/* ============================================================== */}
-      {/* MOBILE & TABLET VIEW (lg:hidden): Stacking Vertikal Terpusat  */}
-      {/* Bebas Box/Border, Rapi, Simetris, Tidak Rame                   */}
+      {/* MOBILE & TABLET VIEW (lg:hidden): Heroic 3D Visual Layout       */}
+      {/* Figur Raksasa, Aura Vibrant, Rapi, Bebas Kotak                 */}
       {/* ============================================================== */}
-      <div className="lg:hidden flex flex-col items-center text-center space-y-4 pt-1 pb-4">
-        {/* Foto Cutout Frameless Asli dengan Bottom Fadeout */}
-        <div className="relative group/card select-none flex flex-col items-center justify-center animate-entrance-3d-center">
-          <div className="pointer-events-none absolute -inset-6 bg-gradient-to-t from-cyan-500/25 via-blue-600/30 to-transparent rounded-full blur-2xl opacity-80 animate-pulse" />
-
-          <img
-            src="/images/hafis-cutout-var1-soft-rim.png"
-            alt={fullName || "Muhamad Hafis Ali"}
-            style={{
-              maskImage: "linear-gradient(to bottom, black 70%, transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to bottom, black 70%, transparent 100%)",
-            }}
-            className="w-64 sm:w-80 h-auto object-contain select-none relative z-20 filter drop-shadow-[0_0_30px_rgba(6,182,212,0.6)]"
-            draggable={false}
-          />
+      <div className="lg:hidden flex flex-col items-center text-center space-y-4 pt-1 pb-6 relative overflow-visible">
+        {/* Mobile 3D Watermark Text */}
+        <div className="pointer-events-none absolute left-1/2 top-28 -translate-x-1/2 -translate-y-1/2 select-none justify-center items-center z-0 w-full overflow-hidden">
+          <span className="text-[68px] sm:text-[90px] font-black tracking-widest text-transparent stroke-text opacity-15 dark:opacity-20 font-mono select-none">
+            HAFIS ALI
+          </span>
         </div>
 
-        {/* Teks Identitas */}
-        <div className="space-y-1 animate-entrance-3d-left">
+        {/* Teks Identitas di Atas */}
+        <div className="relative z-10 space-y-1 animate-entrance-3d-left pt-1">
           <p className="text-xs sm:text-sm font-bold font-mono tracking-tight text-cyan-500 dark:text-cyan-400">
-            Halo, Saya
+            {t.hero.greeting || (locale === "en" ? "Hello, I'm" : "Halo, Saya")}
           </p>
           <h1 className="text-3xl sm:text-4xl font-black tracking-tight leading-tight text-gray-950 dark:text-white drop-shadow-[0_2px_12px_rgba(6,182,212,0.25)]">
             Muhamad Hafis Ali
           </h1>
           <p className="text-xs sm:text-sm font-mono text-gray-600 dark:text-gray-300">
-            Mahasiswa Teknik & Informatika
+            {t.hero.mobileRole || (locale === "en" ? "Informatics & Engineering Student" : "Mahasiswa Teknik & Informatika")}
           </p>
         </div>
 
+        {/* Foto Cutout Raksasa di HP dengan Vibrant Cyan Aura & Bottom Fadeout */}
+        <div className="relative w-full flex flex-col items-center justify-center my-0 select-none animate-entrance-3d-center">
+          {/* Ambient Cyan Aura Halo di Belakang Figur HP (Versi Asli) */}
+          <div className="pointer-events-none absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] bg-gradient-to-t from-cyan-500/35 via-blue-600/30 to-transparent rounded-full blur-[65px] opacity-90 animate-pulse" />
+
+          {/* Figur Cutout Frameless Besar di HP (Bebas Potongan Kotak) */}
+          <div
+            style={{
+              maskImage: "linear-gradient(to bottom, black 82%, rgba(0,0,0,0.5) 92%, transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to bottom, black 82%, rgba(0,0,0,0.5) 92%, transparent 100%)",
+            }}
+            className="w-full flex justify-center relative z-20"
+          >
+            <img
+              src="/images/hafis-hero-portrait.png"
+              alt={fullName || "Muhamad Hafis Ali"}
+              className="w-[88vw] max-w-[360px] sm:max-w-[420px] h-auto object-contain select-none filter drop-shadow-[0_10px_35px_rgba(6,182,212,0.45)]"
+              draggable={false}
+            />
+          </div>
+        </div>
+
         {/* Telemetry Bar Simetris */}
-        <div className="inline-flex items-center divide-x divide-gray-200/80 dark:divide-white/[0.08] rounded-xl bg-white/80 dark:bg-white/[0.02] border border-gray-200/90 dark:border-white/[0.08] p-1.5 shadow-2xs backdrop-blur-md">
+        <div className="relative z-20 inline-flex items-center divide-x divide-gray-200/80 dark:divide-white/[0.08] rounded-xl bg-white/80 dark:bg-white/[0.02] border border-gray-200/90 dark:border-white/[0.08] p-1.5 shadow-2xs backdrop-blur-md">
           <div className="px-3 py-0.5 text-center">
             <span className="block text-sm font-black font-mono text-gray-900 dark:text-white leading-tight">
               {profile?.researchPaperCount ?? "1"}
@@ -300,7 +302,7 @@ export default function Hero({ profile }) {
         </div>
 
         {/* 2 Tombol Simetris: Unduh CV & GitHub */}
-        <div className="grid grid-cols-2 gap-2.5 w-full max-w-xs pt-1">
+        <div className="relative z-20 grid grid-cols-2 gap-2.5 w-full max-w-xs pt-1">
           {profile?.resumeUrl && (
             <a
               href={profile.resumeUrl}
@@ -331,7 +333,7 @@ export default function Hero({ profile }) {
         </div>
 
         {/* Social Icons Strip di HP */}
-        <div className="flex items-center gap-3 pt-2">
+        <div className="relative z-20 flex items-center gap-3 pt-1">
           {profile?.email && (
             <a href={`mailto:${profile.email}`} aria-label="Email" className="p-2 text-gray-500 hover:text-cyan-400">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
