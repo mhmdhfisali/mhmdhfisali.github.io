@@ -9,6 +9,7 @@ import Posts from "@/components/Posts";
 import Projects from "@/components/Projects";
 import ScrollReveal from "@/components/ScrollReveal";
 import Skills from "@/components/Skills";
+import SmoothScroll from "@/components/SmoothScroll";
 import { defaultProjects } from "@/lib/defaultProjects";
 import {
   fallbackCertifications,
@@ -192,9 +193,13 @@ export default async function Home() {
 
   return (
     <div className="relative min-h-screen bg-background text-foreground selection:bg-blue-600 selection:text-white font-sans antialiased overflow-x-hidden transition-colors duration-300">
+      {/* Smooth Inertia Scroll (Gaya Jesper Landberg & Active Theory) */}
+      <SmoothScroll />
+
       {/* Background Glow (Hardware Accelerated) */}
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden transform-gpu will-change-transform">
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] sm:w-[900px] h-[450px] bg-gradient-to-b from-blue-600/15 via-cyan-500/10 to-transparent blur-[100px] dark:opacity-70 opacity-30 rounded-full transform-gpu" />
+        <div className="absolute -bottom-40 left-1/2 -translate-x-1/2 w-[600px] sm:w-[900px] h-[450px] bg-gradient-to-t from-blue-600/20 via-cyan-500/15 to-transparent blur-[120px] dark:opacity-80 opacity-40 rounded-full transform-gpu" />
       </div>
 
       <Navbar profile={profile} />
@@ -206,59 +211,55 @@ export default async function Home() {
           <Hero profile={profile} />
         </section>
 
-        {/* 2. SEKSI KEAHLIAN / SKILLS */}
+        {/* 2. SEKSI KEAHLIAN / SKILLS - Meluncur Mulus dari Kiri */}
         <section id="skills" className={contentSectionClass}>
-          <ScrollReveal direction="up" delay={0} className="w-full">
+          <ScrollReveal direction="left" delay={40} distance={45} className="w-full">
             <Skills skills={skills} />
           </ScrollReveal>
         </section>
 
-        {/* 2.5 SEKSI AKTIVITAS / ACTIVITY */}
+        {/* 2.5 SEKSI AKTIVITAS / ACTIVITY - Meluncur Mulus dari Kanan */}
         <section id="activity" className={contentSectionClass}>
           <span id="github" className="sr-only" />
-          <ScrollReveal direction="up" delay={0} className="w-full">
+          <ScrollReveal direction="right" delay={40} distance={45} className="w-full">
             <GitHubActivity username={githubUsername} />
           </ScrollReveal>
         </section>
 
-        {/* 3. SEKSI PROYEK / PROJECTS */}
+        {/* 3. SEKSI PROYEK / PROJECTS - Naik Mulus dengan Efek 3D Depth */}
         <section id="projects" className={contentSectionClass}>
-          <ScrollReveal direction="up" delay={0} className="w-full">
+          <ScrollReveal direction="up" delay={40} distance={45} className="w-full">
             <Projects projects={mergedProjects} />
           </ScrollReveal>
         </section>
 
-        {/* 4. SEKSI PENGALAMAN & PENDIDIKAN / EXPERIENCE */}
+        {/* 4. SEKSI PENGALAMAN & PENDIDIKAN - Penggabungan Mulus dari Kiri & Kanan */}
         <section id="experience" className={contentSectionClass}>
-          <ScrollReveal direction="up" delay={0} className="w-full">
-            <ExperienceEducation
-              experiences={experiences}
-              educations={educations}
-            />
-          </ScrollReveal>
+          <ExperienceEducation
+            experiences={experiences}
+            educations={educations}
+          />
         </section>
 
-        {/* 5. SEKSI SERTIFIKASI / CERTIFICATIONS */}
+        {/* 5. SEKSI SERTIFIKASI / CERTIFICATIONS - Meluncur Mulus dari Kanan */}
         <section id="certifications" className={contentSectionClass}>
-          <ScrollReveal direction="up" delay={0} className="w-full">
+          <ScrollReveal direction="right" delay={40} distance={45} className="w-full">
             <Certifications certifications={certifications} />
           </ScrollReveal>
         </section>
 
-        {/* 6. SEKSI ARTIKEL / ARTICLES */}
+        {/* 6. SEKSI ARTIKEL / ARTICLES - Meluncur Mulus dari Kiri */}
         <section id="articles" className={contentSectionClass}>
           <span id="posts" className="sr-only" />
-          <ScrollReveal direction="up" delay={0} className="w-full">
+          <ScrollReveal direction="left" delay={40} distance={45} className="w-full">
             <Posts posts={posts} />
           </ScrollReveal>
         </section>
 
-        {/* 7. SEKSI KONTAK / CONTACT */}
+        {/* 7. SEKSI KONTAK / CONTACT - Penggabungan Mulus dari Kiri & Kanan */}
         <section id="contact" className={contentSectionClass}>
           <span id="kontak" className="sr-only" />
-          <ScrollReveal direction="up" delay={0} className="w-full">
-            <ContactDrawer profile={profile} />
-          </ScrollReveal>
+          <ContactDrawer profile={profile} />
         </section>
       </main>
 

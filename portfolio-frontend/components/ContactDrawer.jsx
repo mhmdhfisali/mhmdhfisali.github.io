@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import ScrollReveal from "./ScrollReveal";
 
 export default function ContactDrawer({ profile = {} }) {
   const { locale, t } = useLanguage();
@@ -108,37 +109,40 @@ export default function ContactDrawer({ profile = {} }) {
   return (
     <div className="w-full space-y-5 sm:space-y-6 text-left py-2">
       {/* Header */}
-      <div className="space-y-2.5 sm:space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/[0.07] dark:bg-blue-950/40 border border-blue-500/20 dark:border-blue-800/40 backdrop-blur-md shadow-2xs">
-          <span className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-cyan-400 animate-pulse" />
-          <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-wider text-blue-700 dark:text-blue-300 uppercase">
-            {t.contact.badge}
-          </span>
-        </div>
-
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4">
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-gray-950 dark:text-white tracking-tight">
-            {t.contact.titlePrefix}
-            <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-sky-400 dark:from-blue-400 dark:via-cyan-300 dark:to-sky-200 bg-clip-text text-transparent">
-              {t.contact.titleHighlight}
+      <ScrollReveal direction="left" delay={40} className="w-full">
+        <div className="space-y-2.5 sm:space-y-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/[0.07] dark:bg-blue-950/40 border border-blue-500/20 dark:border-blue-800/40 backdrop-blur-md shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-cyan-400 animate-pulse" />
+            <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-wider text-blue-700 dark:text-blue-300 uppercase">
+              {t.contact.badge}
             </span>
-          </h2>
+          </div>
 
-          <span className="text-[11px] sm:text-xs font-mono text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            {t.contact.openForDiscussion}
-          </span>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-gray-950 dark:text-white tracking-tight">
+              {t.contact.titlePrefix}
+              <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-sky-400 dark:from-blue-400 dark:via-cyan-300 dark:to-sky-200 bg-clip-text text-transparent">
+                {t.contact.titleHighlight}
+              </span>
+            </h2>
+
+            <span className="text-[11px] sm:text-xs font-mono text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              {t.contact.openForDiscussion}
+            </span>
+          </div>
+
+          <p className="hidden sm:block text-xs sm:text-sm text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
+            {t.contact.subtitle}
+          </p>
         </div>
+      </ScrollReveal>
 
-        <p className="hidden sm:block text-xs sm:text-sm text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
-          {t.contact.subtitle}
-        </p>
-      </div>
-
-      {/* Bento Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 items-stretch">
-        {/* Kolom Kiri: Kartu Utama Email */}
-        <div className="lg:col-span-6 p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white/85 dark:bg-[#151923]/70 border border-gray-200/90 dark:border-white/[0.08] shadow-2xs backdrop-blur-md flex flex-col justify-between space-y-4 sm:space-y-6">
+      {/* Bento Grid: Penggabungan Mulus dari Kiri & Kanan */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 items-stretch overflow-visible">
+        {/* Kolom Kiri: Kartu Utama Email - Meluncur dari Kiri */}
+        <ScrollReveal direction="left" delay={120} distance={50} className="lg:col-span-6 flex flex-col">
+          <div className="h-full p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#1a202c] border border-gray-200/90 dark:border-white/[0.12] shadow-sm dark:shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-md flex flex-col justify-between space-y-4 sm:space-y-6">
           <div className="space-y-3 sm:space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-blue-600 dark:text-cyan-400 font-bold">
@@ -233,9 +237,11 @@ export default function ContactDrawer({ profile = {} }) {
             </div>
           </div>
         </div>
+      </ScrollReveal>
 
-        {/* Kolom Kanan: Kanal Sosial & Komunikasi */}
-        <div className="lg:col-span-6 p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl bg-white/85 dark:bg-[#151923]/70 border border-gray-200/90 dark:border-white/[0.08] shadow-2xs backdrop-blur-md flex flex-col justify-between">
+      {/* Kolom Kanan: Kanal Sosial & Komunikasi - Meluncur dari Kanan */}
+      <ScrollReveal direction="right" delay={120} distance={50} className="lg:col-span-6 flex flex-col">
+        <div className="h-full p-3.5 sm:p-5 rounded-2xl sm:rounded-3xl bg-white dark:bg-[#1a202c] border border-gray-200/90 dark:border-white/[0.12] shadow-sm dark:shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-md flex flex-col justify-between">
           <div className="px-2 pt-1 pb-2.5 flex items-center justify-between border-b border-gray-100 dark:border-white/[0.06]">
             <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-gray-400 font-semibold">
               {t.contact.verifiedChannels}
@@ -288,7 +294,8 @@ export default function ContactDrawer({ profile = {} }) {
             {t.contact.selectPlatformNote}
           </div>
         </div>
-      </div>
+      </ScrollReveal>
+    </div>
     </div>
   );
 }

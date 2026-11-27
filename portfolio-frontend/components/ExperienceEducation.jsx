@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/context/LanguageContext";
 import { useEffect, useRef, useState } from "react";
+import ScrollReveal from "./ScrollReveal";
 
 function renderDescription(desc) {
   if (!desc) return null;
@@ -56,36 +57,39 @@ export default function ExperienceEducation({
       className="w-full space-y-4 sm:space-y-10 text-left py-1 sm:py-2"
     >
       {/* Header */}
-      <div className="space-y-2 sm:space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/[0.07] dark:bg-blue-950/40 border border-blue-500/20 dark:border-blue-800/40 backdrop-blur-md shadow-2xs">
-          <span className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-cyan-400 animate-pulse" />
-          <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-wider text-blue-700 dark:text-blue-300 uppercase">
-            {t.experience.badge}
-          </span>
-        </div>
-
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4">
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-gray-950 dark:text-white tracking-tight">
-            {t.experience.titlePrefix}{" "}
-            <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-sky-400 dark:from-blue-400 dark:via-cyan-300 dark:to-sky-200 bg-clip-text text-transparent">
-              {t.experience.titleHighlight}
+      <ScrollReveal direction="left" delay={40} className="w-full">
+        <div className="space-y-2 sm:space-y-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/[0.07] dark:bg-blue-950/40 border border-blue-500/20 dark:border-blue-800/40 backdrop-blur-md shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-cyan-400 animate-pulse" />
+            <span className="text-[10px] sm:text-[11px] font-mono font-semibold tracking-wider text-blue-700 dark:text-blue-300 uppercase">
+              {t.experience.badge}
             </span>
-          </h2>
+          </div>
 
-          <span className="text-[11px] sm:text-xs font-mono text-gray-500 dark:text-gray-400">
-            {t.experience.summaryCount(experiences.length, educations.length)}
-          </span>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-4">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-gray-950 dark:text-white tracking-tight">
+              {t.experience.titlePrefix}{" "}
+              <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-sky-400 dark:from-blue-400 dark:via-cyan-300 dark:to-sky-200 bg-clip-text text-transparent">
+                {t.experience.titleHighlight}
+              </span>
+            </h2>
+
+            <span className="text-[11px] sm:text-xs font-mono text-gray-500 dark:text-gray-400">
+              {t.experience.summaryCount(experiences.length, educations.length)}
+            </span>
+          </div>
+
+          <p className="hidden sm:block text-xs sm:text-sm text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
+            {t.experience.subtitle}
+          </p>
         </div>
-
-        <p className="hidden sm:block text-xs sm:text-sm text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
-          {t.experience.subtitle}
-        </p>
-      </div>
+      </ScrollReveal>
 
       {/* Grid 2 Kolom */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-12 pt-1">
-        {/* PENGALAMAN KERJA */}
-        <section className="space-y-4 sm:space-y-6">
+        {/* PENGALAMAN KERJA - Meluncur Mulus dari Kiri */}
+        <ScrollReveal direction="left" delay={120} distance={50} className="w-full">
+          <section className="space-y-4 sm:space-y-6">
           <div className="flex items-center justify-between pb-2.5 border-b border-gray-200/80 dark:border-white/[0.08]">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-blue-600" />
@@ -151,8 +155,10 @@ export default function ExperienceEducation({
             )}
           </div>
         </section>
+      </ScrollReveal>
 
-        {/* PENDIDIKAN AKADEMIK */}
+      {/* PENDIDIKAN AKADEMIK - Meluncur Mulus dari Kanan */}
+      <ScrollReveal direction="right" delay={120} distance={50} className="w-full">
         <section className="space-y-4 sm:space-y-6">
           <div className="flex items-center justify-between pb-2.5 border-b border-gray-200/80 dark:border-white/[0.08]">
             <div className="flex items-center gap-2">
@@ -216,7 +222,8 @@ export default function ExperienceEducation({
             )}
           </div>
         </section>
-      </div>
+      </ScrollReveal>
+    </div>
     </div>
   );
 }

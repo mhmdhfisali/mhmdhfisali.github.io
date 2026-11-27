@@ -2,14 +2,22 @@
 
 import { useEffect, useRef, useState } from "react";
 
+/**
+ * ScrollReveal Component
+ * Hardware-accelerated, zero-lag scroll animations.
+ * Konvergensi kartu kiri-kanan mulus, bebas blur, dan aman di HP & Desktop.
+ */
 export default function ScrollReveal({
   children,
   variant = "up",
   direction,
   delay = 0,
+  duration = 750,
   className = "",
+  once = true,
 }) {
   const [isVisible, setIsVisible] = useState(false);
+  const [hasFinished, setHasFinished] = useState(false);
   const domRef = useRef(null);
 
   const activeVariant = direction || variant;
@@ -18,105 +26,115 @@ export default function ScrollReveal({
     const el = domRef.current;
     if (!el) return;
 
-    // 1. Cek langsung saat mount: jika elemen sudah dekat atau berada di viewport (+350px), langsung aktifkan tanpa tunggu observer
-    const checkImmediate = () => {
-      const rect = el.getBoundingClientRect();
+    // Hormati preferensi aksesibilitas
+    if (typeof window !== "undefined") {
+      const prefersReduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      if (prefersReduced) {
+        setIsVisible(true);
+        setHasFinished(true);
+        return;
+      }
+    }
+
+    // Fungsi pengecekan posisi instan dalam viewport
+    const checkPosition = () => {
+      if (!domRef.current) return false;
+      const rect = domRef.current.getBoundingClientRect();
       const vh = window.innerHeight || document.documentElement.clientHeight;
-      if (rect.top <= vh + 350) {
+      // Aktifkan begitu elemen menyentuh jangkauan viewport (toleransi 25px)
+      if (rect.top <= vh - 25 && rect.bottom >= 0) {
         setIsVisible(true);
         return true;
       }
       return false;
     };
 
-    if (checkImmediate()) return;
+    // 1. Cek langsung jika sudah di layar saat render
+    if (checkPosition()) return;
 
-    // 2. IntersectionObserver dengan margin antisipatif luas (350px sebelum masuk viewport, threshold 0)
+    // 2. IntersectionObserver berpresisi tinggi (threshold 0)
     let observer = null;
     if (typeof IntersectionObserver !== "undefined") {
       observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            if (domRef.current && observer) observer.unobserve(domRef.current);
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              setIsVisible(true);
+              if (once && domRef.current && observer) {
+                observer.unobserve(domRef.current);
+              }
+              window.removeEventListener("scroll", onScroll);
+              break;
+            } else if (!once) {
+              setIsVisible(false);
+              setHasFinished(false);
+            }
           }
         },
         {
           threshold: 0,
-          rootMargin: "350px 0px 150px 0px",
+          rootMargin: "0px 0px -25px 0px",
         },
       );
       observer.observe(el);
     }
 
-    // 3. Fallback listener scroll pasif untuk browser mobile saat observer di-throttle selama inertia scroll
-    let ticking = false;
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          if (checkImmediate()) {
-            if (observer && el) observer.unobserve(el);
-            window.removeEventListener("scroll", handleScroll);
-          }
-          ticking = false;
-        });
-        ticking = true;
+    // 3. Passive scroll listener sebagai jaminan responsif saat di-scroll
+    const onScroll = () => {
+      if (checkPosition()) {
+        window.removeEventListener("scroll", onScroll);
+        if (once && observer && domRef.current) {
+          observer.unobserve(domRef.current);
+        }
       }
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
+      window.removeEventListener("scroll", onScroll);
       if (observer && el) observer.unobserve(el);
-      window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [once]);
 
-  const getTransitionStyle = () => {
-    // Jika sudah visible, hilangkan will-change dan transform agar 100% native GPU layer
-    if (isVisible) {
-      return {
-        opacity: 1,
-        transform: "translate3d(0, 0, 0)",
-        transitionProperty: "opacity, transform",
-        transitionDuration: "240ms",
-        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-      };
-    }
+  useEffect(() => {
+    if (!isVisible) return;
+    const timer = setTimeout(() => {
+      setHasFinished(true);
+    }, duration + delay + 50);
 
-    // Belum visible (sebelum masuk radius 350px): translasi sangat subtle (8px) tanpa delay
-    const baseHidden = {
-      opacity: 0,
-      transitionProperty: "opacity, transform",
-      transitionDuration: "240ms",
-      transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-      willChange: "opacity, transform",
-    };
+    return () => clearTimeout(timer);
+  }, [isVisible, duration, delay]);
 
-    switch (activeVariant) {
-      case "left":
-        return {
-          ...baseHidden,
-          transform: "translate3d(-8px, 0, 0)",
-        };
-      case "right":
-        return {
-          ...baseHidden,
-          transform: "translate3d(8px, 0, 0)",
-        };
-      case "up":
-      case "converge":
-      case "scale":
-      default:
-        return {
-          ...baseHidden,
-          transform: "translate3d(0, 8px, 0)",
-        };
-    }
-  };
+  let initClass = "reveal-init-up";
+  if (activeVariant === "left" || activeVariant === "converge-left") {
+    initClass = "reveal-init-left";
+  } else if (activeVariant === "right" || activeVariant === "converge-right") {
+    initClass = "reveal-init-right";
+  }
+
+  let stateClass = initClass;
+  if (hasFinished) {
+    stateClass = "reveal-finished";
+  } else if (isVisible) {
+    stateClass = "reveal-visible";
+  }
+
+  const transitionStyle = !hasFinished
+    ? {
+        transitionDuration: `${duration}ms`,
+        transitionDelay: `${delay}ms`,
+      }
+    : undefined;
 
   return (
-    <div ref={domRef} style={getTransitionStyle()} className={className}>
+    <div
+      ref={domRef}
+      style={transitionStyle}
+      className={`reveal-base ${stateClass} ${className}`}
+    >
       {children}
     </div>
   );
